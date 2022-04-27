@@ -9,7 +9,6 @@ public interface CategoriaContenidoRepository {
     List<CategoriaContenido> getAll();
     CategoriaContenido get(int idCategoriaContenido);
     CategoriaContenido getPregunta(int idPregunta);
-    boolean save(CategoriaContenido categoriaContenido);
     Boolean actualizar(int id, CategoriaContenido categoriaContenido);
     Boolean delete(int id);
 }
