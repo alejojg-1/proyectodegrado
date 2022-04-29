@@ -2,8 +2,12 @@ package co.proyectoGrado.proyectoGrado.domain.repository.persistence;
 
 import co.proyectoGrado.proyectoGrado.domain.model.CursoContenido;
 import co.proyectoGrado.proyectoGrado.domain.repository.CursoContenidoRepository;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CategoriaContenidoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoContenidoCrud;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoCrud;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CategoriaContenidoEntity;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoContenidoEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,11 +17,15 @@ import java.util.List;
 public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
 
     private final CursoContenidoCrud cursoContenidoCrud;
+    private final CursoCrud cursoCrud;
+    private final CategoriaContenidoCrud categoriaContenidoCrud;
 
     @Autowired
-    public CursoContenidoRepositoryImpl(CursoContenidoCrud cursoContenidoCrud) {
+    public CursoContenidoRepositoryImpl(CursoContenidoCrud cursoContenidoCrud, CursoCrud cursoCrud, CategoriaContenidoCrud categoriaContenidoCrud) {
 
         this.cursoContenidoCrud = cursoContenidoCrud;
+        this.cursoCrud = cursoCrud;
+        this.categoriaContenidoCrud = categoriaContenidoCrud;
     }
 
 
@@ -85,14 +93,14 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
     @Override
     public boolean save(CursoContenido cursoContenido) {
         try{
-            CursoContenidoEntity cursoContenidoEntity = new CursoContenidoEntity();
 
-            cursoContenidoEntity.setIdCursoContenido(cursoContenido.getIdCursoContenido());
-            cursoContenidoEntity.getCategoriaContenido().setIdCategoriaContenido(cursoContenido.getIdCategoriaContenido());
-            cursoContenidoEntity.getCurso().setIdCursos(cursoContenido.getIdCurso());
-            cursoContenidoEntity.setComentario(cursoContenido.getComentario());
-            cursoContenidoEntity.setImagen(cursoContenido.getImagen());
-            cursoContenidoEntity.setDescripcion(cursoContenido.getDescripcion());
+            CategoriaContenidoEntity categoriaContenidoEntity= categoriaContenidoCrud.findFirstByIdCategoriaContenido(cursoContenido.getIdCategoriaContenido());
+            CursoEntity cursoEntity= cursoCrud.findFirstByIdCursos(cursoContenido.getIdCurso());
+            CursoContenidoEntity cursoContenidoEntity = new CursoContenidoEntity(cursoContenido.getIdCursoContenido(),cursoContenido.getComentario(),cursoContenido.getDescripcion(),
+                    cursoContenido.getImagen(),cursoContenido.getVideo(),categoriaContenidoEntity,cursoEntity);
+
+            cursoContenidoCrud.save(cursoContenidoEntity);
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();

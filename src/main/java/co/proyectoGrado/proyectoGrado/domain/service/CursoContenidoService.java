@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CursoContenidoService {
 
@@ -25,14 +27,18 @@ public class CursoContenidoService {
 
     private final ModelMapper mapper = new ModelMapper();
 
+    public List<CursoContenido>getAll() {
+        return cursoContenidoRepository.getAll();
+    }
+
     public CursoContenido get(int idCursoContenido) {
         return cursoContenidoRepository.getIdCurso(idCursoContenido);
     }
 
     public boolean save(CursoContenido cursoContenido) {
-        CursoContenidoEntity contenido = mapper.map(cursoContenido, CursoContenidoEntity.class);
+
         try {
-            cursoContenidoCrud.save(contenido);
+            cursoContenidoRepository.save(cursoContenido);
             return Boolean.TRUE;
         } catch (Exception e) {
             e.printStackTrace();

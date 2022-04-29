@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CursoContenidoRepository {
     List<CursoContenido> getAll();
+
     CursoContenido getIdCurso(int idCursoContenido);
     CursoContenido getidCategoria(int idCategoriaContenido);
     CursoContenido getCursosiId(int cursosIdCursos);

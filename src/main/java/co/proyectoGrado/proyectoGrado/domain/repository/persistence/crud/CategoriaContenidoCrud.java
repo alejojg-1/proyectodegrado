@@ -7,12 +7,11 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CategoriaContenidoCrud extends CrudRepository<CategoriaContenidoEntity, Integer> {
 
-// revisar
+
 
      CategoriaContenidoEntity findByIdCategoriaContenido(int idCategoriaContenido);
-
-
-    CategoriaContenidoEntity findByPregunta_IdPregunta(int cursosIdCursos);
+     CategoriaContenidoEntity findFirstByIdCategoriaContenido(int idCategoriaContenido);
+     CategoriaContenidoEntity findByPregunta_IdPregunta(int cursosIdCursos);
 
 }
 
