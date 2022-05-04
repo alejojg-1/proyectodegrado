@@ -28,9 +28,9 @@ public class EstudianteJuegoService {
     }
 
     public boolean save(EstudianteJuego estudianteJuego) {
-        EstudianteJuegoEntity contenido = mapper.map(estudianteJuego, EstudianteJuegoEntity.class);
+
         try {
-            estudianteJuegoCrud.save(contenido);
+            estudianteJuegoRepository.save(estudianteJuego);
             return Boolean.TRUE;
         } catch (Exception e) {
             e.printStackTrace();

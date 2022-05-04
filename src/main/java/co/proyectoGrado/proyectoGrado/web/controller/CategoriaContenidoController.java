@@ -1,21 +1,28 @@
 package co.proyectoGrado.proyectoGrado.web.controller;
 
 import co.proyectoGrado.proyectoGrado.domain.model.CategoriaContenido;
+import co.proyectoGrado.proyectoGrado.domain.model.CursoContenido;
 import co.proyectoGrado.proyectoGrado.domain.service.CategoriaContenidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
-@RequestMapping("/api/contentcategory")
+@RequestMapping("/api/categoriaContenido")
 public class CategoriaContenidoController {
     private final CategoriaContenidoService categoriaContenidoService;
 
     @Autowired
     public CategoriaContenidoController(CategoriaContenidoService categoriaContenidoService) {
         this.categoriaContenidoService = categoriaContenidoService;
+    }
+    @GetMapping()
+    public ResponseEntity <List<CategoriaContenido>> getAll() {
+        return new ResponseEntity<>(categoriaContenidoService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/idCategoria/{idCategoria}")

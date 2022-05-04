@@ -18,4 +18,6 @@ public class EstudianteJuego {
     private int idReto;
     @JsonProperty
     private int idEstudiantes;
+    @JsonProperty
+    private int idEstudianteJuegoRespuesta;
 }

@@ -1,12 +1,15 @@
 package co.proyectoGrado.proyectoGrado.domain.service;
 
 import co.proyectoGrado.proyectoGrado.domain.model.CategoriaContenido;
+import co.proyectoGrado.proyectoGrado.domain.model.CursoContenido;
 import co.proyectoGrado.proyectoGrado.domain.repository.CategoriaContenidoRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CategoriaContenidoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CategoriaContenidoEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CategoriaContenidoService {
@@ -21,13 +24,18 @@ public class CategoriaContenidoService {
     }
     private final ModelMapper mapper = new ModelMapper();
 
+    public List<CategoriaContenido> getAll() {
+        return categoriaContenidoRepository.getAll();
+    }
+
+
     public  CategoriaContenido get(int idCategoriaContenido) {
         return categoriaContenidoRepository.get(idCategoriaContenido);
     }
     public boolean save(CategoriaContenido categoriaContenido) {
-        CategoriaContenidoEntity contenido = mapper.map(categoriaContenido, CategoriaContenidoEntity.class);
+
         try {
-            categoriaContenidoCrud.save(contenido);
+            categoriaContenidoRepository.save(categoriaContenido);
             return Boolean.TRUE;
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,4 +56,7 @@ public class CategoriaContenidoService {
 
         return categoriaContenidoRepository.delete(id);
     }
+
+
+
 }

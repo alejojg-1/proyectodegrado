@@ -11,14 +11,26 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class CategoriaContenidoEntity {
 
+    public CategoriaContenidoEntity(int idpreguntas, PreguntaEntity pregunta, int idCategoriaContenido) {
+        this.idpreguntas = idpreguntas;
+        this.idpreguntas= pregunta.getIdPregunta();
+        this.idCategoriaContenido= idCategoriaContenido;
+
+    }
+
     @Id
     @Column(name="idcategoria_contenido")
     private int idCategoriaContenido;
+    @Column(name="idpreguntas")
+    private int idpreguntas;
+
     @OneToOne
     @JoinColumn(name="idpreguntas", insertable = false, updatable = false)
     private PreguntaEntity pregunta;
 
-    /*@OneToOne(mappedBy = "categoriaContenido , cascade = CascadeType.ALL")
-    private CursoContenidoEntity cursoContenido;*/
+
+   // @OneToOne
+  //  @JoinColumn(name="idcursoContenido", insertable = false, updatable = false)
+    //private CursoContenidoEntity cursoContenido;
 
 }

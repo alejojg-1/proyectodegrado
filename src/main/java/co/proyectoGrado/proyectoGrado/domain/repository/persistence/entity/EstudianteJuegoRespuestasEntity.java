@@ -22,7 +22,7 @@ public class EstudianteJuegoRespuestasEntity {
     @Column(name= "idreto")
     private int idReto;
     @Column(name="estado")
-    private char estado;
+    private String estado;
 
     @OneToOne(mappedBy = "estudianteJuegoRespuesta")
     private EstudianteJuegoEntity estudianteJuego;

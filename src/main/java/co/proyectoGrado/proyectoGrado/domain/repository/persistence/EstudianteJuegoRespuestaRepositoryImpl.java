@@ -76,7 +76,7 @@ public class EstudianteJuegoRespuestaRepositoryImpl implements EstudianteJuegoRe
             estudianteJuegoRespuestasEntity.getJuegoPregunta().setIdJuegoPreguntas(estudianteJuegoRespuesta.getIdjuegoPreguntas());
             estudianteJuegoRespuestasEntity.setIdpreguntas(estudianteJuegoRespuesta.getIdPreguntas());
             estudianteJuegoRespuestasEntity.setIdReto(estudianteJuegoRespuesta.getIdReto());
-            estudianteJuegoRespuestasEntity.setEstado(estudianteJuegoRespuesta.isEstado() ? 'S' : 'N');
+            estudianteJuegoRespuestasEntity.setEstado(estudianteJuegoRespuesta.isEstado() ? String.valueOf('t') : String.valueOf('f'));
             estudianteJuegoRespuestasCrud.save(estudianteJuegoRespuestasEntity);
 
             return true;
@@ -96,7 +96,7 @@ public class EstudianteJuegoRespuestaRepositoryImpl implements EstudianteJuegoRe
             estudianteJuegoRespuestasEntity.getJuegoPregunta().setIdJuegoPreguntas(estudianteJuegoRespuesta.getIdjuegoPreguntas());
             estudianteJuegoRespuestasEntity.setIdpreguntas(estudianteJuegoRespuesta.getIdPreguntas());
             estudianteJuegoRespuestasEntity.setIdReto(estudianteJuegoRespuesta.getIdReto());
-            estudianteJuegoRespuestasEntity.setEstado(estudianteJuegoRespuesta.isEstado() ? 'S' : 'N');
+            estudianteJuegoRespuestasEntity.setEstado(estudianteJuegoRespuesta.isEstado() ? String.valueOf('t') : String.valueOf('f'));
             estudianteJuegoRespuestasCrud.save(estudianteJuegoRespuestasEntity);
 
             return true;
@@ -113,7 +113,7 @@ public class EstudianteJuegoRespuestaRepositoryImpl implements EstudianteJuegoRe
 
 
             EstudianteJuegoRespuestasEntity estudianteJuegoRespuestasEntity = estudianteJuegoRespuestasCrud.findFirstByIdEstudianteJuegoRespuestas(idEstudianteJuegosRespuestas);
-            estudianteJuegoRespuestasEntity.setEstado('N');
+            estudianteJuegoRespuestasEntity.setEstado("f");
             estudianteJuegoRespuestasCrud.save(estudianteJuegoRespuestasEntity);
             return true;
         }else{
