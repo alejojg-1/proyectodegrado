@@ -39,7 +39,10 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
                     cursoDocenteEntity.getDocente().getIdDocentes(), cursoDocenteEntity.getCurso().getIdCursos(),
                     "S".equals(cursoDocenteEntity.getEstado()));
 
-            cursoDocentes.add(cursoDocente);
+            if(cursoDocente.isEstado()==true){
+                cursoDocentes.add(cursoDocente);
+            }
+
         });
 
         return cursoDocentes;
@@ -128,7 +131,8 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
     @Override
     public Boolean delete(int idCursoDocente) {
         if(cursoDocenteCrud.findByIdCursoDocente(idCursoDocente)!=null){
-            CursoDocenteEntity cursoDocenteEntity =  cursoDocenteCrud.findByIdCursoDocente(idCursoDocente);
+            CursoDocenteEntity cursoDocenteEntity =  cursoDocenteCrud.findFirstByIdCursoDocente(idCursoDocente);
+            cursoDocenteEntity.setEstado("f");
             cursoDocenteCrud.save(cursoDocenteEntity);
             return true;
         }else{

@@ -1,6 +1,8 @@
 package co.proyectoGrado.proyectoGrado.domain.service;
 
 import co.proyectoGrado.proyectoGrado.domain.model.CursoDocente;
+import co.proyectoGrado.proyectoGrado.domain.model.Estudiante;
+import co.proyectoGrado.proyectoGrado.domain.model.Reto;
 import co.proyectoGrado.proyectoGrado.domain.repository.CursoDocenteRepository;
 
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoCrud;
@@ -12,6 +14,8 @@ import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.Docen
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CursoDocenteService {
@@ -64,5 +68,9 @@ public class CursoDocenteService {
 
     public Boolean eliminar(int id) {
         return cursoDocenteRepository.delete(id);
+    }
+
+    public List<CursoDocente> getAll(){
+        return cursoDocenteRepository.getAll();
     }
 }

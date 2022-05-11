@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/students")
+@RequestMapping("/api/Estudiante")
 public class EstudianteController {
 
     private final EstudianteService estudianteService;
@@ -35,13 +35,10 @@ public class EstudianteController {
         return new ResponseEntity<>(estudianteService.save(estudiante), HttpStatus.CREATED);
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody Estudiante estudiante){
         return new ResponseEntity<>(estudianteService.actualizar(id, estudiante), HttpStatus.OK);
     }
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){

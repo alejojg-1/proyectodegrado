@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/api/gamequestions")
+@RequestMapping("/api/JuegoPregunta")
 public class JuegoPreguntasController {
     private final JuegoPreguntasService juegoPreguntasService;
 

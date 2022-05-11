@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public class RetoRepositoryImpl implements RetoRepository {
     private final RetoCrud retoCrud;
+    private final String ACTIVO = "t";
 
     @Autowired
     public RetoRepositoryImpl(RetoCrud retoCrud) {
@@ -24,9 +25,11 @@ public class RetoRepositoryImpl implements RetoRepository {
         retoCrud.findAll().forEach(retoEntity -> {
             Reto reto = new Reto(retoEntity.getIdReto(),retoEntity.getTipo(),
                     retoEntity.getTitulo(),retoEntity.getDescripcion(),
-                    retoEntity.getComentario(),"t".equals(retoEntity.getEstado()));
+                    retoEntity.getComentario(),ACTIVO.equals(retoEntity.getEstado()));
+            if(reto.isEstado()==true){
+                retos.add(reto);
+            }
 
-            retos.add(reto);
         });
 
         return retos;
@@ -36,9 +39,13 @@ public class RetoRepositoryImpl implements RetoRepository {
     public Reto get(String tipo) {
         RetoEntity retoEntity = retoCrud.findFirstByTipo(tipo);
         if(retoEntity!=null){
+            if(retoEntity.getEstado() == "t"){
             return new Reto(retoEntity.getIdReto(),retoEntity.getTipo(),
                     retoEntity.getTitulo(),retoEntity.getDescripcion(),
                     retoEntity.getComentario(),"t".equals(retoEntity.getEstado()));
+            }else {
+                return  null;
+            }
         }else{
             return null;
         }
@@ -100,7 +107,8 @@ public class RetoRepositoryImpl implements RetoRepository {
     @Override
     public Boolean delete(int idReto) {
         if(retoCrud.findByIdReto(idReto)!=null){
-            RetoEntity retoEntity = (RetoEntity) retoCrud.findByIdReto(idReto);
+            RetoEntity retoEntity =  retoCrud.findByIdReto(idReto);
+           retoEntity.setEstado("f");
             retoCrud.save(retoEntity);
             return true;
         }else{

@@ -35,9 +35,9 @@ public class JuegoPreguntasService {
     }
 
     public boolean save(JuegoPregunta juegoPreguntas) {
-        JuegoPreguntasEntity contenido = mapper.map(juegoPreguntas, JuegoPreguntasEntity.class);
+
         try {
-            juegoPreguntasCrud.save(contenido);
+            juegoPreguntasRepository.save(juegoPreguntas);
             return Boolean.TRUE;
         } catch (Exception e) {
             e.printStackTrace();

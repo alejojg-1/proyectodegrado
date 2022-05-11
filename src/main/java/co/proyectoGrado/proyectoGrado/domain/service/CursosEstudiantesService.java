@@ -1,5 +1,6 @@
 package co.proyectoGrado.proyectoGrado.domain.service;
 
+import co.proyectoGrado.proyectoGrado.domain.model.CursoDocente;
 import co.proyectoGrado.proyectoGrado.domain.model.CursoEstudiante;
 import co.proyectoGrado.proyectoGrado.domain.repository.CursosEstudiantesRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoEstudianteCrud;
@@ -7,6 +8,8 @@ import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.Curso
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CursosEstudiantesService {
@@ -20,6 +23,9 @@ public class CursosEstudiantesService {
         this.cursosEstudiantesRepository = cursosEstudiantesRepository;
     }
    private final ModelMapper mapper = new ModelMapper();
+    public List<CursoEstudiante> getAll(){
+        return cursosEstudiantesRepository.getAll();
+    }
 
    public CursoEstudiante get(int idEstudiantes) {
         return cursosEstudiantesRepository.getIdEstudiantes(idEstudiantes);

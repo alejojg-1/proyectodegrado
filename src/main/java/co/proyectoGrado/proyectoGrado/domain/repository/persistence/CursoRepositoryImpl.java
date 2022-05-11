@@ -112,8 +112,8 @@ public class CursoRepositoryImpl implements CursoRepository {
     public Boolean delete(int idCurso) {
 
         if (cursoCrud.findByIdCursos(idCurso) != null) {
-            List <CursoEntity> listaCursoEntity =  cursoCrud.findByIdCursos(idCurso);
-            cursoCrud.saveAll(listaCursoEntity);
+        CursoEntity cursoEntity =  cursoCrud.findFirstByIdCursos(idCurso);
+        cursoCrud.delete(cursoEntity);
             return true;
         } else {
             return false;
