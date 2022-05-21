@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface JuegoPreguntasCrud extends CrudRepository<JuegoPreguntasEntity, Integer> {
 
-    JuegoPreguntasEntity findByIdJuegoPreguntas(int idJuegoPreguntas) ;
+    JuegoPreguntasEntity findFirstByIdJuegoPreguntas(int idJuegoPreguntas) ;
     JuegoPreguntasEntity findByPregunta_IdPregunta(int idPreguntas);
     JuegoPreguntasEntity findByReto_IdReto(int idReto);
 

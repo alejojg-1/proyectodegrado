@@ -3,7 +3,11 @@ package co.proyectoGrado.proyectoGrado.domain.repository.persistence;
 import co.proyectoGrado.proyectoGrado.domain.model.JuegoPregunta;
 import co.proyectoGrado.proyectoGrado.domain.repository.JuegoPreguntasRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.JuegoPreguntasCrud;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.PreguntaCrud;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.RetoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.JuegoPreguntasEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.PreguntaEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.RetoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,10 +17,15 @@ import java.util.List;
 public class JuegoPreguntaRepositoryImpl implements JuegoPreguntasRepository {
 
     private JuegoPreguntasCrud juegoPreguntasCrud;
+    private final PreguntaCrud preguntaCrud;
+    private  final RetoCrud retoCrud;
+
 
     @Autowired
-    public JuegoPreguntaRepositoryImpl(JuegoPreguntasCrud juegoPreguntasCrud){
+    public JuegoPreguntaRepositoryImpl(JuegoPreguntasCrud juegoPreguntasCrud, PreguntaCrud preguntaCrud, RetoCrud retoCrud){
         this.juegoPreguntasCrud = juegoPreguntasCrud;
+        this.preguntaCrud = preguntaCrud;
+        this.retoCrud = retoCrud;
     }
     /*
     private int idJuegoPreguntas;
@@ -56,11 +65,13 @@ public class JuegoPreguntaRepositoryImpl implements JuegoPreguntasRepository {
     public boolean save(JuegoPregunta juegoPregunta) {
 
         try{
-            JuegoPreguntasEntity juegoPreguntasEntity = new JuegoPreguntasEntity();
 
-            juegoPreguntasEntity.setIdJuegoPreguntas(juegoPregunta.getIdJuegoPreguntas());
-            juegoPreguntasEntity.getPregunta().setIdPregunta(juegoPregunta.getIdPreguntas());
-            juegoPreguntasEntity.getReto().setIdReto(juegoPregunta.getIdReto());
+            PreguntaEntity preguntaEntity= preguntaCrud.findFirstByIdPregunta(juegoPregunta.getIdJuegoPreguntas());
+            RetoEntity retoEntity= retoCrud.findByIdReto(juegoPregunta.getIdReto());
+
+            JuegoPreguntasEntity juegoPreguntasEntity = new JuegoPreguntasEntity(juegoPregunta.getIdJuegoPreguntas(),preguntaEntity,retoEntity);
+
+
             juegoPreguntasEntity.setEstado(juegoPregunta.isEstado() ? 'S' : 'N');
             juegoPreguntasCrud.save(juegoPreguntasEntity);
             return  true;
@@ -93,9 +104,9 @@ public class JuegoPreguntaRepositoryImpl implements JuegoPreguntasRepository {
     @Override
     public boolean delete(int idJuegoPreguntas) {
 
-       if (juegoPreguntasCrud.findByIdJuegoPreguntas(idJuegoPreguntas) != null) {
+       if (juegoPreguntasCrud.findFirstByIdJuegoPreguntas(idJuegoPreguntas) != null) {
 
-            JuegoPreguntasEntity juegoPreguntasEntity = (JuegoPreguntasEntity) juegoPreguntasCrud.findByIdJuegoPreguntas(idJuegoPreguntas);
+            JuegoPreguntasEntity juegoPreguntasEntity = (JuegoPreguntasEntity) juegoPreguntasCrud.findFirstByIdJuegoPreguntas(idJuegoPreguntas);
             juegoPreguntasEntity.setEstado('N');
             juegoPreguntasCrud.save( juegoPreguntasEntity);
             return true;
