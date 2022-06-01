@@ -13,6 +13,7 @@ import java.util.List;
 public class PreguntaRepositoryImpl implements PreguntaRepository {
 
     private final PreguntaCrud preguntaCrud;
+    private final String ACTIVO = "t";
 
     @Autowired
     public PreguntaRepositoryImpl(PreguntaCrud preguntaCrud) {
@@ -27,9 +28,10 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
             Pregunta pregunta = new Pregunta(preguntaEntity.getIdPregunta(), preguntaEntity.getTexto(),
                     preguntaEntity.getImagen(), preguntaEntity.getRespuesta(), preguntaEntity.getOpcion1(),
                     preguntaEntity.getOpcion2(), preguntaEntity.getOpcion3(), preguntaEntity.getOpcion4(),
-                    "t".equals(preguntaEntity.getEstado()));
-
-            preguntas.add(pregunta);
+                    ACTIVO.equals(preguntaEntity.getEstado()));
+            if(pregunta.isEstado()==true) {
+                preguntas.add(pregunta);
+            }
         });
 
         return preguntas;
@@ -99,7 +101,7 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
         @Override
         public Boolean delete ( int idPregunta){
             if (preguntaCrud.findByIdPregunta(idPregunta) != null) {
-                PreguntaEntity preguntaEntity = (PreguntaEntity) preguntaCrud.findByIdPregunta(idPregunta);
+                PreguntaEntity preguntaEntity =  preguntaCrud.findFirstByIdPregunta(idPregunta);
                 preguntaEntity.setEstado("f");
                 preguntaCrud.save(preguntaEntity);
                 return true;

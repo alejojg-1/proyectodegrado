@@ -131,7 +131,7 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
     @Override
     public boolean delete(int idCursoContenido) {
         if (cursoContenidoCrud.findFirstByIdCursoContenido(idCursoContenido) != null) {
-            CursoContenidoEntity cursoContenidoEntity = (CursoContenidoEntity) cursoContenidoCrud.findFirstByIdCursoContenido(idCursoContenido);
+            CursoContenidoEntity cursoContenidoEntity =  cursoContenidoCrud.findFirstByIdCursoContenido(idCursoContenido);
             cursoContenidoCrud.save(cursoContenidoEntity);
             return true;
         } else {

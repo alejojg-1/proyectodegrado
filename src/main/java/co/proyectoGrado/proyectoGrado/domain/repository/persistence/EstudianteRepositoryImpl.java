@@ -127,7 +127,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     @Override
     public boolean delete(int idEstudiante) {
         if(estudianteCrud.findByIdEstudiantes(idEstudiante)!=null){
-           EstudianteEntity estudianteEntity = (EstudianteEntity) estudianteCrud.findByIdEstudiantes(idEstudiante);
+           EstudianteEntity estudianteEntity = estudianteCrud.findFirstByIdEstudiantes(idEstudiante);
             estudianteEntity.setEstado("f");
             estudianteCrud.save(estudianteEntity);
             return true;

@@ -103,8 +103,8 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
     @Override
     public Boolean delete(int idCategoriaContenido) {
         if(categoriaContenidoCrud.findByIdCategoriaContenido(idCategoriaContenido)!=null){
-            CategoriaContenidoEntity categoriaContenidoEntity =  categoriaContenidoCrud.findByIdCategoriaContenido(idCategoriaContenido);
-             categoriaContenidoCrud.save(categoriaContenidoEntity);
+            CategoriaContenidoEntity categoriaContenidoEntity =  categoriaContenidoCrud.findFirstByIdCategoriaContenido(idCategoriaContenido);
+             categoriaContenidoCrud.delete(categoriaContenidoEntity);
             return true;
         }else{
             return false;

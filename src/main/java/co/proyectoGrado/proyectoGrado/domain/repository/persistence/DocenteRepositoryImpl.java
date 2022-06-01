@@ -118,7 +118,7 @@ public class DocenteRepositoryImpl implements DocenteRepository {
     @Override
     public boolean delete(int idDocente) {
         if(docenteCrud.findByIdDocentes(idDocente)!=null){
-            DocenteEntity docenteEntity = (DocenteEntity) docenteCrud.findByIdDocentes(idDocente);
+            DocenteEntity docenteEntity =  docenteCrud.findFirstByIdDocentes(idDocente);
             docenteEntity.setEstado("f");
             docenteCrud.save(docenteEntity);
             return true;

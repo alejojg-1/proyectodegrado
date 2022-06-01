@@ -2,6 +2,7 @@ package co.proyectoGrado.proyectoGrado.web.controller;
 
 import co.proyectoGrado.proyectoGrado.domain.model.CursoDocente;
 import co.proyectoGrado.proyectoGrado.domain.model.Docente;
+import co.proyectoGrado.proyectoGrado.domain.model.Reto;
 import co.proyectoGrado.proyectoGrado.domain.service.CursoDocenteService;
 import co.proyectoGrado.proyectoGrado.domain.service.DocenteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
-@RequestMapping("/api/courseDocent")
+@RequestMapping("/api/CursoDocente")
 public class CursoDocenteController {
     private final CursoDocenteService cursodocenteService;
 
@@ -19,6 +22,12 @@ public class CursoDocenteController {
     public CursoDocenteController(CursoDocenteService cursodocenteService) {
         this.cursodocenteService = cursodocenteService;
     }
+
+    @GetMapping()
+    public ResponseEntity<List<CursoDocente>> getAll(){
+        return new ResponseEntity<>(cursodocenteService.getAll(),HttpStatus.OK);
+    }
+
 
     @GetMapping("/iddocentes/{iddocentes}")
     public ResponseEntity<CursoDocente> getById(@PathVariable("iddocentes")int iddocentes) {

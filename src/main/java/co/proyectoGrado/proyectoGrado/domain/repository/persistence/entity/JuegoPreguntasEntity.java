@@ -11,18 +11,32 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class JuegoPreguntasEntity {
 
+
+    public JuegoPreguntasEntity(int idJuegoPreguntas, PreguntaEntity pregunta, RetoEntity reto) {
+        this.idJuegoPreguntas = idJuegoPreguntas;
+        this.pregunta = pregunta;
+        this.reto = reto;
+        this.idpreguntas= pregunta.getIdPregunta();
+        this.idreto= reto.getIdReto();
+    }
+
     @Id
     @Column(name="idjuego_preguntas")
     private int idJuegoPreguntas;
+    @Column(name="idpreguntas")
+    private int idpreguntas;
+    @Column(name="idreto")
+    private int idreto;
+    @Column(name="estado")
+    private char estado;
+
+
     @ManyToOne
     @JoinColumn(name="idpreguntas", insertable = false, updatable = false)
     private PreguntaEntity pregunta;
     @OneToOne
     @JoinColumn(name="idreto", insertable = false, updatable = false)
     private RetoEntity reto;
-    @Column(name="estado")
-    private char estado;
-
     @OneToOne(mappedBy = "juegoPregunta")
     private EstudianteJuegoRespuestasEntity estudianteJuegoRespuesta;
 

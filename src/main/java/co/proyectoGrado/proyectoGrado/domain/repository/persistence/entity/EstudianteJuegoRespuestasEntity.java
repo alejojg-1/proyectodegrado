@@ -11,21 +11,27 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class EstudianteJuegoRespuestasEntity {
 
+
+
+
     @Id
     @Column(name= "idestudiante_juego_respuestas")
     private int idEstudianteJuegoRespuestas;
-    @OneToOne
-    @JoinColumn(name="idjuego_preguntas", insertable = false, updatable = false)
-    private JuegoPreguntasEntity juegoPregunta;
     @Column(name= "idpreguntas")
     private int idpreguntas;
     @Column(name= "idreto")
     private int idReto;
     @Column(name="estado")
     private String estado;
+    @Column(name= "idjuego_preguntas")
+    private int idJuegoPregunta;
 
-    @OneToOne(mappedBy = "estudianteJuegoRespuesta")
-    private EstudianteJuegoEntity estudianteJuego;
+
+   // @OneToOne(mappedBy = "idestudianteJuego_Respuesta")
+  //  private EstudianteJuegoEntity estudianteJuego;
+    @OneToOne
+    @JoinColumn(name="idjuego_preguntas", insertable = false, updatable = false)
+    private JuegoPreguntasEntity juegoPregunta;
 
 
 

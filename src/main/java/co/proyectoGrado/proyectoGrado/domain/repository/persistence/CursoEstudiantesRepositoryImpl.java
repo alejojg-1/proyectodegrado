@@ -97,8 +97,8 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
     @Override
     public Boolean delete(int idCursoEstudiantes) {
         if(cursoEstudianteCrud.findByIdCursoEstudiante(idCursoEstudiantes)!=null){
-            CursosEstudiantesEntity cursosEstudianteEntity =  cursoEstudianteCrud.findByIdCursoEstudiante(idCursoEstudiantes);
-            cursoEstudianteCrud.save(cursosEstudianteEntity);
+            CursosEstudiantesEntity cursosEstudianteEntity =  cursoEstudianteCrud.findFirstByEstudiante_IdEstudiantes(idCursoEstudiantes);
+            cursoEstudianteCrud.delete(cursosEstudianteEntity);
             return true;
         }else{
             return false;
