@@ -45,7 +45,7 @@ public class JuegoPreguntasService {
         }
     }
 
-    public Boolean actualizar(int id, JuegoPregunta juegoPregunta) {
+    public static Boolean actualizar(int id, JuegoPregunta juegoPregunta) {
         return  juegoPreguntasRepository.actualizar(id, juegoPregunta);
     }
 

@@ -30,15 +30,29 @@ public class JuegoPreguntasController {
 
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody JuegoPregunta juegoPregunta) {
-        return new ResponseEntity<>(juegoPreguntasService.save(juegoPregunta), HttpStatus.CREATED);
+        if(juegoPreguntasService.save(juegoPregunta)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody JuegoPregunta juegoPregunta){
-        return new ResponseEntity<>(juegoPreguntasService.actualizar(id, juegoPregunta), HttpStatus.OK);
+        if(JuegoPreguntasService.actualizar(id, juegoPregunta)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
-        return new ResponseEntity<>(juegoPreguntasService.eliminar(id), HttpStatus.OK);
+        if(juegoPreguntasService.eliminar(id)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

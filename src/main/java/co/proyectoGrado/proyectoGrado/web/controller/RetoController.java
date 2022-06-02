@@ -21,27 +21,43 @@ public class RetoController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Reto>> getAll(){
+    public ResponseEntity<List<Reto>> obtenerAll(){
+
         return new ResponseEntity<>(retoService.getAll(),HttpStatus.OK);
     }
 
     @GetMapping("/tipo/{tipo}")
-    public ResponseEntity<Reto> getByTipo(@PathVariable("tipo") String tipo) {
+    public ResponseEntity<Reto> obtenerPorTipo(@PathVariable("tipo") String tipo) {
         return new ResponseEntity<>(retoService.get(tipo), HttpStatus.OK);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Boolean> save(@RequestBody Reto reto) {
-        return new ResponseEntity<>(retoService.save(reto), HttpStatus.CREATED);
+    public ResponseEntity<Boolean> guardar(@RequestBody Reto reto) {
+
+        if(retoService.save(reto)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody Reto reto){
-        return new ResponseEntity<>(retoService.actualizar(id, reto), HttpStatus.OK);
+
+        if(retoService.actualizar(id, reto)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
-        return new ResponseEntity<>(retoService.eliminar(id), HttpStatus.OK);
+       if(retoService.eliminar(id)){
+           return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+       }
     }
 
 }
