@@ -22,6 +22,7 @@ public class CursosEstudiantesController {
     }
     @GetMapping()
     public ResponseEntity<List<CursoEstudiante>> getAll(){
+       
         return new ResponseEntity<>(cursosEstudiantesService.getAll(),HttpStatus.OK);
     }
 
@@ -31,14 +32,27 @@ public class CursosEstudiantesController {
     }
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody CursoEstudiante  cursosEstudiantes) {
-        return new ResponseEntity<>(cursosEstudiantesService.save(cursosEstudiantes), HttpStatus.CREATED);
+
+        if(cursosEstudiantesService.save(cursosEstudiantes)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody CursoEstudiante cursoestudiante){
-        return new ResponseEntity<>(cursosEstudiantesService.actualizar(id, cursoestudiante), HttpStatus.OK);
+        if(cursosEstudiantesService.actualizar(id, cursoestudiante)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
-        return new ResponseEntity<>(cursosEstudiantesService.eliminar(id), HttpStatus.OK);
+        if(cursosEstudiantesService.eliminar(id)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

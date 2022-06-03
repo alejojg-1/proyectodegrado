@@ -34,14 +34,20 @@ public class CursoContenidoController {
 
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody CursoContenido cursoContenido) {
-        return new ResponseEntity<>(cursoContenidoService.save(cursoContenido), HttpStatus.CREATED);
+        if(cursoContenidoService.save(cursoContenido)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody CursoContenido cursoContenido){
-        return new ResponseEntity<>(cursoContenidoService.actualizar(id, cursoContenido), HttpStatus.OK);
+        if(cursoContenidoService.actualizar(id, cursoContenido)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> eliminar(@PathVariable int id){

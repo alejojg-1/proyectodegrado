@@ -32,18 +32,30 @@ public class EstudianteJuegoController {
 
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody EstudianteJuego estudianteJuego) {
-        return new ResponseEntity<>(estudianteJuegoService.save(estudianteJuego), HttpStatus.CREATED);
+        if(estudianteJuegoService.save(estudianteJuego)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody EstudianteJuego estudianteJuego){
-        return new ResponseEntity<>(estudianteJuegoService.actualizar(id, estudianteJuego), HttpStatus.OK);
+        if(estudianteJuegoService.actualizar(id, estudianteJuego)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
-        return new ResponseEntity<>(estudianteJuegoService.eliminar(id), HttpStatus.OK);
+        if(estudianteJuegoService.eliminar(id)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
 
