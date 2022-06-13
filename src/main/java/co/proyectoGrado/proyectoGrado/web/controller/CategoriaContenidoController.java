@@ -32,16 +32,29 @@ public class CategoriaContenidoController {
 
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody CategoriaContenido categoriaContenido) {
-        return new ResponseEntity<>(categoriaContenidoService.save(categoriaContenido), HttpStatus.CREATED);
+
+        if(categoriaContenidoService.save(categoriaContenido)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody CategoriaContenido categoriaContenido){
-        return new ResponseEntity<>(categoriaContenidoService.actualizar(id, categoriaContenido), HttpStatus.OK);
+        if(categoriaContenidoService.actualizar(id, categoriaContenido)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
-        return new ResponseEntity<>(categoriaContenidoService.eliminar(id), HttpStatus.OK);
+        if(categoriaContenidoService.eliminar(id)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

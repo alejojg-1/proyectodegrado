@@ -25,7 +25,7 @@ public class PreguntaService {
 
     public Pregunta get(int idPreguntas) {return preguntaRepository.get(idPreguntas);}
 
-    public boolean save(Pregunta pregunta) {
+    public static boolean save(Pregunta pregunta) {
 
         try {
             preguntaRepository.save(pregunta);

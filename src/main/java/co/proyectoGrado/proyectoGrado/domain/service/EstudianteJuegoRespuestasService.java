@@ -26,7 +26,7 @@ public class EstudianteJuegoRespuestasService {
         return estudianteJuegoRespuestasRepository.getByIdJuegoPregunta(idjuego_preguntas);
     }
 
-    public boolean save(EstudianteJuegoRespuesta estudianteJuegoRespuestas) {
+    public static boolean save(EstudianteJuegoRespuesta estudianteJuegoRespuestas) {
         EstudianteJuegoRespuestasEntity contenido = mapper.map(estudianteJuegoRespuestas, EstudianteJuegoRespuestasEntity.class);
         try {
             estudianteJuegoRespuestasCrud.save(contenido);

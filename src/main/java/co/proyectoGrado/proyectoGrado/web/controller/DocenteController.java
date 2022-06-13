@@ -33,18 +33,32 @@ public class DocenteController {
 
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody Docente docente) {
-        return new ResponseEntity<>(docenteService.save(docente), HttpStatus.CREATED);
+
+        if(docenteService.save(docente)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody Docente docente){
-        return new ResponseEntity<>(docenteService.actualizar(id, docente), HttpStatus.OK);
+        if(docenteService.actualizar(id, docente)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
-        return new ResponseEntity<>(docenteService.eliminar(id), HttpStatus.OK);
+        if(docenteService.eliminar(id)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

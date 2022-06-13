@@ -25,18 +25,35 @@ public class EstudianteJuegoRepuestasController {
         return new ResponseEntity<>(estudianteJuegoRespuestasService.get(idestudianteJuego), HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody EstudianteJuegoRespuesta estudianteJuegoRespuesta) {
-        return new ResponseEntity<>(estudianteJuegoRespuestasService.save(estudianteJuegoRespuesta), HttpStatus.CREATED);
+
+        if(EstudianteJuegoRespuestasService.save(estudianteJuegoRespuesta)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody EstudianteJuegoRespuesta estudianteJuegoRespuesta){
-        return new ResponseEntity<>(estudianteJuegoRespuestasService.actualizar(id, estudianteJuegoRespuesta), HttpStatus.OK);
+
+        if(estudianteJuegoRespuestasService.actualizar(id, estudianteJuegoRespuesta)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
-        return new ResponseEntity<>(estudianteJuegoRespuestasService.eliminar(id), HttpStatus.OK);
+        if(estudianteJuegoRespuestasService.eliminar(id)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 }

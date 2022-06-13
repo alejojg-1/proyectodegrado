@@ -34,18 +34,31 @@ public class PreguntaController {
 
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody Pregunta pregunta) {
-        return new ResponseEntity<>(preguntaService.save(pregunta), HttpStatus.CREATED);
+
+        if(PreguntaService.save(pregunta)){
+            return new ResponseEntity<>( HttpStatus.OK);
+
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody Pregunta pregunta){
-        return new ResponseEntity<>(preguntaService.actualizar(id, pregunta), HttpStatus.OK);
+
+        if(preguntaService.actualizar(id, pregunta)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
-        return new ResponseEntity<>(preguntaService.eliminar(id), HttpStatus.OK);
+        if(preguntaService.eliminar(id)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 
