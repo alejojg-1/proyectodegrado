@@ -16,7 +16,8 @@ public class CursoDocente {
     @JsonProperty
     private int idDocente;
     @JsonProperty
-    private int idCursos;
+    private int idCurso;
     @JsonProperty
     private boolean estado;
+
 }

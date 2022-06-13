@@ -3,6 +3,7 @@ package co.proyectoGrado.proyectoGrado.web.controller;
 import co.proyectoGrado.proyectoGrado.domain.dto.AuthenticationRequest;
 import co.proyectoGrado.proyectoGrado.domain.dto.AuthenticationResponse;
 import co.proyectoGrado.proyectoGrado.web.security.JWTUtil;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,8 @@ public class AuthController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
             UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
             String jwt = jwtUtil.generateToken(userDetails);
-            return new ResponseEntity<>(new AuthenticationResponse(jwt),HttpStatus.OK);
+            String rol = jwtUtil.extractRol(jwt);
+            return new ResponseEntity<>(new AuthenticationResponse(jwt,request.getUsername(),rol),HttpStatus.OK);
         }catch (BadCredentialsException e){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

@@ -16,5 +16,4 @@ public class Curso {
     @JsonProperty
     private String nombre;
 
-
 }

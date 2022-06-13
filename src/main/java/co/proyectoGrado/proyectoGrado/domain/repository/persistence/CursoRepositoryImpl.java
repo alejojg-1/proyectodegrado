@@ -1,12 +1,9 @@
 package co.proyectoGrado.proyectoGrado.domain.repository.persistence;
 
 import co.proyectoGrado.proyectoGrado.domain.model.Curso;
-import co.proyectoGrado.proyectoGrado.domain.model.Docente;
-import co.proyectoGrado.proyectoGrado.domain.model.Estudiante;
 import co.proyectoGrado.proyectoGrado.domain.repository.CursoRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoEntity;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.DocenteEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -37,6 +34,19 @@ public class CursoRepositoryImpl implements CursoRepository {
     }
 
     @Override
+    public List<Curso> getByIdsCursos(List<Integer> listaIdsCursos) {
+        List<Curso> cursos = new ArrayList<>();
+        cursoCrud.findByIdCursosIn(listaIdsCursos).forEach(cursoEntity -> {
+            Curso curso = new Curso(cursoEntity.getIdCursos(),
+                    cursoEntity.getGrado(),
+                    cursoEntity.getNombre());
+
+            cursos.add(curso);
+        });
+        return cursos;
+    }
+
+    @Override
     public Curso getByGrado(String grado) {
         CursoEntity cursoEntity = cursoCrud.findFirstByGrado(grado);
         if (cursoEntity != null) {
@@ -47,7 +57,6 @@ public class CursoRepositoryImpl implements CursoRepository {
             return null;
         }
     }
-
 
     @Override
     public Curso getByNombre(String nombre) {
@@ -61,8 +70,6 @@ public class CursoRepositoryImpl implements CursoRepository {
         }
     }
 
-
-
     @Override
     public Boolean save(Curso curso) {
         try {
@@ -70,18 +77,13 @@ public class CursoRepositoryImpl implements CursoRepository {
             cursoEntity.setIdCursos(curso.getIdCursos());
             cursoEntity.setGrado(curso.getGrado());
             cursoEntity.setNombre(curso.getNombre());
-
             cursoCrud.save(cursoEntity);
-
         } catch (Exception e) {
-
             e.printStackTrace();
             return false;
         }
         return false;
     }
-
-  
 
     @Override
     public Boolean actualizar(int id, Curso curso) {
@@ -103,10 +105,6 @@ public class CursoRepositoryImpl implements CursoRepository {
         }
         return null;
     }
-
-
-
-
 
     @Override
     public Boolean delete(int idCurso) {

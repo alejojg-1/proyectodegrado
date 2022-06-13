@@ -34,7 +34,9 @@ public class JWTUtil {
     public boolean isTokenExpired(String token) {
         return getClaims(token).getExpiration().before(new Date());
     }
-
+    public String extractRol(String token) {
+        return getClaims(token).get("scopes",String.class);
+    }
     private Claims getClaims(String token) {
         return Jwts.parser().setSigningKey(KEY).parseClaimsJws(token).getBody();
     }

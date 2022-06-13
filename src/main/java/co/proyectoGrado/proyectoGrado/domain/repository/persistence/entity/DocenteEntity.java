@@ -13,6 +13,7 @@ import java.util.List;
 public class DocenteEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "iddocentes")
     private int idDocentes;
     @Column(name = "nombre")

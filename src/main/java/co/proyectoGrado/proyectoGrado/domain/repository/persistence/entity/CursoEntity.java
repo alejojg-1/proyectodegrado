@@ -9,12 +9,13 @@ import java.util.List;
 
 @Data
 @Entity
-@Table( name = "CURSOS")
+@Table( name = "cursos")
 @NoArgsConstructor
 @AllArgsConstructor
 public class CursoEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcursos")
     private int idCursos;
     @Column(name = "grado")
@@ -22,15 +23,13 @@ public class CursoEntity {
     @Column(name = "nombre")
     private String nombre;
 
-    @OneToMany(mappedBy = "curso")
+    @OneToMany(mappedBy = "curso", cascade = {CascadeType.ALL})
     private List<CursosEstudiantesEntity> cursoEstudiantes;
 
-    @OneToMany(mappedBy = "curso")
+    @OneToMany(mappedBy = "curso" , cascade = {CascadeType.ALL})
     private List<CursoDocenteEntity> cursoDocentes;
 
-    @OneToMany(mappedBy = "curso")
+    @OneToMany(mappedBy = "curso" , cascade = {CascadeType.ALL})
     private List<CursoContenidoEntity> cursoContenidos;
-
-
 
 }

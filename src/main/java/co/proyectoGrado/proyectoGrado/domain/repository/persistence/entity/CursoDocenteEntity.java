@@ -7,35 +7,28 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table( name = "CURSO_DOCENTE")
+@Table( name = "curso_docente")
 @NoArgsConstructor
-
 public class CursoDocenteEntity {
 
-    public CursoDocenteEntity(int idCursoDocente, DocenteEntity docente, CursoEntity curso) {
-        this.idCursoDocente = idCursoDocente;
-        this.docente = docente;
-        this.curso = curso;
-        this.idDocentes = docente.getIdDocentes();
-        this.idCursos = curso.getIdCursos();
-    }
-
-    @Id
+   // @Id
     @Column(name="idcurso_docente")
     private int idCursoDocente;
-    @Column(name="iddocentes")
-    private int idDocentes;
-    @Column(name="idcursos")
-    private int idCursos;
+
+    @EmbeddedId
+    private CursoDocentePK id;
+
     @Column(name = "estado")
     private String estado;
 
     @ManyToOne
+    @MapsId("idDocentes")
     @JoinColumn(name="iddocentes", insertable = false, updatable = false)
     private DocenteEntity docente;
+
     @ManyToOne
+    @MapsId("idCursos")
     @JoinColumn(name="idcursos", insertable = false, updatable = false)
     private CursoEntity curso;
-
 
 }

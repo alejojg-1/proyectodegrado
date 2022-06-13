@@ -74,6 +74,17 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
         }
     }
 
+    @Override
+    public List<CursoDocente> getByIdDocente(int idDocente) {
+        List<CursoDocente> listaCursoDocente = new ArrayList<>();
+        List<CursoDocenteEntity> listaCursoDocenteEntity = cursoDocenteCrud.findById_IdDocentes(idDocente);
+        listaCursoDocenteEntity.forEach(cursoDocenteEntity -> {
+            CursoDocente cursoDocente = new CursoDocente(cursoDocenteEntity.getIdCursoDocente(),cursoDocenteEntity.getId().getIdDocentes()
+            ,cursoDocenteEntity.getId().getIdCursos(),"S".equals(cursoDocenteEntity.getEstado()));
+            listaCursoDocente.add(cursoDocente);
+        });
+        return listaCursoDocente;
+    }
 
     @Override
     public CursoDocente getIdCursos(int idCursos) {
@@ -91,7 +102,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
     public Boolean save(CursoDocente cursoDocente) {
 
         try {
-            CursoEntity cursoEntity = cursoCrud.findById(cursoDocente.getIdCursos()).orElse(null);
+            CursoEntity cursoEntity = cursoCrud.findById(cursoDocente.getIdCurso()).orElse(null);
             DocenteEntity docenteEntity = docenteCrud.findById(cursoDocente.getIdDocente()).orElse(null);
 
             //TO DO
@@ -100,7 +111,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
 
             }*/
 
-            CursoDocenteEntity cursoDocenteEntity = new CursoDocenteEntity(cursoDocente.getIdCursoDocente(),docenteEntity,cursoEntity);
+            CursoDocenteEntity cursoDocenteEntity = new CursoDocenteEntity();
             cursoDocenteEntity.setIdCursoDocente(cursoDocente.getIdCursoDocente());
             cursoDocenteEntity.setEstado(cursoDocente.isEstado() ? String.valueOf('t') : String.valueOf('f'));
             cursoDocenteCrud.save(cursoDocenteEntity);
@@ -117,7 +128,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
         try {
             CursoDocenteEntity cursoDocenteEntity = new CursoDocenteEntity();
             cursoDocenteEntity.setIdCursoDocente(cursodocente.getIdCursoDocente());
-            cursoDocenteEntity.getCurso().setIdCursos(cursodocente.getIdCursos());
+            cursoDocenteEntity.getCurso().setIdCursos(cursodocente.getIdCurso());
             cursoDocenteEntity.getDocente().setIdDocentes(cursodocente.getIdCursoDocente());
             cursoDocenteEntity.setEstado(cursodocente.isEstado() ? String.valueOf('t') : String.valueOf('f'));
             cursoDocenteCrud.save(cursoDocenteEntity);
