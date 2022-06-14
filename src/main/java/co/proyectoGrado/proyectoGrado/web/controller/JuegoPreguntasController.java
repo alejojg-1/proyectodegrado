@@ -39,7 +39,7 @@ public class JuegoPreguntasController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody JuegoPregunta juegoPregunta){
-        if(JuegoPreguntasService.actualizar(id, juegoPregunta)){
+        if(juegoPreguntasService.actualizar(id, juegoPregunta)){
             return new ResponseEntity<>(HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

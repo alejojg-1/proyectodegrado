@@ -59,5 +59,4 @@ public class DocenteService {
         return passwordEncoder.encode(contrasena);
     }
 
-
 }

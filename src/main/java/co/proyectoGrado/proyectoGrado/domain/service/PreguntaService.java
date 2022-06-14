@@ -2,8 +2,6 @@ package co.proyectoGrado.proyectoGrado.domain.service;
 
 import co.proyectoGrado.proyectoGrado.domain.model.Pregunta;
 import co.proyectoGrado.proyectoGrado.domain.repository.PreguntaRepository;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.PreguntaCrud;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.PreguntaEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +13,6 @@ public class PreguntaService {
 
     private final PreguntaRepository preguntaRepository;
 
-
     @Autowired
     public PreguntaService(PreguntaRepository preguntaRepository) {
         this.preguntaRepository = preguntaRepository; }
@@ -25,15 +22,10 @@ public class PreguntaService {
 
     public Pregunta get(int idPreguntas) {return preguntaRepository.get(idPreguntas);}
 
-    public static boolean save(Pregunta pregunta) {
+    public  boolean save(Pregunta pregunta) {
 
-        try {
-            preguntaRepository.save(pregunta);
-            return Boolean.TRUE;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Boolean.FALSE;
-        }
+        return preguntaRepository.save(pregunta);
+
     }
 
     public Boolean actualizar(int id, Pregunta pregunta) {

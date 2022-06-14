@@ -21,8 +21,6 @@ public class EstudianteJuegoRespuestaRepositoryImpl implements EstudianteJuegoRe
         this.estudianteJuegoRespuestasCrud = estudianteJuegoRespuestasCrud;
     }
 
-
-
     @Override
     public List<EstudianteJuegoRespuesta> getAll() {
         List<EstudianteJuegoRespuesta> estudianteJuegoRespuestas = new ArrayList<>();

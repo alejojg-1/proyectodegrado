@@ -1,9 +1,7 @@
 package co.proyectoGrado.proyectoGrado.web.controller;
 
-import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuego;
 import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuegoRespuesta;
 import co.proyectoGrado.proyectoGrado.domain.service.EstudianteJuegoRespuestasService;
-import co.proyectoGrado.proyectoGrado.domain.service.EstudianteJuegoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +26,7 @@ public class EstudianteJuegoRepuestasController {
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody EstudianteJuegoRespuesta estudianteJuegoRespuesta) {
 
-        if(EstudianteJuegoRespuestasService.save(estudianteJuegoRespuesta)){
+        if(estudianteJuegoRespuestasService.save(estudianteJuegoRespuesta)){
             return new ResponseEntity<>(HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

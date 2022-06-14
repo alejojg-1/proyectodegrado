@@ -1,8 +1,6 @@
 package co.proyectoGrado.proyectoGrado.web.controller;
 
-import co.proyectoGrado.proyectoGrado.domain.model.Docente;
 import co.proyectoGrado.proyectoGrado.domain.model.Pregunta;
-import co.proyectoGrado.proyectoGrado.domain.service.DocenteService;
 import co.proyectoGrado.proyectoGrado.domain.service.PreguntaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +33,7 @@ public class PreguntaController {
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody Pregunta pregunta) {
 
-        if(PreguntaService.save(pregunta)){
+        if(preguntaService.save(pregunta)){
             return new ResponseEntity<>( HttpStatus.OK);
 
         }else{
@@ -60,6 +58,4 @@ public class PreguntaController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-
 }
