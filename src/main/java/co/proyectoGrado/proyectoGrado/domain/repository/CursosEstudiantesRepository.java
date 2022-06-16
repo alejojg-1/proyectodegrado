@@ -1,5 +1,6 @@
 package co.proyectoGrado.proyectoGrado.domain.repository;
 
+import co.proyectoGrado.proyectoGrado.domain.model.CursoDocente;
 import co.proyectoGrado.proyectoGrado.domain.model.CursoEstudiante;
 
 import java.util.List;
@@ -7,8 +8,8 @@ import java.util.List;
 public interface CursosEstudiantesRepository {
 
     List<CursoEstudiante> getAll();
-
-    CursoEstudiante getIdEstudiantes(int idEstudiantes);
+    CursoEstudiante getIdEstudiante(int idEstudiantes);
+    List<CursoEstudiante> getByIdEstudiante(int idEstudiante);
     CursoEstudiante getIdCursos(int idCursos);
     boolean save(CursoEstudiante cursoEstudiante);
     Boolean actualizar(int id, CursoEstudiante estudiante);

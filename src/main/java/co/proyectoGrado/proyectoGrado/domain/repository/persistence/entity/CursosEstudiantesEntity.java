@@ -13,26 +13,20 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class CursosEstudiantesEntity {
 
-    public CursosEstudiantesEntity(int idCursoEstudiante, EstudianteEntity estudiante, CursoEntity curso) {
-        this.idCursoEstudiante = idCursoEstudiante;
-        this.estudiante = estudiante;
-        this.curso = curso;
-        this.idEstudiantes = estudiante.getIdEstudiantes();
-        this.idCursos = curso.getIdCursos();
-    }
-
-    @Id
+    //@Id
     @Column(name="idcurso_estudiantes")
     private int idCursoEstudiante;
-    @Column(name="idestudiantes")
-    private int idEstudiantes;
-    @Column(name="idcursos")
-    private int idCursos;
+
+    @EmbeddedId
+    private CursoEstudiantePK id;
 
     @ManyToOne
+    @MapsId("idEstudiantes")
     @JoinColumn(name="idestudiantes", insertable = false, updatable = false)
     private EstudianteEntity estudiante;
+
     @ManyToOne
+    @MapsId("idCursos")
     @JoinColumn(name="idcursos", insertable = false, updatable = false)
     private CursoEntity curso;
 

@@ -1,7 +1,7 @@
 package co.proyectoGrado.proyectoGrado.web.controller;
 import co.proyectoGrado.proyectoGrado.domain.model.Curso;
 import co.proyectoGrado.proyectoGrado.domain.service.CursoService;
-import co.proyectoGrado.proyectoGrado.domain.service.curso.ObtenerCursosPorIdDocenteService;
+import co.proyectoGrado.proyectoGrado.domain.service.curso.ObtenerCursosPorUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +14,12 @@ import java.util.List;
 public class CursoController {
 
     private final CursoService cursoService;
-    private final ObtenerCursosPorIdDocenteService obtenerCursosPorIdDocenteService;
+    private final ObtenerCursosPorUsuarioService obtenerCursosPorUsuarioService;
 
     @Autowired
-    public CursoController(CursoService cursoService, ObtenerCursosPorIdDocenteService obtenerCursosPorIdDocenteService) {
+    public CursoController(CursoService cursoService, ObtenerCursosPorUsuarioService obtenerCursosPorUsuarioService) {
         this.cursoService = cursoService;
-        this.obtenerCursosPorIdDocenteService = obtenerCursosPorIdDocenteService;
+        this.obtenerCursosPorUsuarioService = obtenerCursosPorUsuarioService;
     }
 
     @GetMapping()
@@ -32,9 +32,10 @@ public class CursoController {
         return new ResponseEntity<>(cursoService.get(grado), HttpStatus.OK);
     }
 
-    @GetMapping("/docente/{idDocente}")
-    public ResponseEntity<List<Curso>> getCursosByIdDocente(@PathVariable("idDocente") int idDocente) {
-        return new ResponseEntity<>(obtenerCursosPorIdDocenteService.ejecutar(idDocente), HttpStatus.OK);
+    @GetMapping("/obtener-segun-escenario")
+    public ResponseEntity<List<Curso>> getCursosPorUsuarioYRol(@RequestParam("email") String email,
+                                                               @RequestParam("rolUsuario") String rolUsuario) {
+        return new ResponseEntity<>(obtenerCursosPorUsuarioService.ejecutar(email,rolUsuario), HttpStatus.OK);
     }
 
     @PostMapping("/save")

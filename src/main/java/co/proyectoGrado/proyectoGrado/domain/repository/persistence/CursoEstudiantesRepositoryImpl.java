@@ -4,7 +4,6 @@ import co.proyectoGrado.proyectoGrado.domain.model.CursoEstudiante;
 import co.proyectoGrado.proyectoGrado.domain.repository.CursosEstudiantesRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoEstudianteCrud;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.DocenteCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoEntity;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursosEstudiantesEntity;
@@ -42,7 +41,7 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
     }
 
     @Override
-    public CursoEstudiante getIdEstudiantes(int idEstudiante) {
+    public CursoEstudiante getIdEstudiante(int idEstudiante) {
         CursosEstudiantesEntity cursosEstudiantesEntity = cursoEstudianteCrud.findFirstByEstudiante_IdEstudiantes(idEstudiante);
 
         if (cursosEstudiantesEntity != null) {
@@ -51,6 +50,19 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
             return null;
         }
     }
+
+    @Override
+    public List<CursoEstudiante> getByIdEstudiante(int idEstudiante) {
+        List<CursoEstudiante> listaCursoEstudiantes = new ArrayList<>();
+        cursoEstudianteCrud.findById_IdEstudiantes(idEstudiante).forEach(cursosEstudiantesEntity -> {
+            CursoEstudiante cursoEstudiante = new CursoEstudiante(cursosEstudiantesEntity.getIdCursoEstudiante()
+                    ,cursosEstudiantesEntity.getId().getIdEstudiantes(),
+                    cursosEstudiantesEntity.getId().getIdCursos());
+            listaCursoEstudiantes.add(cursoEstudiante);
+        });
+        return listaCursoEstudiantes;
+    }
+
     @Override
     public CursoEstudiante getIdCursos(int idCursos) {
         CursosEstudiantesEntity cursosEstudiantesEntity = cursoEstudianteCrud.findFirstByCurso_IdCursos(idCursos);
@@ -67,7 +79,11 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
         try {
             EstudianteEntity estudianteEntity = estudianteCrud.findFirstByIdEstudiantes(cursoEstudiante.getIdEstudiantes());
             CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(cursoEstudiante.getIdCursos());
-            CursosEstudiantesEntity cursosEstudiantesEntity = new CursosEstudiantesEntity( cursoEstudiante.getIdCursoEstudainte(),estudianteEntity, cursoEntity);
+
+            CursosEstudiantesEntity cursosEstudiantesEntity = new CursosEstudiantesEntity();
+            cursosEstudiantesEntity.setIdCursoEstudiante(cursoEstudiante.getIdCursoEstudiante());
+            cursosEstudiantesEntity.setEstudiante(estudianteEntity);
+            cursosEstudiantesEntity.setCurso(cursoEntity);
             cursoEstudianteCrud.save(cursosEstudiantesEntity);
             return true;
         } catch (Exception e) {
@@ -81,10 +97,8 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
     public Boolean actualizar(int id,CursoEstudiante cursoEstudiante) {
         try {
             CursosEstudiantesEntity cursosEstudiantesEntity = new CursosEstudiantesEntity();
-
             cursosEstudiantesEntity.getEstudiante().setIdentificacion(cursoEstudiante.getIdEstudiantes());
             cursosEstudiantesEntity.getCurso().setIdCursos(cursoEstudiante.getIdCursos());
-
             cursoEstudianteCrud.save(cursosEstudiantesEntity);
             return true;
         } catch (Exception e) {

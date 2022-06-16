@@ -8,11 +8,12 @@ import java.util.List;
 
 @Data
 @Entity
-@Table( name = "ESTUDIANTES")
 @NoArgsConstructor
+@Table( name = "ESTUDIANTES")
 public class EstudianteEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idestudiantes")
     private int idEstudiantes;
     @Column(name = "nombre")
@@ -31,6 +32,6 @@ public class EstudianteEntity {
     @OneToMany(mappedBy = "estudiante")
     private List<CursosEstudiantesEntity> cursoEstudiantes;
 
-    /*@OneToOne(mappedBy = "estudiante",cascade = CascadeType.ALL)
+    /*@OneToOne(mappedBy = "estudiante", cascade = CascadeType.ALL)
     private EstudianteJuegoEntity estudianteJuego;*/
 }

@@ -110,11 +110,13 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
                 throw new Exception("error obteniendo las entidades para Curso Docente");
 
             }*/
-
             CursoDocenteEntity cursoDocenteEntity = new CursoDocenteEntity();
             cursoDocenteEntity.setIdCursoDocente(cursoDocente.getIdCursoDocente());
             cursoDocenteEntity.setEstado(cursoDocente.isEstado() ? String.valueOf('t') : String.valueOf('f'));
+            cursoDocenteEntity.setDocente(docenteEntity);
+            cursoDocenteEntity.setCurso(cursoEntity);
             cursoDocenteCrud.save(cursoDocenteEntity);
+
             return true;
 
         } catch (Exception e) {

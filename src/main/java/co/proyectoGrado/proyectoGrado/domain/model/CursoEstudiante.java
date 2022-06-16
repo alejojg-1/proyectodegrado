@@ -11,14 +11,10 @@ import lombok.NoArgsConstructor;
 
 public class CursoEstudiante {
     @JsonProperty
-    private int idCursoEstudainte;
+    private int idCursoEstudiante;
     @JsonProperty
     private int idEstudiantes;
     @JsonProperty
     private int idCursos;
-    // No se encuentra en Entity,
-    // Si se anexa id en Entity se debe anexar en Mapper
-    // @Mapping(source="como se llame la columna",target="idCursos")
-
 
 }
