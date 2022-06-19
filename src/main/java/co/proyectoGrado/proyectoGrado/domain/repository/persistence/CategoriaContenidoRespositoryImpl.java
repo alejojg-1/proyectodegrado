@@ -6,8 +6,6 @@ import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.Categor
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoContenidoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.PreguntaCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CategoriaContenidoEntity;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoContenidoEntity;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.PreguntaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -36,12 +34,23 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
 
         categoriaContenidoCrud.findAll().forEach(categoriaContenidoEntity -> {
             CategoriaContenido categoriaContenido = new CategoriaContenido(categoriaContenidoEntity.getIdCategoriaContenido(),
-                    categoriaContenidoEntity.getPregunta().getIdPregunta());
+                    categoriaContenidoEntity.getIdpreguntas(), categoriaContenidoEntity.getNombre());
 
             categoriaContenidos.add(categoriaContenido);
         });
 
         return categoriaContenidos;
+    }
+
+    @Override
+    public List<CategoriaContenido> getByIds(List<Integer> listaIdsCategoriaContenido) {
+        List<CategoriaContenido> listaCategoriaContenido = new ArrayList<>();
+        categoriaContenidoCrud.findByIdCategoriaContenidoIn(listaIdsCategoriaContenido).forEach(categoriaContenidoEntity -> {
+            CategoriaContenido categoriaContenido = new CategoriaContenido(categoriaContenidoEntity.getIdCategoriaContenido(),
+                    categoriaContenidoEntity.getIdpreguntas(), categoriaContenidoEntity.getNombre());
+            listaCategoriaContenido.add(categoriaContenido);
+        });
+        return listaCategoriaContenido;
     }
 
     @Override
@@ -51,7 +60,7 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
 
         if (categoriaContenidoEntity != null) {
             return new CategoriaContenido(categoriaContenidoEntity.getIdCategoriaContenido(),
-                    categoriaContenidoEntity.getPregunta().getIdPregunta());
+                    categoriaContenidoEntity.getIdpreguntas(), categoriaContenidoEntity.getNombre());
         } else {
             return null;
         }
@@ -64,7 +73,7 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
 
         if (categoriaContenidoEntity != null) {
             return new CategoriaContenido(categoriaContenidoEntity.getIdCategoriaContenido(),
-                    categoriaContenidoEntity.getPregunta().getIdPregunta());
+                    categoriaContenidoEntity.getIdpreguntas(), categoriaContenidoEntity.getNombre());
         } else {
             return null;
         }
@@ -73,9 +82,10 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
     @Override
     public boolean save(CategoriaContenido categoriaContenido) {
         try {
-            PreguntaEntity preguntaEntity= preguntaCrud.findFirstByIdPregunta(categoriaContenido.getIdPregunta());
-           // CursoContenidoEntity cursoContenidoEntity= cursoContenidoCrud.findFirstByIdCursoContenido(categoriaContenido.getIdCategoriaContenido());
-            CategoriaContenidoEntity categoriaContenidoEntity = new CategoriaContenidoEntity(categoriaContenido.getIdPregunta(),preguntaEntity, categoriaContenido.getIdCategoriaContenido());
+           // PreguntaEntity preguntaEntity = preguntaCrud.findFirstByIdPregunta(categoriaContenido.getIdPregunta());
+            // CursoContenidoEntity cursoContenidoEntity= cursoContenidoCrud.findFirstByIdCursoContenido(categoriaContenido.getIdCategoriaContenido());
+            CategoriaContenidoEntity categoriaContenidoEntity = new CategoriaContenidoEntity(categoriaContenido.getIdCategoriaContenido(),
+                    categoriaContenido.getIdPregunta(),categoriaContenido.getNombre(),null,null);
 
             categoriaContenidoCrud.save(categoriaContenidoEntity);
             return true;
@@ -90,7 +100,7 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
         try {
             CategoriaContenidoEntity categoriaContenidoEntity = new CategoriaContenidoEntity();
             categoriaContenidoEntity.setIdCategoriaContenido(categoriaContenido.getIdCategoriaContenido());
-            categoriaContenidoEntity.getPregunta().setIdPregunta(categoriaContenido.getIdPregunta());
+            categoriaContenidoEntity.setIdpreguntas(categoriaContenido.getIdPregunta());
             //categoriaContenidoEntity.setPregunta(preguntasCrud.findById(categoriaContenido.getIdPregunta()));
             categoriaContenidoCrud.save(categoriaContenidoEntity);
             return true;
@@ -102,14 +112,12 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
 
     @Override
     public Boolean delete(int idCategoriaContenido) {
-        if(categoriaContenidoCrud.findByIdCategoriaContenido(idCategoriaContenido)!=null){
-            CategoriaContenidoEntity categoriaContenidoEntity =  categoriaContenidoCrud.findFirstByIdCategoriaContenido(idCategoriaContenido);
-             categoriaContenidoCrud.delete(categoriaContenidoEntity);
+        if (categoriaContenidoCrud.findByIdCategoriaContenido(idCategoriaContenido) != null) {
+            CategoriaContenidoEntity categoriaContenidoEntity = categoriaContenidoCrud.findFirstByIdCategoriaContenido(idCategoriaContenido);
+            categoriaContenidoCrud.delete(categoriaContenidoEntity);
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-
-
 }

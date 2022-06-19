@@ -6,6 +6,7 @@ import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.Categor
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoContenidoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CategoriaContenidoEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoContenidoPK;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoContenidoEntity;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Repository
 public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
 
@@ -60,6 +62,19 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
     }
 
     @Override
+    public List<CursoContenido> getByIdCurso(int idCurso) {
+        List<CursoContenido> listaCursoContenido = new ArrayList<>();
+        cursoContenidoCrud.findById_IdCursos(idCurso).forEach(cursoContenidoEntity -> {
+            CursoContenido cursoContenido = new CursoContenido(cursoContenidoEntity.getIdCursoContenido(),
+                    cursoContenidoEntity.getId().getIdCategoriaContenido(), cursoContenidoEntity.getId().getIdCursos(),
+                    cursoContenidoEntity.getComentario(), cursoContenidoEntity.getDescripcion(),
+                    cursoContenidoEntity.getImagen(), cursoContenidoEntity.getVideo());
+            listaCursoContenido.add(cursoContenido);
+        });
+        return listaCursoContenido;
+    }
+
+    @Override
     public CursoContenido getidCategoria(int idCategoriaContenido) {
         CursoContenidoEntity cursoContenidoEntity = cursoContenidoCrud.findByCategoriaContenido_IdCategoriaContenido(idCategoriaContenido);
 
@@ -92,12 +107,15 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
 
     @Override
     public boolean save(CursoContenido cursoContenido) {
-        try{
+        try {
 
-            CategoriaContenidoEntity categoriaContenidoEntity= categoriaContenidoCrud.findFirstByIdCategoriaContenido(cursoContenido.getIdCategoriaContenido());
-            CursoEntity cursoEntity= cursoCrud.findFirstByIdCursos(cursoContenido.getIdCurso());
-            CursoContenidoEntity cursoContenidoEntity = new CursoContenidoEntity(cursoContenido.getIdCursoContenido(),cursoContenido.getComentario(),cursoContenido.getDescripcion(),
-                    cursoContenido.getImagen(),cursoContenido.getVideo(),categoriaContenidoEntity,cursoEntity);
+            CategoriaContenidoEntity categoriaContenidoEntity = categoriaContenidoCrud.findFirstByIdCategoriaContenido(cursoContenido.getIdCategoriaContenido());
+            CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(cursoContenido.getIdCurso());
+            CursoContenidoPK cursoContenidoPK = new CursoContenidoPK(categoriaContenidoEntity.getIdCategoriaContenido(),
+                    cursoEntity.getIdCursos());
+            CursoContenidoEntity cursoContenidoEntity = new CursoContenidoEntity(cursoContenido.getIdCursoContenido(),
+                    cursoContenidoPK, cursoContenido.getComentario(), cursoContenido.getDescripcion(),
+                    cursoContenido.getImagen(), cursoContenido.getVideo(), categoriaContenidoEntity, cursoEntity);
 
             cursoContenidoCrud.save(cursoContenidoEntity);
 
@@ -111,7 +129,7 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
 
     @Override
     public boolean actualizar(int id, CursoContenido cursoContenido) {
-        try{
+        try {
             CursoContenidoEntity cursoContenidoEntity = new CursoContenidoEntity();
 
             cursoContenidoEntity.setIdCursoContenido(cursoContenido.getIdCursoContenido());
@@ -131,7 +149,7 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
     @Override
     public boolean delete(int idCursoContenido) {
         if (cursoContenidoCrud.findFirstByIdCursoContenido(idCursoContenido) != null) {
-            CursoContenidoEntity cursoContenidoEntity =  cursoContenidoCrud.findFirstByIdCursoContenido(idCursoContenido);
+            CursoContenidoEntity cursoContenidoEntity = cursoContenidoCrud.findFirstByIdCursoContenido(idCursoContenido);
             cursoContenidoCrud.save(cursoContenidoEntity);
             return true;
         } else {

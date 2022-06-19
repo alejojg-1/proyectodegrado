@@ -1,5 +1,6 @@
 package co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,24 +8,18 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table( name = "CURSO_CONTENIDO")
+@Table(name = "CURSO_CONTENIDO")
 @NoArgsConstructor
+@AllArgsConstructor
 public class CursoContenidoEntity {
-    public CursoContenidoEntity(int idCursoContenido, String comentario, String descripcion, String imagen, String video, CategoriaContenidoEntity categoriaContenido, CursoEntity curso) {
-        this.idCursoContenido = idCursoContenido;
-        this.comentario = comentario;
-        this.descripcion = descripcion;
-        this.imagen = imagen;
-        this.video = video;
-        this.idCategoriaContenido= categoriaContenido.getIdCategoriaContenido();
-        this.idCursos= curso.getIdCursos();
 
-
-    }
-
-    @Id
+    //@Id Revisar esta parte en la tabla
     @Column(name = "idcurso_contenido")
     private int idCursoContenido;
+
+    @EmbeddedId
+    private CursoContenidoPK id;
+
     @Column(name = "comentario")
     private String comentario;
     @Column(name = "descripcion")
@@ -33,16 +28,14 @@ public class CursoContenidoEntity {
     private String imagen;
     @Column(name = "urlvideo")
     private String video;
-    @Column(name = "idcategoria_contenido")
-    private int idCategoriaContenido;
-    @Column(name = "idcursos")
-    private int idCursos;
 
-
-    @OneToOne
-    @JoinColumn(name="idcategoria_contenido", insertable = false, updatable = false)
-    private CategoriaContenidoEntity categoriaContenido;
     @ManyToOne
-    @JoinColumn(name="idcursos", insertable = false, updatable = false)
+    @MapsId("idCategoriaContenido")
+    @JoinColumn(name = "idcategoria_contenido", insertable = false, updatable = false)
+    private CategoriaContenidoEntity categoriaContenido;
+
+    @ManyToOne
+    @MapsId("idCursos")
+    @JoinColumn(name = "idcursos", insertable = false, updatable = false)
     private CursoEntity curso;
 }

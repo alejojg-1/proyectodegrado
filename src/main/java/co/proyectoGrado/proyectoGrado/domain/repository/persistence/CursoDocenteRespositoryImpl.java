@@ -18,8 +18,6 @@ import java.util.List;
 public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
 
     private final CursoDocenteCrud cursoDocenteCrud;
-
-
     private final CursoCrud cursoCrud;
     private final DocenteCrud docenteCrud;
 

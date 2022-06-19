@@ -2,13 +2,12 @@ package co.proyectoGrado.proyectoGrado.domain.repository;
 
 import co.proyectoGrado.proyectoGrado.domain.model.CursoContenido;
 
-
 import java.util.List;
 
 public interface CursoContenidoRepository {
     List<CursoContenido> getAll();
-
     CursoContenido getIdCurso(int idCursoContenido);
+    List<CursoContenido> getByIdCurso(int idCurso);
     CursoContenido getidCategoria(int idCategoriaContenido);
     CursoContenido getCursosiId(int cursosIdCursos);
     boolean save(CursoContenido cursoContenido);

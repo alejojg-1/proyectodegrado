@@ -1,6 +1,6 @@
 package co.proyectoGrado.proyectoGrado.web.controller;
 import co.proyectoGrado.proyectoGrado.domain.model.Curso;
-import co.proyectoGrado.proyectoGrado.domain.service.CursoService;
+import co.proyectoGrado.proyectoGrado.domain.service.curso.CursoService;
 import co.proyectoGrado.proyectoGrado.domain.service.curso.ObtenerCursosPorUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

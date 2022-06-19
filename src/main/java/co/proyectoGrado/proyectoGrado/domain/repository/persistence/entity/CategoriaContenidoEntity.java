@@ -1,36 +1,34 @@
 package co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name ="CATEGORIA_CONTENIDO")
 @NoArgsConstructor
+@AllArgsConstructor
 public class CategoriaContenidoEntity {
 
-    public CategoriaContenidoEntity(int idpreguntas, PreguntaEntity pregunta, int idCategoriaContenido) {
-        this.idpreguntas = idpreguntas;
-        this.idpreguntas= pregunta.getIdPregunta();
-        this.idCategoriaContenido= idCategoriaContenido;
-
-    }
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idcategoria_contenido")
     private int idCategoriaContenido;
     @Column(name="idpreguntas")
-    private int idpreguntas;
+    private Integer idpreguntas;
+    @Column(name="nombre")
+    private String nombre;
 
-    @OneToOne
-    @JoinColumn(name="idpreguntas", insertable = false, updatable = false)
+    @ManyToOne
+    //@MapsId("idPregunta")
+    @JoinColumn(name = "idpreguntas", insertable = false, updatable = false)
     private PreguntaEntity pregunta;
 
-
-   // @OneToOne
-  //  @JoinColumn(name="idcursoContenido", insertable = false, updatable = false)
-    //private CursoContenidoEntity cursoContenido;
+    @OneToMany( mappedBy = "categoriaContenido",cascade = {CascadeType.ALL})
+    private List<CursoContenidoEntity> cursoContenidos;
 
 }

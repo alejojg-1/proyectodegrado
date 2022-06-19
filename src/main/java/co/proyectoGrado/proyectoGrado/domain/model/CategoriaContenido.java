@@ -14,6 +14,7 @@ public class CategoriaContenido {
     @JsonProperty
     private int idCategoriaContenido;
     @JsonProperty
-    private int idPregunta;
-
+    private Integer idPregunta;
+    @JsonProperty
+    private String nombre;
 }
