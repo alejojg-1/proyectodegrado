@@ -12,4 +12,6 @@ public interface CursoContenidoCrud extends CrudRepository<CursoContenidoEntity,
     CursoContenidoEntity findByCategoriaContenido_IdCategoriaContenido(int idCategoriaContenido);
     CursoContenidoEntity findByCurso_IdCursos(int idCursos);
     List<CursoContenidoEntity> findById_IdCursos(int idCurso);
+    List<CursoContenidoEntity> findById_IdCategoriaContenidoAndId_IdCursos(int idCategoriaContenido, int idCurso);
+
 }

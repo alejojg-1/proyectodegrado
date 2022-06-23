@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cursoContenido")
+@RequestMapping("/api/curso-contenido")
 public class CursoContenidoController {
 
     private final CursoContenidoService cursoContenidoService;
@@ -25,9 +25,10 @@ public class CursoContenidoController {
         return new ResponseEntity<>(cursoContenidoService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/idCategoria_contenido/{idCategoria_contenido}")
-    public ResponseEntity<CursoContenido> getById(@PathVariable("idCategoria_contenido") int idCategoria_contenido) {
-        return new ResponseEntity<>(cursoContenidoService.get(idCategoria_contenido), HttpStatus.OK);
+    @GetMapping("/categoria-contenido/{idcategoriacontenido}/curso/{idcurso}")
+    public ResponseEntity<List<CursoContenido>> obtenerContenidoPorIdCategoriaYIdCurso(@PathVariable("idcategoriacontenido") int idCategoriaContenido,
+                                                                                 @PathVariable("idcurso") int idCurso) {
+        return new ResponseEntity<>(cursoContenidoService.obtenerContenidoPorIdCategoria(idCategoriaContenido,idCurso), HttpStatus.OK);
     }
 
     @PostMapping("/save")

@@ -8,7 +8,7 @@ public interface CursoContenidoRepository {
     List<CursoContenido> getAll();
     CursoContenido getIdCurso(int idCursoContenido);
     List<CursoContenido> getByIdCurso(int idCurso);
-    CursoContenido getidCategoria(int idCategoriaContenido);
+    List <CursoContenido> getByIdCategoriaYIdCurso(int idCategoriaContenido,int idCurso);
     CursoContenido getCursosiId(int cursosIdCursos);
     boolean save(CursoContenido cursoContenido);
     boolean actualizar(int id, CursoContenido cursoContenido);

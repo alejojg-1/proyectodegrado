@@ -75,16 +75,22 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
     }
 
     @Override
-    public CursoContenido getidCategoria(int idCategoriaContenido) {
-        CursoContenidoEntity cursoContenidoEntity = cursoContenidoCrud.findByCategoriaContenido_IdCategoriaContenido(idCategoriaContenido);
+    public List<CursoContenido> getByIdCategoriaYIdCurso(int idCategoriaContenido, int idCurso) {
+        List<CursoContenidoEntity> listaCursoContenidoEntity = cursoContenidoCrud.
+                findById_IdCategoriaContenidoAndId_IdCursos(idCategoriaContenido,idCurso);
 
-        if (cursoContenidoEntity != null) {
-            return new CursoContenido(cursoContenidoEntity.getIdCursoContenido(),
-                    cursoContenidoEntity.getCategoriaContenido().getIdCategoriaContenido(), cursoContenidoEntity.getCurso().getIdCursos()
-                    , cursoContenidoEntity.getComentario(), cursoContenidoEntity.getImagen(), cursoContenidoEntity.getComentario()
-                    , cursoContenidoEntity.getDescripcion());
+        if (listaCursoContenidoEntity != null && !listaCursoContenidoEntity.isEmpty()) {
+            List<CursoContenido> listaCursoContenido = new ArrayList<>();
+            listaCursoContenidoEntity.forEach( cursoContenidoEntity -> {
+                CursoContenido cursoContenido = new CursoContenido(cursoContenidoEntity.getIdCursoContenido(),
+                        cursoContenidoEntity.getCategoriaContenido().getIdCategoriaContenido(), cursoContenidoEntity.getCurso().getIdCursos()
+                        , cursoContenidoEntity.getComentario(), cursoContenidoEntity.getImagen(), cursoContenidoEntity.getComentario()
+                        , cursoContenidoEntity.getDescripcion());
+                listaCursoContenido.add(cursoContenido);
+            });
+            return listaCursoContenido;
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 

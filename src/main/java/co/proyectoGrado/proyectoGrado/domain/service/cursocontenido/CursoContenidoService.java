@@ -27,12 +27,12 @@ public class CursoContenidoService {
 
     private final ModelMapper mapper = new ModelMapper();
 
-    public List<CursoContenido>getAll() {
+    public List<CursoContenido> getAll() {
         return cursoContenidoRepository.getAll();
     }
 
-    public CursoContenido get(int idCursoContenido) {
-        return cursoContenidoRepository.getIdCurso(idCursoContenido);
+    public List <CursoContenido> obtenerContenidoPorIdCategoria(int idCategoriaContenido, int IdCurso) {
+        return cursoContenidoRepository.getByIdCategoriaYIdCurso(idCategoriaContenido,IdCurso);
     }
 
     public boolean save(CursoContenido cursoContenido) {
