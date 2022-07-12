@@ -44,8 +44,8 @@ public class EstudianteJuegoEntity {
     @JoinColumn(name="idReto", insertable = false, updatable = false)
     private RetoEntity reto;
 
-    @OneToOne
-    @JoinColumn(name="estudiante_juego_respuesta", insertable = false, updatable = false)
+    @ManyToOne //corregir name BD
+    @JoinColumn(name="estudiante_juego_respuestas", insertable = false, updatable = false)
     private EstudianteJuegoRespuestasEntity estudianteJuegoRespuesta;
 
 

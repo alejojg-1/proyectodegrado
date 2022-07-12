@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -12,25 +13,29 @@ import javax.persistence.*;
 public class EstudianteJuegoRespuestasEntity {
 
 
-
-
     @Id
     @Column(name= "idestudiante_juego_respuestas")
     private int idEstudianteJuegoRespuestas;
+
     @Column(name= "idpreguntas")
     private int idpreguntas;
     @Column(name= "idreto")
     private int idReto;
-    @Column(name="estado")
-    private String estado;
     @Column(name= "idjuego_preguntas")
     private int idJuegoPregunta;
 
+    @Column(name="estado")
+    private String estado;
 
-   // @OneToOne(mappedBy = "idestudianteJuego_Respuesta")
-  //  private EstudianteJuegoEntity estudianteJuego;
-    @OneToOne
+
+    @OneToMany(mappedBy = "estudianteJuegoRespuesta")
+    private List<EstudianteJuegoEntity> estudianteJuego;
+
+    @ManyToOne
+    @MapsId("idJuegoPreguntas")
     @JoinColumn(name="idjuego_preguntas", insertable = false, updatable = false)
+    @JoinColumn(name="idpreguntas", insertable = false, updatable = false)
+    @JoinColumn(name="idreto", insertable = false, updatable = false)
     private JuegoPreguntasEntity juegoPregunta;
 
 

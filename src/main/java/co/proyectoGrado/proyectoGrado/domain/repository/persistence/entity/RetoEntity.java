@@ -14,8 +14,11 @@ public class RetoEntity {
 
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idreto")
     private int idReto;
+    @Column(name = "idcursos")
+    private int idCursos;
     @Column(name = "tipo")
     private String tipo;
     @Column(name = "titulo")
@@ -30,7 +33,12 @@ public class RetoEntity {
     @OneToMany(mappedBy = "reto")
     private List<EstudianteJuegoEntity> juegoEstudiantes;
 
-    //@OneToOne(mappedBy = "reto")
-   // private JuegoPreguntasEntity juegoPregunta;
+    @ManyToOne
+    //@MapsId("idCursos") //Revisar si es necesario para consulta
+    @JoinColumn(name = "idcursos", insertable = false, updatable = false)
+    private CursoEntity curso;
+
+    @OneToMany(mappedBy = "reto",cascade = {CascadeType.ALL})
+    private List<JuegoPreguntasEntity> juegoPreguntas;
 
 }

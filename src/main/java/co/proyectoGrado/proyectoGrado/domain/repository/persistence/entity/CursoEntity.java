@@ -32,4 +32,7 @@ public class CursoEntity {
     @OneToMany(mappedBy = "curso" , cascade = {CascadeType.ALL})
     private List<CursoContenidoEntity> cursoContenidos;
 
+    @OneToMany(mappedBy = "curso" , cascade = {CascadeType.ALL})
+    private List<RetoEntity> reto;
+
 }

@@ -16,9 +16,10 @@ import java.util.List;
 @Repository
 public class JuegoPreguntaRepositoryImpl implements JuegoPreguntasRepository {
 
+    private static final String ACTIVO = "t";
     private JuegoPreguntasCrud juegoPreguntasCrud;
     private final PreguntaCrud preguntaCrud;
-    private  final RetoCrud retoCrud;
+    private final RetoCrud retoCrud;
 
 
     @Autowired
@@ -36,9 +37,24 @@ public class JuegoPreguntaRepositoryImpl implements JuegoPreguntasRepository {
     public List<JuegoPregunta> getAll() {
         List<JuegoPregunta> juegoPreguntas = new ArrayList<>();
         juegoPreguntasCrud.findAll().forEach(juegoPreguntasEntity -> {
-            JuegoPregunta juegoPregunta = new JuegoPregunta(juegoPreguntasEntity.getIdJuegoPreguntas(),
+            JuegoPregunta juegoPregunta = new JuegoPregunta(juegoPreguntasEntity.getId().getIdJuegoPreguntas(),
                     juegoPreguntasEntity.getPregunta().getIdPregunta(),juegoPreguntasEntity.getReto().getIdReto(),
-                    "S".equals(juegoPreguntasEntity.getEstado()));
+                    ACTIVO.equals(juegoPreguntasEntity.getEstado()));
+
+            juegoPreguntas.add(juegoPregunta);
+
+        });
+        return juegoPreguntas;
+    }
+
+    @Override
+    public List<JuegoPregunta> getByIdReto(int idReto) {
+        List<JuegoPregunta> juegoPreguntas = new ArrayList<>();
+        juegoPreguntasCrud.findById_IdReto(idReto).forEach(juegoPreguntasEntity -> {
+            JuegoPregunta juegoPregunta = new JuegoPregunta(juegoPreguntasEntity.getId().getIdJuegoPreguntas(),
+                    juegoPreguntasEntity.getId().getIdPreguntas(),
+                    juegoPreguntasEntity.getId().getIdReto(),
+                    ACTIVO.equals(juegoPreguntasEntity.getEstado()));
 
             juegoPreguntas.add(juegoPregunta);
 
@@ -53,9 +69,9 @@ public class JuegoPreguntaRepositoryImpl implements JuegoPreguntasRepository {
 
         if(juegoPreguntasEntity != null){
 
-            return new JuegoPregunta(juegoPreguntasEntity.getIdJuegoPreguntas(),
+            return new JuegoPregunta(juegoPreguntasEntity.getId().getIdJuegoPreguntas(),
                     juegoPreguntasEntity.getPregunta().getIdPregunta(),juegoPreguntasEntity.getReto().getIdReto(),
-                    "S".equals(juegoPreguntasEntity.getEstado()));
+                    ACTIVO.equals(juegoPreguntasEntity.getEstado()));
         }else{
             return null;
         }
@@ -69,7 +85,8 @@ public class JuegoPreguntaRepositoryImpl implements JuegoPreguntasRepository {
             PreguntaEntity preguntaEntity= preguntaCrud.findFirstByIdPregunta(juegoPregunta.getIdJuegoPreguntas());
             RetoEntity retoEntity= retoCrud.findByIdReto(juegoPregunta.getIdReto());
 
-            JuegoPreguntasEntity juegoPreguntasEntity = new JuegoPreguntasEntity(juegoPregunta.getIdJuegoPreguntas(),preguntaEntity,retoEntity);
+            //JuegoPreguntasEntity juegoPreguntasEntity = new JuegoPreguntasEntity(juegoPregunta.getIdJuegoPreguntas(),preguntaEntity,retoEntity);
+            JuegoPreguntasEntity juegoPreguntasEntity = new JuegoPreguntasEntity();
 
 
             juegoPreguntasEntity.setEstado(juegoPregunta.isEstado() ? 'S' : 'N');
@@ -88,7 +105,7 @@ public class JuegoPreguntaRepositoryImpl implements JuegoPreguntasRepository {
         try{
             JuegoPreguntasEntity juegoPreguntasEntity = new JuegoPreguntasEntity();
 
-            juegoPreguntasEntity.setIdJuegoPreguntas(juegoPregunta.getIdJuegoPreguntas());
+            //juegoPreguntasEntity.setIdJuegoPreguntas(juegoPregunta.getIdJuegoPreguntas());
             juegoPreguntasEntity.getPregunta().setIdPregunta(juegoPregunta.getIdPreguntas());
             juegoPreguntasEntity.getReto().setIdReto(juegoPregunta.getIdReto());
             juegoPreguntasEntity.setEstado(juegoPregunta.isEstado() ? 'S' : 'N');
@@ -104,9 +121,9 @@ public class JuegoPreguntaRepositoryImpl implements JuegoPreguntasRepository {
     @Override
     public boolean delete(int idJuegoPreguntas) {
 
-       if (juegoPreguntasCrud.findFirstByIdJuegoPreguntas(idJuegoPreguntas) != null) {
+       if (juegoPreguntasCrud.findFirstById_IdJuegoPreguntas(idJuegoPreguntas) != null) {
 
-            JuegoPreguntasEntity juegoPreguntasEntity = (JuegoPreguntasEntity) juegoPreguntasCrud.findFirstByIdJuegoPreguntas(idJuegoPreguntas);
+            JuegoPreguntasEntity juegoPreguntasEntity = (JuegoPreguntasEntity) juegoPreguntasCrud.findFirstById_IdJuegoPreguntas(idJuegoPreguntas);
             juegoPreguntasEntity.setEstado('N');
             juegoPreguntasCrud.save( juegoPreguntasEntity);
             return true;

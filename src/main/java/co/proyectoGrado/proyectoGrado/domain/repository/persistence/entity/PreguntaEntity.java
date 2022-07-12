@@ -33,7 +33,7 @@ public class PreguntaEntity {
     @Column(name = "estado")
     private String estado;
 
-    @OneToMany(mappedBy = "pregunta")
+    @OneToMany(mappedBy = "pregunta",cascade = {CascadeType.ALL})
     private List<JuegoPreguntasEntity> juegoPreguntas;
 
     //@OneToOne(mappedBy = "pregunta")

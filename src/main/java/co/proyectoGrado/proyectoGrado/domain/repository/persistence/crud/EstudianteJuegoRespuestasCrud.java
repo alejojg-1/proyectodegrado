@@ -7,7 +7,7 @@ public interface EstudianteJuegoRespuestasCrud extends CrudRepository<Estudiante
 
     EstudianteJuegoRespuestasEntity findFirstByIdEstudianteJuegoRespuestas(int idEstudianteJuegoRespuestas);
     EstudianteJuegoRespuestasEntity findByIdpreguntas(int idPregunta);
-    EstudianteJuegoRespuestasEntity findByJuegoPregunta_IdJuegoPreguntas(int idJuegoPregunta);
+    //EstudianteJuegoRespuestasEntity findByJuegoPregunta_IdJuegoPreguntas(int idJuegoPregunta);
 
 
 }

@@ -1,44 +1,42 @@
 package co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
 @Table( name = "JUEGO_PREGUNTAS")
 @NoArgsConstructor
+@AllArgsConstructor
 public class JuegoPreguntasEntity {
 
+    //@Id revisar esta parte de la tabla
+    //@Column(name="idjuego_preguntas")
+    //private int idJuegoPreguntas;
 
-    public JuegoPreguntasEntity(int idJuegoPreguntas, PreguntaEntity pregunta, RetoEntity reto) {
-        this.idJuegoPreguntas = idJuegoPreguntas;
-        this.pregunta = pregunta;
-        this.reto = reto;
-        this.idpreguntas= pregunta.getIdPregunta();
-        this.idreto= reto.getIdReto();
-    }
+    @EmbeddedId
+    private JuegoPreguntasPK id;
 
-    @Id
-    @Column(name="idjuego_preguntas")
-    private int idJuegoPreguntas;
-    @Column(name="idpreguntas")
-    private int idpreguntas;
-    @Column(name="idreto")
-    private int idreto;
     @Column(name="estado")
     private char estado;
 
 
     @ManyToOne
+    @MapsId("idPreguntas")
     @JoinColumn(name="idpreguntas", insertable = false, updatable = false)
     private PreguntaEntity pregunta;
-    @OneToOne
+
+    @ManyToOne
+    @MapsId("idReto")
     @JoinColumn(name="idreto", insertable = false, updatable = false)
     private RetoEntity reto;
-    @OneToOne(mappedBy = "juegoPregunta")
-    private EstudianteJuegoRespuestasEntity estudianteJuegoRespuesta;
+
+    @OneToMany(mappedBy = "juegoPregunta")
+    private List<EstudianteJuegoRespuestasEntity> estudianteJuegoRespuesta;
 
 
 

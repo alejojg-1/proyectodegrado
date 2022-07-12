@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Reto")
+@RequestMapping("/api/reto")
 public class RetoController {
     private final RetoService retoService;
 
@@ -26,9 +26,20 @@ public class RetoController {
         return new ResponseEntity<>(retoService.getAll(),HttpStatus.OK);
     }
 
+    @GetMapping("/curso/{idcurso}")
+    public ResponseEntity<List<Reto>> obtenerRetosPorCursoId(@PathVariable("idcurso") int idCurso){
+        return new ResponseEntity<>(retoService.getByCursoId(idCurso),HttpStatus.OK);
+    }
+
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity<Reto> obtenerPorTipo(@PathVariable("tipo") String tipo) {
         return new ResponseEntity<>(retoService.get(tipo), HttpStatus.OK);
+    }
+
+    @GetMapping("/curso/{idcurso}/tipo/{tipo}")
+    public ResponseEntity<List<Reto>> obtenerPorCursoIdYTipo(@PathVariable("idcurso") int idCurso,
+                                                       @PathVariable("tipo") String tipo) {
+        return new ResponseEntity<>(retoService.getPorCursoIdYTipo(idCurso,tipo), HttpStatus.OK);
     }
 
     @PostMapping("/save")

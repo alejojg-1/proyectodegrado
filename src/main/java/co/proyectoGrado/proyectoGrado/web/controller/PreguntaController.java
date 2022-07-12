@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/Pregunta")
+@RequestMapping("/api/pregunta")
 
 public class PreguntaController {
     private final PreguntaService preguntaService;
@@ -23,7 +23,13 @@ public class PreguntaController {
 
     @GetMapping()
     public ResponseEntity<List<Pregunta>> getAll(){
-        return new ResponseEntity<>(preguntaService.getAll(),HttpStatus.OK);}
+        return new ResponseEntity<>(preguntaService.getAll(),HttpStatus.OK);
+    }
+
+    @GetMapping("/reto/{idReto}")
+    public ResponseEntity<List<Pregunta>> getPorIdReto(@PathVariable("idReto") int idReto){
+        return new ResponseEntity<>(preguntaService.obtenerPreguntasPorIdReto(idReto),HttpStatus.OK);
+    }
 
     @GetMapping("/idPreguntas/{idPreguntas}")
     public ResponseEntity<Pregunta> getById(@PathVariable("idPreguntas") int idPreguntas) {

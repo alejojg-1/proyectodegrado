@@ -8,6 +8,7 @@ import java.util.List;
 public interface JuegoPreguntasRepository {
 
     List<JuegoPregunta> getAll();
+    List<JuegoPregunta> getByIdReto(int idReto);
     JuegoPregunta get(int idPreguntas);
     boolean save(JuegoPregunta juegoPregunta);
     boolean actualizar(int id, JuegoPregunta juegoPregunta);

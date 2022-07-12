@@ -19,10 +19,16 @@ public class RetoService {
     public RetoService(RetoRepository retoRepository) {
         this.retoRepository = retoRepository;
     }
-    private final ModelMapper mapper = new ModelMapper();
+   // private final ModelMapper mapper = new ModelMapper();
 
     public List<Reto> getAll(){
         return retoRepository.getAll();
+    }
+    public List<Reto> getByCursoId(int idCurso){
+        return retoRepository.getByIdCurso(idCurso);
+    }
+    public List<Reto> getPorCursoIdYTipo(int idCurso, String tipo){
+        return retoRepository.getPorIdCursoYTipo(idCurso,tipo);
     }
     public Reto get(String titulo) {
         return retoRepository.get(titulo);

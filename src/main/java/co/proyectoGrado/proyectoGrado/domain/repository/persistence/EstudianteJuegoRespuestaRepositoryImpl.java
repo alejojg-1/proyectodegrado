@@ -37,7 +37,8 @@ public class EstudianteJuegoRespuestaRepositoryImpl implements EstudianteJuegoRe
     @Override
     public EstudianteJuegoRespuesta getByIdJuegoPregunta(int idJuegoPregunta) {
 
-        EstudianteJuegoRespuestasEntity estudianteJuegoRespuestasEntity = estudianteJuegoRespuestasCrud.findByJuegoPregunta_IdJuegoPreguntas(idJuegoPregunta);
+       // EstudianteJuegoRespuestasEntity estudianteJuegoRespuestasEntity = estudianteJuegoRespuestasCrud.findByJuegoPregunta_IdJuegoPreguntas(idJuegoPregunta);
+        EstudianteJuegoRespuestasEntity estudianteJuegoRespuestasEntity = new EstudianteJuegoRespuestasEntity();
 
         if (estudianteJuegoRespuestasEntity != null) {
             return new  EstudianteJuegoRespuesta(estudianteJuegoRespuestasEntity.getIdEstudianteJuegoRespuestas(),
@@ -71,7 +72,7 @@ public class EstudianteJuegoRespuestaRepositoryImpl implements EstudianteJuegoRe
 
             EstudianteJuegoRespuestasEntity estudianteJuegoRespuestasEntity = new EstudianteJuegoRespuestasEntity();
             estudianteJuegoRespuestasEntity.setIdEstudianteJuegoRespuestas(estudianteJuegoRespuesta.getIdEstudianteJuegoRespuestas());
-            estudianteJuegoRespuestasEntity.getJuegoPregunta().setIdJuegoPreguntas(estudianteJuegoRespuesta.getIdjuegoPreguntas());
+            //estudianteJuegoRespuestasEntity.getJuegoPregunta().setIdJuegoPreguntas(estudianteJuegoRespuesta.getIdjuegoPreguntas());
             estudianteJuegoRespuestasEntity.setIdpreguntas(estudianteJuegoRespuesta.getIdPreguntas());
             estudianteJuegoRespuestasEntity.setIdReto(estudianteJuegoRespuesta.getIdReto());
             estudianteJuegoRespuestasEntity.setEstado(estudianteJuegoRespuesta.isEstado() ? String.valueOf('t') : String.valueOf('f'));
@@ -91,7 +92,7 @@ public class EstudianteJuegoRespuestaRepositoryImpl implements EstudianteJuegoRe
 
             EstudianteJuegoRespuestasEntity estudianteJuegoRespuestasEntity = new EstudianteJuegoRespuestasEntity();
             estudianteJuegoRespuestasEntity.setIdEstudianteJuegoRespuestas(estudianteJuegoRespuesta.getIdEstudianteJuegoRespuestas());
-            estudianteJuegoRespuestasEntity.getJuegoPregunta().setIdJuegoPreguntas(estudianteJuegoRespuesta.getIdjuegoPreguntas());
+           // estudianteJuegoRespuestasEntity.getJuegoPregunta().setIdJuegoPreguntas(estudianteJuegoRespuesta.getIdjuegoPreguntas());
             estudianteJuegoRespuestasEntity.setIdpreguntas(estudianteJuegoRespuesta.getIdPreguntas());
             estudianteJuegoRespuestasEntity.setIdReto(estudianteJuegoRespuesta.getIdReto());
             estudianteJuegoRespuestasEntity.setEstado(estudianteJuegoRespuesta.isEstado() ? String.valueOf('t') : String.valueOf('f'));

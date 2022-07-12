@@ -8,6 +8,8 @@ import java.util.List;
 public interface RetoRepository {
 
     List<Reto> getAll();
+    List<Reto> getByIdCurso(int idCurso);
+    List<Reto> getPorIdCursoYTipo(int idCurso, String tipo);
     Reto get(String tipo);
     Reto getTitulo(String titulo);
     Boolean save(Reto reto);

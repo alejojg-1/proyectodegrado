@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public class RetoRepositoryImpl implements RetoRepository {
     private final RetoCrud retoCrud;
-    private final String ACTIVO = "t";
+    private final String ACTIVO = "S";
 
     @Autowired
     public RetoRepositoryImpl(RetoCrud retoCrud) {
@@ -29,7 +29,36 @@ public class RetoRepositoryImpl implements RetoRepository {
             if(reto.isEstado()==true){
                 retos.add(reto);
             }
+        });
 
+        return retos;
+    }
+
+    @Override
+    public List<Reto> getByIdCurso(int idCurso) {
+        List<Reto> retos = new ArrayList<>();
+        retoCrud.findByIdCursos(idCurso).forEach(retoEntity -> {
+            Reto reto = new Reto(retoEntity.getIdReto(),retoEntity.getTipo(),
+                    retoEntity.getTitulo(),retoEntity.getDescripcion(),
+                    retoEntity.getComentario(),ACTIVO.equals(retoEntity.getEstado()));
+            if(reto.isEstado()==true){
+                retos.add(reto);
+            }
+        });
+
+        return retos;
+    }
+
+    @Override
+    public List<Reto> getPorIdCursoYTipo(int idCurso, String tipo) {
+        List<Reto> retos = new ArrayList<>();
+        retoCrud.findByIdCursosAndTipo(idCurso,tipo).forEach(retoEntity -> {
+            Reto reto = new Reto(retoEntity.getIdReto(),retoEntity.getTipo(),
+                    retoEntity.getTitulo(),retoEntity.getDescripcion(),
+                    retoEntity.getComentario(),ACTIVO.equals(retoEntity.getEstado()));
+            if(reto.isEstado()==true){
+                retos.add(reto);
+            }
         });
 
         return retos;

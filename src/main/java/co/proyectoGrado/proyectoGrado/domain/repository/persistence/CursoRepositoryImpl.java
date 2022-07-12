@@ -1,14 +1,17 @@
 package co.proyectoGrado.proyectoGrado.domain.repository.persistence;
 
 import co.proyectoGrado.proyectoGrado.domain.model.Curso;
+import co.proyectoGrado.proyectoGrado.domain.model.Reto;
 import co.proyectoGrado.proyectoGrado.domain.repository.CursoRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.RetoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class CursoRepositoryImpl implements CursoRepository {
@@ -26,7 +29,8 @@ public class CursoRepositoryImpl implements CursoRepository {
         cursoCrud.findAll().forEach(cursoEntity -> {
             Curso curso = new Curso(cursoEntity.getIdCursos(),
                     cursoEntity.getGrado(),
-                    cursoEntity.getNombre());
+                    cursoEntity.getNombre(),
+                    mapperReto(cursoEntity.getReto()));
 
             cursos.add(curso);
         });
@@ -39,11 +43,17 @@ public class CursoRepositoryImpl implements CursoRepository {
         cursoCrud.findByIdCursosIn(listaIdsCursos).forEach(cursoEntity -> {
             Curso curso = new Curso(cursoEntity.getIdCursos(),
                     cursoEntity.getGrado(),
-                    cursoEntity.getNombre());
-
+                    cursoEntity.getNombre(),mapperReto(cursoEntity.getReto()));
             cursos.add(curso);
         });
         return cursos;
+    }
+
+    private List<Reto> mapperReto(List<RetoEntity> listaRetoEntity){
+        return listaRetoEntity.stream().map(retoEntity ->
+                new Reto(retoEntity.getIdReto(),retoEntity.getTipo(),retoEntity.getTitulo(),
+                        retoEntity.getDescripcion(),retoEntity.getComentario(),
+                        "S".equals(retoEntity.getEstado()))).collect(Collectors.toList());
     }
 
     @Override
@@ -52,7 +62,8 @@ public class CursoRepositoryImpl implements CursoRepository {
         if (cursoEntity != null) {
             return new Curso(cursoEntity.getIdCursos(),
                     cursoEntity.getGrado(),
-                    cursoEntity.getNombre());
+                    cursoEntity.getNombre(),
+                    mapperReto(cursoEntity.getReto()));
         } else {
             return null;
         }
@@ -64,7 +75,8 @@ public class CursoRepositoryImpl implements CursoRepository {
         if (cursoEntity != null) {
             return new Curso(cursoEntity.getIdCursos(),
                     cursoEntity.getGrado(),
-                    cursoEntity.getNombre());
+                    cursoEntity.getNombre(),
+                    mapperReto(cursoEntity.getReto()));
         } else {
             return null;
         }

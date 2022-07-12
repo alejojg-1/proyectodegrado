@@ -38,6 +38,23 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
     }
 
     @Override
+    public List<Pregunta> getByIds(List<Integer> idsPreguntas) {
+        List<Pregunta> preguntas = new ArrayList<>();
+
+        preguntaCrud.findByIdPreguntaIn(idsPreguntas).forEach(preguntaEntity -> {
+            Pregunta pregunta = new Pregunta(preguntaEntity.getIdPregunta(), preguntaEntity.getTexto(),
+                    preguntaEntity.getImagen(), preguntaEntity.getRespuesta(), preguntaEntity.getOpcion1(),
+                    preguntaEntity.getOpcion2(), preguntaEntity.getOpcion3(), preguntaEntity.getOpcion4(),
+                    ACTIVO.equals(preguntaEntity.getEstado()));
+            if(pregunta.isEstado()==true) {
+                preguntas.add(pregunta);
+            }
+        });
+
+        return preguntas;
+    }
+
+    @Override
     public Pregunta get(int idpregunta) {
         PreguntaEntity preguntaEntity = preguntaCrud.findFirstByIdPregunta(idpregunta);
         if (preguntaEntity != null) {
