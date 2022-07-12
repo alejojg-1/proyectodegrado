@@ -37,7 +37,7 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
          estudianteJuegoCrud.findAll().forEach(estudianteJuegoEntity -> {
              EstudianteJuego estudianteJuego = new EstudianteJuego(estudianteJuegoEntity.getIdEstudianteJuego(),
                      estudianteJuegoEntity.getCalificacion(),estudianteJuegoEntity.getReto().getIdReto(),
-                     estudianteJuegoEntity.getEstudiante().getIdEstudiantes(),estudianteJuegoEntity.getEstudiante_juego_respuesta());
+                     estudianteJuegoEntity.getId().getIdEstudiantes(),estudianteJuegoEntity.getId().getIdEstudianteJuegoRespuesta());
 
              estudianteJuegos.add(estudianteJuego);
          });
@@ -51,7 +51,7 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
         if(estudianteJuegoEntity!=null){
             return new EstudianteJuego(estudianteJuegoEntity.getIdEstudianteJuego(),
                     estudianteJuegoEntity.getCalificacion(),estudianteJuegoEntity.getReto().getIdReto(),
-                    estudianteJuegoEntity.getEstudiante().getIdEstudiantes(),estudianteJuegoEntity.getEstudiante_juego_respuesta());
+                    estudianteJuegoEntity.getId().getIdEstudiantes(),estudianteJuegoEntity.getId().getIdEstudianteJuegoRespuesta());
         }else{
             return null;
         }
@@ -65,7 +65,7 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
         if(estudianteJuegoEntity!=null){
             return new EstudianteJuego(estudianteJuegoEntity.getIdEstudianteJuego(),
                     estudianteJuegoEntity.getCalificacion(),estudianteJuegoEntity.getReto().getIdReto(),
-                    estudianteJuegoEntity.getEstudiante().getIdEstudiantes(),estudianteJuegoEntity.getEstudiante_juego_respuesta());
+                    estudianteJuegoEntity.getId().getIdEstudiantes(),estudianteJuegoEntity.getId().getIdEstudianteJuegoRespuesta());
         }else{
             return null;
         }
@@ -79,7 +79,11 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
             RetoEntity retoEntity= retoCrud.findByIdReto(estudianteJuego.getIdReto());
             EstudianteJuegoRespuestasEntity estudianteJuegoRespuestasEntity= estudianteJuegoRespuestasCrud.findFirstByIdEstudianteJuegoRespuestas(estudianteJuego.getIdEstudianteJuego());
 
-            EstudianteJuegoEntity estudianteJuegoEntity = new EstudianteJuegoEntity(estudianteJuego.getIdEstudianteJuego(),estudianteJuego.getCalificacion(),estudianteJuego.getIdReto(),estudianteJuego.getIdEstudianteJuego(),estudianteJuego.getIdEstudiantes(),retoEntity,estudianteJuegoRespuestasEntity,estudianteEntity);
+            /*EstudianteJuegoEntity estudianteJuegoEntity = new EstudianteJuegoEntity(estudianteJuego.getIdEstudianteJuego(),
+                    estudianteJuego.getCalificacion(),estudianteJuego.getIdReto(),
+                    estudianteJuego.getIdEstudianteJuego(),
+                    estudianteJuego.getIdEstudiantes(),retoEntity,
+                    estudianteJuegoRespuestasEntity,estudianteEntity);*/
 
 
 
@@ -97,7 +101,7 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
             estudianteJuegoEntity.setIdEstudianteJuego(estudianteJuego.getIdEstudianteJuego());
             estudianteJuegoEntity.setCalificacion(estudianteJuego.getCalificacion());
             estudianteJuegoEntity.getReto().setIdReto(estudianteJuego.getIdReto());
-            estudianteJuegoEntity.getEstudiante().setIdEstudiantes(estudianteJuego.getIdEstudiantes());
+            estudianteJuegoEntity.getId().setIdEstudiantes(estudianteJuego.getIdEstudiantes());
 
         }catch (Exception e){
             e.printStackTrace();

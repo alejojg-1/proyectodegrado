@@ -32,6 +32,6 @@ public class EstudianteEntity {
     @OneToMany(mappedBy = "estudiante")
     private List<CursosEstudiantesEntity> cursoEstudiantes;
 
-    /*@OneToOne(mappedBy = "estudiante", cascade = CascadeType.ALL)
-    private EstudianteJuegoEntity estudianteJuego;*/
+    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL)
+    private List<EstudianteJuegoEntity> estudianteJuego;
 }

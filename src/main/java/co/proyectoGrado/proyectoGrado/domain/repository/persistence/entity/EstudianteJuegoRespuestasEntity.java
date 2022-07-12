@@ -14,6 +14,7 @@ public class EstudianteJuegoRespuestasEntity {
 
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "idestudiante_juego_respuestas")
     private int idEstudianteJuegoRespuestas;
 
@@ -23,12 +24,13 @@ public class EstudianteJuegoRespuestasEntity {
     private int idReto;
     @Column(name= "idjuego_preguntas")
     private int idJuegoPregunta;
-
+    @Column(name="respuesta")
+    private String respuesta;
     @Column(name="estado")
     private String estado;
 
 
-    @OneToMany(mappedBy = "estudianteJuegoRespuesta")
+    @OneToMany(mappedBy = "estudianteJuegoRespuesta",cascade = {CascadeType.ALL})
     private List<EstudianteJuegoEntity> estudianteJuego;
 
     @ManyToOne
@@ -37,7 +39,5 @@ public class EstudianteJuegoRespuestasEntity {
     @JoinColumn(name="idpreguntas", insertable = false, updatable = false)
     @JoinColumn(name="idreto", insertable = false, updatable = false)
     private JuegoPreguntasEntity juegoPregunta;
-
-
 
 }
