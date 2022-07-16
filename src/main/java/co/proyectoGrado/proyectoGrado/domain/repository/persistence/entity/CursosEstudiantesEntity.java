@@ -13,10 +13,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class CursosEstudiantesEntity {
 
-    //@Id
-    @Column(name="idcurso_estudiantes")
-    private int idCursoEstudiante;
-
     @EmbeddedId
     private CursoEstudiantePK id;
 

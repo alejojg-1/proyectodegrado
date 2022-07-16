@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.io.Serializable;
 
 @Data
@@ -14,8 +16,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class JuegoPreguntasPK implements Serializable {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="native")
     @Column(name="idjuego_preguntas")
-    private int idJuegoPreguntas;
+    private Integer idJuegoPreguntas;
     @Column(name = "idpreguntas")
     private int idPreguntas;
     @Column(name = "idreto")

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Docente {
     @JsonProperty
-    private int idDocente;
+    private Integer idDocente;
     @JsonProperty
     private String nombre;
     @JsonProperty

@@ -38,9 +38,9 @@ public class CategoriaContenidoController {
     public ResponseEntity<Boolean> save(@RequestBody CategoriaContenido categoriaContenido) {
 
         if(categoriaContenidoService.save(categoriaContenido)){
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 
 public class Reto {
     @JsonProperty
-    private int idReto;
+    private Integer idReto;
+    @JsonProperty
+    private Integer idCurso;
     @JsonProperty
     private String tipo;
     @JsonProperty

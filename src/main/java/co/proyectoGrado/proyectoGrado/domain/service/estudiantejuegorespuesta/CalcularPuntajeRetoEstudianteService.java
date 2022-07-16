@@ -1,0 +1,62 @@
+package co.proyectoGrado.proyectoGrado.domain.service.estudiantejuegorespuesta;
+
+import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuego;
+import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuegoRespuesta;
+import co.proyectoGrado.proyectoGrado.domain.model.Pregunta;
+import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteJuegoRespuestasRepository;
+import co.proyectoGrado.proyectoGrado.domain.repository.JuegoPreguntasRepository;
+import co.proyectoGrado.proyectoGrado.domain.repository.PreguntaRepository;
+import co.proyectoGrado.proyectoGrado.domain.service.PreguntaService;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class CalcularPuntajeRetoEstudianteService {
+
+    private static final Double CALIFICACION_TOPE = 5.0D;
+
+    private final EstudianteJuegoRespuestasRepository estudianteJuegoRespuestasRepository;
+    private final PreguntaService preguntaService;
+    private final JuegoPreguntasRepository juegoPreguntasRepository;
+    private final PreguntaRepository preguntaRepository;
+
+    public CalcularPuntajeRetoEstudianteService(EstudianteJuegoRespuestasRepository estudianteJuegoRespuestasRepository,
+                                                JuegoPreguntasRepository juegoPreguntasRepository,
+                                                PreguntaRepository preguntaRepository,
+                                                PreguntaService preguntaService) {
+        this.estudianteJuegoRespuestasRepository = estudianteJuegoRespuestasRepository;
+        this.juegoPreguntasRepository = juegoPreguntasRepository;
+        this.preguntaService = preguntaService;
+        this.preguntaRepository = preguntaRepository;
+    }
+
+    public EstudianteJuego ejecutar(List<EstudianteJuegoRespuesta> listaRespuestasEstudiante, int idReto) {
+        //¿Se bebe de tener en cuenta el estado activo?
+        List<Pregunta> listaPreguntas = preguntaService.obtenerPreguntasPorIdReto(idReto);
+        List<Pregunta> preguntasContestadasCorrectamente = obtenerRespuestasCorrectas(listaPreguntas, listaRespuestasEstudiante);
+        Double puntuacion = cacularPuntuacion(listaPreguntas, preguntasContestadasCorrectamente);
+        return new EstudianteJuego();
+    }
+
+    private List<Pregunta> obtenerRespuestasCorrectas(List<Pregunta> listaPreguntas, List<EstudianteJuegoRespuesta> listaRespuestas) {
+        List<Pregunta> preguntasContestadasCorrectamente = new ArrayList<>();
+        listaRespuestas.forEach(respuesta -> {
+            Pregunta preguntaContestada = listaPreguntas.stream().filter(pregunta -> pregunta.getIdPregunta() == respuesta.getIdPreguntas()
+                            && pregunta.getRespuesta().equals(respuesta.getRespuesta()))
+                    .findFirst().orElse(null);
+            if (preguntaContestada != null) {
+                preguntasContestadasCorrectamente.add(preguntaContestada);
+            }
+        });
+        return preguntasContestadasCorrectamente;
+    }
+
+
+    private Double cacularPuntuacion(List<Pregunta> listaPreguntas, List<Pregunta> preguntasContestadasCorrectamente) {
+        return (CALIFICACION_TOPE / Double.valueOf(listaPreguntas.size()))
+                * (Double.valueOf(preguntasContestadasCorrectamente.size()));
+    }
+
+}

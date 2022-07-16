@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CursoContenidoCrud extends CrudRepository<CursoContenidoEntity, Integer> {
 
-    CursoContenidoEntity findFirstByIdCursoContenido(int idCursoContenido);
+    CursoContenidoEntity findFirstById_IdCursoContenido(int idCursoContenido);
     CursoContenidoEntity findByCategoriaContenido_IdCategoriaContenido(int idCategoriaContenido);
     CursoContenidoEntity findByCurso_IdCursos(int idCursos);
     List<CursoContenidoEntity> findById_IdCursos(int idCurso);

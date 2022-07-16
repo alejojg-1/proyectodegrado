@@ -14,9 +14,9 @@ public class RetoEntity {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="native")
     @Column(name = "idreto")
-    private int idReto;
+    private Integer idReto;
     @Column(name = "idcursos")
     private int idCursos;
     @Column(name = "tipo")
@@ -34,7 +34,7 @@ public class RetoEntity {
     private List<EstudianteJuegoEntity> juegoEstudiantes;
 
     @ManyToOne
-    //@MapsId("idCursos") //Revisar si es necesario para consulta
+    @MapsId("idCursos") //Revisar si es necesario para consulta
     @JoinColumn(name = "idcursos", insertable = false, updatable = false)
     private CursoEntity curso;
 

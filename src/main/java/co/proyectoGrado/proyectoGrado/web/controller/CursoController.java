@@ -41,9 +41,9 @@ public class CursoController {
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody Curso curso) {
         if(cursoService.save(curso)){
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(true,HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(false,HttpStatus.BAD_REQUEST);
         }
     }
 

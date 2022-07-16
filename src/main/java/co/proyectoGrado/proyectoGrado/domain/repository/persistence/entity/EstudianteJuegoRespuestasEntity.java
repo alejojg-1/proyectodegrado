@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
@@ -14,24 +13,31 @@ public class EstudianteJuegoRespuestasEntity {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="native")
     @Column(name= "idestudiante_juego_respuestas")
-    private int idEstudianteJuegoRespuestas;
-
+    private Integer idEstudianteJuegoRespuestas;
+ //¿ @Embeddable PK?
     @Column(name= "idpreguntas")
     private int idpreguntas;
     @Column(name= "idreto")
     private int idReto;
+    @Column(name = "idestudiante_juego")
+    private int idEstudianteJuego;
     @Column(name= "idjuego_preguntas")
     private int idJuegoPregunta;
+
     @Column(name="respuesta")
     private String respuesta;
     @Column(name="estado")
     private String estado;
 
 
-    @OneToMany(mappedBy = "estudianteJuegoRespuesta",cascade = {CascadeType.ALL})
-    private List<EstudianteJuegoEntity> estudianteJuego;
+    @ManyToOne
+    @MapsId("idEstudianteJuego")
+    @JoinColumn(name="idreto", insertable = false, updatable = false)
+    @JoinColumn(name="idestudiantes", insertable = false, updatable = false)
+    @JoinColumn(name="idestudiante_juego", insertable = false, updatable = false)
+    private EstudianteJuegoEntity estudianteJuego;
 
     @ManyToOne
     @MapsId("idJuegoPreguntas")

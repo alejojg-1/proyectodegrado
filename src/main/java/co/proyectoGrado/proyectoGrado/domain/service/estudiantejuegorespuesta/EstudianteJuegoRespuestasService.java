@@ -1,4 +1,4 @@
-package co.proyectoGrado.proyectoGrado.domain.service;
+package co.proyectoGrado.proyectoGrado.domain.service.estudiantejuegorespuesta;
 
 import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuegoRespuesta;
 import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteJuegoRespuestasRepository;

@@ -12,7 +12,7 @@ public class CursoDocente {
 
 
     @JsonProperty
-    private int idCursoDocente;
+    private Integer idCursoDocente;
     @JsonProperty
     private int idDocente;
     @JsonProperty

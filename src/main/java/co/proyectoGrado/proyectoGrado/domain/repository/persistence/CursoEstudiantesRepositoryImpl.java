@@ -32,7 +32,8 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
         List<CursoEstudiante> cursoEstudiantes = new ArrayList<>();
 
         cursoEstudianteCrud.findAll().forEach(cursosEstudiantesEntity -> {
-            CursoEstudiante cursoEstudiante = new CursoEstudiante(cursosEstudiantesEntity.getIdCursoEstudiante(),cursosEstudiantesEntity.getEstudiante().getIdEstudiantes(),cursosEstudiantesEntity.getCurso().getIdCursos());
+            CursoEstudiante cursoEstudiante = new CursoEstudiante(cursosEstudiantesEntity.getId().getIdCursoEstudiante(),
+                    cursosEstudiantesEntity.getEstudiante().getIdEstudiantes(),cursosEstudiantesEntity.getCurso().getIdCursos());
 
             cursoEstudiantes.add(cursoEstudiante);
         });
@@ -45,7 +46,8 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
         CursosEstudiantesEntity cursosEstudiantesEntity = cursoEstudianteCrud.findFirstByEstudiante_IdEstudiantes(idEstudiante);
 
         if (cursosEstudiantesEntity != null) {
-            return new CursoEstudiante(cursosEstudiantesEntity.getIdCursoEstudiante(),cursosEstudiantesEntity.getEstudiante().getIdEstudiantes(),cursosEstudiantesEntity.getCurso().getIdCursos());
+            return new CursoEstudiante(cursosEstudiantesEntity.getId().getIdCursoEstudiante(),
+                    cursosEstudiantesEntity.getEstudiante().getIdEstudiantes(),cursosEstudiantesEntity.getCurso().getIdCursos());
         } else {
             return null;
         }
@@ -55,7 +57,7 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
     public List<CursoEstudiante> getByIdEstudiante(int idEstudiante) {
         List<CursoEstudiante> listaCursoEstudiantes = new ArrayList<>();
         cursoEstudianteCrud.findById_IdEstudiantes(idEstudiante).forEach(cursosEstudiantesEntity -> {
-            CursoEstudiante cursoEstudiante = new CursoEstudiante(cursosEstudiantesEntity.getIdCursoEstudiante()
+            CursoEstudiante cursoEstudiante = new CursoEstudiante(cursosEstudiantesEntity.getId().getIdCursoEstudiante()
                     ,cursosEstudiantesEntity.getId().getIdEstudiantes(),
                     cursosEstudiantesEntity.getId().getIdCursos());
             listaCursoEstudiantes.add(cursoEstudiante);
@@ -68,7 +70,8 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
         CursosEstudiantesEntity cursosEstudiantesEntity = cursoEstudianteCrud.findFirstByCurso_IdCursos(idCursos);
 
         if (cursosEstudiantesEntity != null) {
-            return new CursoEstudiante(cursosEstudiantesEntity.getIdCursoEstudiante(),cursosEstudiantesEntity.getEstudiante().getIdEstudiantes(),cursosEstudiantesEntity.getCurso().getIdCursos());
+            return new CursoEstudiante(cursosEstudiantesEntity.getId().getIdCursoEstudiante(),
+                    cursosEstudiantesEntity.getEstudiante().getIdEstudiantes(),cursosEstudiantesEntity.getCurso().getIdCursos());
         } else {
             return null;
         }
@@ -81,7 +84,7 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
             CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(cursoEstudiante.getIdCursos());
 
             CursosEstudiantesEntity cursosEstudiantesEntity = new CursosEstudiantesEntity();
-            cursosEstudiantesEntity.setIdCursoEstudiante(cursoEstudiante.getIdCursoEstudiante());
+            cursosEstudiantesEntity.getId().setIdCursoEstudiante(cursoEstudiante.getIdCursoEstudiante());
             cursosEstudiantesEntity.setEstudiante(estudianteEntity);
             cursosEstudiantesEntity.setCurso(cursoEntity);
             cursoEstudianteCrud.save(cursosEstudiantesEntity);
@@ -110,7 +113,7 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
 
     @Override
     public Boolean delete(int idCursoEstudiantes) {
-        if(cursoEstudianteCrud.findByIdCursoEstudiante(idCursoEstudiantes)!=null){
+        if(cursoEstudianteCrud.findById_IdCursoEstudiante(idCursoEstudiantes)!=null){
             CursosEstudiantesEntity cursosEstudianteEntity =  cursoEstudianteCrud.findFirstByEstudiante_IdEstudiantes(idCursoEstudiantes);
             cursoEstudianteCrud.delete(cursosEstudianteEntity);
             return true;

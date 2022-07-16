@@ -22,7 +22,8 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
     private final DocenteCrud docenteCrud;
 
     @Autowired
-    public CursoDocenteRespositoryImpl(CursoDocenteCrud cursoDocenteCrud,CursoCrud cursoCrud,DocenteCrud docenteCrud) {
+    public CursoDocenteRespositoryImpl(CursoDocenteCrud cursoDocenteCrud,
+                                       CursoCrud cursoCrud,DocenteCrud docenteCrud) {
         this.cursoDocenteCrud = cursoDocenteCrud;
         this.cursoCrud = cursoCrud;
         this.docenteCrud = docenteCrud;
@@ -33,7 +34,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
         List<CursoDocente> cursoDocentes = new ArrayList<>();
 
         cursoDocenteCrud.findAll().forEach(cursoDocenteEntity -> {
-            CursoDocente cursoDocente = new CursoDocente(cursoDocenteEntity.getIdCursoDocente(),
+            CursoDocente cursoDocente = new CursoDocente(cursoDocenteEntity.getId().getIdCursoDocente(),
                     cursoDocenteEntity.getDocente().getIdDocentes(), cursoDocenteEntity.getCurso().getIdCursos(),
                     "S".equals(cursoDocenteEntity.getEstado()));
 
@@ -49,9 +50,9 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
     @Override
     public CursoDocente get(int idCursoDocente) {
 
-        CursoDocenteEntity cursoDocenteEntity = cursoDocenteCrud.findFirstByIdCursoDocente(idCursoDocente);
+        CursoDocenteEntity cursoDocenteEntity = cursoDocenteCrud.findFirstById_IdCursoDocente(idCursoDocente);
         if (cursoDocenteEntity != null) {
-            return new CursoDocente(cursoDocenteEntity.getIdCursoDocente(),
+            return new CursoDocente(cursoDocenteEntity.getId().getIdCursoDocente(),
                     cursoDocenteEntity.getDocente().getIdDocentes(), cursoDocenteEntity.getCurso().getIdCursos(),
                     "S".equals(cursoDocenteEntity.getEstado()));
         } else {
@@ -62,9 +63,9 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
     @Override
     public CursoDocente getIdDocente(int idDocente) {
 
-        CursoDocenteEntity cursoDocenteEntity = cursoDocenteCrud.findByIdCursoDocente(idDocente);
+        CursoDocenteEntity cursoDocenteEntity = cursoDocenteCrud.findById_IdCursoDocente(idDocente);
         if (cursoDocenteEntity != null) {
-            return new CursoDocente(cursoDocenteEntity.getIdCursoDocente(),
+            return new CursoDocente(cursoDocenteEntity.getId().getIdCursoDocente(),
                     cursoDocenteEntity.getDocente().getIdDocentes(), cursoDocenteEntity.getCurso().getIdCursos(),
                     "S".equals(cursoDocenteEntity.getEstado()));
         } else {
@@ -77,7 +78,8 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
         List<CursoDocente> listaCursoDocente = new ArrayList<>();
         List<CursoDocenteEntity> listaCursoDocenteEntity = cursoDocenteCrud.findById_IdDocentes(idDocente);
         listaCursoDocenteEntity.forEach(cursoDocenteEntity -> {
-            CursoDocente cursoDocente = new CursoDocente(cursoDocenteEntity.getIdCursoDocente(),cursoDocenteEntity.getId().getIdDocentes()
+            CursoDocente cursoDocente = new CursoDocente(cursoDocenteEntity.getId().getIdCursoDocente()
+                    ,cursoDocenteEntity.getId().getIdDocentes()
             ,cursoDocenteEntity.getId().getIdCursos(),"S".equals(cursoDocenteEntity.getEstado()));
             listaCursoDocente.add(cursoDocente);
         });
@@ -88,7 +90,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
     public CursoDocente getIdCursos(int idCursos) {
         CursoDocenteEntity cursoDocenteEntity = cursoDocenteCrud.findFirstByCurso_IdCursos(idCursos);
         if (cursoDocenteEntity != null) {
-            return new CursoDocente(cursoDocenteEntity.getIdCursoDocente(),
+            return new CursoDocente(cursoDocenteEntity.getId().getIdCursoDocente(),
                     cursoDocenteEntity.getDocente().getIdDocentes(), cursoDocenteEntity.getCurso().getIdCursos(),
                     "S".equals(cursoDocenteEntity.getEstado()));
         } else {
@@ -109,7 +111,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
 
             }*/
             CursoDocenteEntity cursoDocenteEntity = new CursoDocenteEntity();
-            cursoDocenteEntity.setIdCursoDocente(cursoDocente.getIdCursoDocente());
+            cursoDocenteEntity.getId().setIdCursoDocente(cursoDocente.getIdCursoDocente());
             cursoDocenteEntity.setEstado(cursoDocente.isEstado() ? String.valueOf('t') : String.valueOf('f'));
             cursoDocenteEntity.setDocente(docenteEntity);
             cursoDocenteEntity.setCurso(cursoEntity);
@@ -127,7 +129,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
 
         try {
             CursoDocenteEntity cursoDocenteEntity = new CursoDocenteEntity();
-            cursoDocenteEntity.setIdCursoDocente(cursodocente.getIdCursoDocente());
+            cursoDocenteEntity.getId().setIdCursoDocente(cursodocente.getIdCursoDocente());
             cursoDocenteEntity.getCurso().setIdCursos(cursodocente.getIdCurso());
             cursoDocenteEntity.getDocente().setIdDocentes(cursodocente.getIdCursoDocente());
             cursoDocenteEntity.setEstado(cursodocente.isEstado() ? String.valueOf('t') : String.valueOf('f'));
@@ -141,8 +143,8 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
 
     @Override
     public Boolean delete(int idCursoDocente) {
-        if(cursoDocenteCrud.findByIdCursoDocente(idCursoDocente)!=null){
-            CursoDocenteEntity cursoDocenteEntity =  cursoDocenteCrud.findFirstByIdCursoDocente(idCursoDocente);
+        if(cursoDocenteCrud.findById_IdCursoDocente(idCursoDocente)!=null){
+            CursoDocenteEntity cursoDocenteEntity =  cursoDocenteCrud.findFirstById_IdCursoDocente(idCursoDocente);
             cursoDocenteEntity.setEstado("f");
             cursoDocenteCrud.save(cursoDocenteEntity);
             return true;

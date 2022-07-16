@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CategoriaContenido {
     @JsonProperty
-    private int idCategoriaContenido;
+    private Integer idCategoriaContenido;
     @JsonProperty
     private Integer idPregunta;
     @JsonProperty

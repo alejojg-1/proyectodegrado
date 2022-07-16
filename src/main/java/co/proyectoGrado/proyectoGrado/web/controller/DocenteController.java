@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Docente")
+@RequestMapping("/api/docente")
 public class DocenteController {
     private final DocenteService docenteService;
 
@@ -35,9 +35,9 @@ public class DocenteController {
     public ResponseEntity<Boolean> save(@RequestBody Docente docente) {
 
         if(docenteService.save(docente)){
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Boolean.FALSE,HttpStatus.BAD_REQUEST);
         }
     }
 

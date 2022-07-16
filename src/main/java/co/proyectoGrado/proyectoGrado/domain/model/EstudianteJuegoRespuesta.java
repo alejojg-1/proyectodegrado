@@ -10,14 +10,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class EstudianteJuegoRespuesta {
+
     @JsonProperty
-    private int idEstudianteJuegoRespuestas;
+    private Integer idEstudianteJuegoRespuestas;
     @JsonProperty
     private int idjuegoPreguntas;
     @JsonProperty
     private int idPreguntas;
     @JsonProperty
     private int idReto;
+    @JsonProperty
+    private String respuesta;
     @JsonProperty
     private boolean estado;
 

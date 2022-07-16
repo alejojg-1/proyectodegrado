@@ -3,6 +3,7 @@ package co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,9 +16,9 @@ import java.util.List;
 public class CursoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="native")
     @Column(name = "idcursos")
-    private int idCursos;
+    private Integer idCursos;
     @Column(name = "grado")
     private String grado;
     @Column(name = "nombre")

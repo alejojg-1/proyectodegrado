@@ -14,16 +14,11 @@ import java.util.List;
 @AllArgsConstructor
 public class JuegoPreguntasEntity {
 
-    //@Id revisar esta parte de la tabla
-    //@Column(name="idjuego_preguntas")
-    //private int idJuegoPreguntas;
-
     @EmbeddedId
     private JuegoPreguntasPK id;
 
     @Column(name="estado")
     private char estado;
-
 
     @ManyToOne
     @MapsId("idPreguntas")

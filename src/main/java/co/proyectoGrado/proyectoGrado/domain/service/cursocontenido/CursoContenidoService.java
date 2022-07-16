@@ -47,10 +47,10 @@ public class CursoContenidoService {
     }
 
     public Boolean actualizar(int id, CursoContenido cursoContenido) {
-        CursoContenidoEntity contenido = cursoContenidoCrud.findFirstByIdCursoContenido(id);
-        if ("".equals(contenido.getIdCursoContenido())) {
+        CursoContenidoEntity contenido = cursoContenidoCrud.findFirstById_IdCursoContenido(id);
+        if ("".equals(contenido.getId().getIdCursoContenido())) {
             CursoContenidoEntity contenidoMapper = mapper.map(cursoContenido, CursoContenidoEntity.class);
-            contenidoMapper.setIdCursoContenido(contenido.getIdCursoContenido());
+            contenidoMapper.getId().setIdCursoContenido(contenido.getId().getIdCursoContenido());
             cursoContenidoCrud.save(contenidoMapper);
         }
         return cursoContenidoRepository.actualizar(id, cursoContenido);

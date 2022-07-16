@@ -8,16 +8,20 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class EstudianteJuego {
+
     @JsonProperty
-    private int idEstudianteJuego;
+    private Integer idEstudianteJuego;
     @JsonProperty
     private double calificacion;
     @JsonProperty
     private int idReto;
     @JsonProperty
     private int idEstudiantes;
-    @JsonProperty
-    private int idEstudianteJuegoRespuesta;
+
+    public EstudianteJuego(double calificacion,int idReto,int idEstudiantes){
+        this.calificacion = calificacion;
+        this.idReto = idReto;
+        this.idEstudiantes= idEstudiantes;
+    }
 }

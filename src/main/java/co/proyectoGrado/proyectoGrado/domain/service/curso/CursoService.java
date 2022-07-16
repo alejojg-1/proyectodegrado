@@ -24,6 +24,8 @@ public class CursoService {
     public List<Curso> getAll(){
         return cursoRepository.getAll();
     }
+
+
     public boolean save(Curso curso) {
         try {
             cursoRepository.save(curso);

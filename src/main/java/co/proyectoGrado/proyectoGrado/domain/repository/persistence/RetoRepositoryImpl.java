@@ -2,7 +2,9 @@ package co.proyectoGrado.proyectoGrado.domain.repository.persistence;
 
 import co.proyectoGrado.proyectoGrado.domain.model.Reto;
 import co.proyectoGrado.proyectoGrado.domain.repository.RetoRepository;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.RetoCrud;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoEntity;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.RetoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,18 +14,20 @@ import java.util.List;
 @Repository
 public class RetoRepositoryImpl implements RetoRepository {
     private final RetoCrud retoCrud;
-    private final String ACTIVO = "S";
+    private final CursoCrud cursoCrud;
+    private final String ACTIVO = "S"; //Validar cuál usar
 
     @Autowired
-    public RetoRepositoryImpl(RetoCrud retoCrud) {
+    public RetoRepositoryImpl(RetoCrud retoCrud, CursoCrud cursoCrud) {
         this.retoCrud = retoCrud;
+        this.cursoCrud = cursoCrud;
     }
 
     @Override
     public List<Reto> getAll() {
         List<Reto> retos = new ArrayList<>();
         retoCrud.findAll().forEach(retoEntity -> {
-            Reto reto = new Reto(retoEntity.getIdReto(),retoEntity.getTipo(),
+            Reto reto = new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),
                     retoEntity.getTitulo(),retoEntity.getDescripcion(),
                     retoEntity.getComentario(),ACTIVO.equals(retoEntity.getEstado()));
             if(reto.isEstado()==true){
@@ -38,7 +42,7 @@ public class RetoRepositoryImpl implements RetoRepository {
     public List<Reto> getByIdCurso(int idCurso) {
         List<Reto> retos = new ArrayList<>();
         retoCrud.findByIdCursos(idCurso).forEach(retoEntity -> {
-            Reto reto = new Reto(retoEntity.getIdReto(),retoEntity.getTipo(),
+            Reto reto = new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),
                     retoEntity.getTitulo(),retoEntity.getDescripcion(),
                     retoEntity.getComentario(),ACTIVO.equals(retoEntity.getEstado()));
             if(reto.isEstado()==true){
@@ -53,7 +57,7 @@ public class RetoRepositoryImpl implements RetoRepository {
     public List<Reto> getPorIdCursoYTipo(int idCurso, String tipo) {
         List<Reto> retos = new ArrayList<>();
         retoCrud.findByIdCursosAndTipo(idCurso,tipo).forEach(retoEntity -> {
-            Reto reto = new Reto(retoEntity.getIdReto(),retoEntity.getTipo(),
+            Reto reto = new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),
                     retoEntity.getTitulo(),retoEntity.getDescripcion(),
                     retoEntity.getComentario(),ACTIVO.equals(retoEntity.getEstado()));
             if(reto.isEstado()==true){
@@ -69,7 +73,7 @@ public class RetoRepositoryImpl implements RetoRepository {
         RetoEntity retoEntity = retoCrud.findFirstByTipo(tipo);
         if(retoEntity!=null){
             if(retoEntity.getEstado() == "t"){
-            return new Reto(retoEntity.getIdReto(),retoEntity.getTipo(),
+            return new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),
                     retoEntity.getTitulo(),retoEntity.getDescripcion(),
                     retoEntity.getComentario(),"t".equals(retoEntity.getEstado()));
             }else {
@@ -84,7 +88,7 @@ public class RetoRepositoryImpl implements RetoRepository {
     public Reto getTitulo(String titulo) {
         RetoEntity retoEntity = retoCrud.findFirstByTitulo(titulo);
         if(retoEntity!=null){
-            return new Reto(retoEntity.getIdReto(),retoEntity.getTipo(),
+            return new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),
                     retoEntity.getTitulo(),retoEntity.getDescripcion(),
                     retoEntity.getComentario(),"t".equals(retoEntity.getEstado()));
         }else{
@@ -95,8 +99,10 @@ public class RetoRepositoryImpl implements RetoRepository {
     @Override
     public Boolean save(Reto reto) {
         try{
+            CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(reto.getIdCurso());
             RetoEntity retoEntity = new RetoEntity();
             retoEntity.setIdReto(reto.getIdReto());
+            retoEntity.setCurso(cursoEntity);
             retoEntity.setTipo(reto.getTipo());
             retoEntity.setTitulo(reto.getTitulo());
             retoEntity.setDescripcion(reto.getDescripcion());

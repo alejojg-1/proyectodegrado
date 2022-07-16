@@ -51,7 +51,7 @@ public class CursoRepositoryImpl implements CursoRepository {
 
     private List<Reto> mapperReto(List<RetoEntity> listaRetoEntity){
         return listaRetoEntity.stream().map(retoEntity ->
-                new Reto(retoEntity.getIdReto(),retoEntity.getTipo(),retoEntity.getTitulo(),
+                new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),retoEntity.getTitulo(),
                         retoEntity.getDescripcion(),retoEntity.getComentario(),
                         "S".equals(retoEntity.getEstado()))).collect(Collectors.toList());
     }
@@ -86,15 +86,15 @@ public class CursoRepositoryImpl implements CursoRepository {
     public Boolean save(Curso curso) {
         try {
             CursoEntity cursoEntity = new CursoEntity();
-            cursoEntity.setIdCursos(curso.getIdCursos());
+            //cursoEntity.setIdCursos(curso.getIdCursos());
             cursoEntity.setGrado(curso.getGrado());
             cursoEntity.setNombre(curso.getNombre());
             cursoCrud.save(cursoEntity);
+            return  true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-        return false;
     }
 
     @Override

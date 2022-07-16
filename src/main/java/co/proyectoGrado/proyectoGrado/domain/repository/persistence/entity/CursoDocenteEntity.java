@@ -11,10 +11,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class CursoDocenteEntity {
 
-   // @Id Revisar esta parte en la tabla
-    @Column(name="idcurso_docente")
-    private int idCursoDocente;
-
     @EmbeddedId
     private CursoDocentePK id;
 

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Repository
 public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository {
 
@@ -33,14 +34,14 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
 
     @Override
     public List<EstudianteJuego> getAll() {
-         List<EstudianteJuego> estudianteJuegos = new ArrayList<>();
-         estudianteJuegoCrud.findAll().forEach(estudianteJuegoEntity -> {
-             EstudianteJuego estudianteJuego = new EstudianteJuego(estudianteJuegoEntity.getIdEstudianteJuego(),
-                     estudianteJuegoEntity.getCalificacion(),estudianteJuegoEntity.getReto().getIdReto(),
-                     estudianteJuegoEntity.getId().getIdEstudiantes(),estudianteJuegoEntity.getId().getIdEstudianteJuegoRespuesta());
+        List<EstudianteJuego> estudianteJuegos = new ArrayList<>();
+        estudianteJuegoCrud.findAll().forEach(estudianteJuegoEntity -> {
+            EstudianteJuego estudianteJuego = new EstudianteJuego(estudianteJuegoEntity.getId().getIdEstudianteJuego(),
+                    estudianteJuegoEntity.getCalificacion(), estudianteJuegoEntity.getReto().getIdReto(),
+                    estudianteJuegoEntity.getId().getIdEstudiantes());
 
-             estudianteJuegos.add(estudianteJuego);
-         });
+            estudianteJuegos.add(estudianteJuego);
+        });
         return estudianteJuegos;
     }
 
@@ -48,11 +49,11 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
     public EstudianteJuego getByIdReto(int idReto) {
 
         EstudianteJuegoEntity estudianteJuegoEntity = estudianteJuegoCrud.findFirstByReto_IdReto(idReto);
-        if(estudianteJuegoEntity!=null){
-            return new EstudianteJuego(estudianteJuegoEntity.getIdEstudianteJuego(),
-                    estudianteJuegoEntity.getCalificacion(),estudianteJuegoEntity.getReto().getIdReto(),
-                    estudianteJuegoEntity.getId().getIdEstudiantes(),estudianteJuegoEntity.getId().getIdEstudianteJuegoRespuesta());
-        }else{
+        if (estudianteJuegoEntity != null) {
+            return new EstudianteJuego(estudianteJuegoEntity.getId().getIdEstudianteJuego(),
+                    estudianteJuegoEntity.getCalificacion(), estudianteJuegoEntity.getReto().getIdReto(),
+                    estudianteJuegoEntity.getId().getIdEstudiantes());
+        } else {
             return null;
         }
 
@@ -61,23 +62,23 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
     @Override
     public EstudianteJuego getByIdEstudiantes(int idEstudianteJuego) {
 
-        EstudianteJuegoEntity estudianteJuegoEntity = estudianteJuegoCrud.findByIdEstudianteJuego(idEstudianteJuego);
-        if(estudianteJuegoEntity!=null){
-            return new EstudianteJuego(estudianteJuegoEntity.getIdEstudianteJuego(),
-                    estudianteJuegoEntity.getCalificacion(),estudianteJuegoEntity.getReto().getIdReto(),
-                    estudianteJuegoEntity.getId().getIdEstudiantes(),estudianteJuegoEntity.getId().getIdEstudianteJuegoRespuesta());
-        }else{
+        EstudianteJuegoEntity estudianteJuegoEntity = estudianteJuegoCrud.findFirstById_IdEstudianteJuego(idEstudianteJuego);
+        if (estudianteJuegoEntity != null) {
+            return new EstudianteJuego(estudianteJuegoEntity.getId().getIdEstudianteJuego(),
+                    estudianteJuegoEntity.getCalificacion(), estudianteJuegoEntity.getReto().getIdReto(),
+                    estudianteJuegoEntity.getId().getIdEstudiantes());
+        } else {
             return null;
         }
     }
 
     @Override
     public boolean save(EstudianteJuego estudianteJuego) {
-        try{
+        try {
 
-            EstudianteEntity estudianteEntity= estudianteCrud.findFirstByIdEstudiantes(estudianteJuego.getIdEstudiantes());
-            RetoEntity retoEntity= retoCrud.findByIdReto(estudianteJuego.getIdReto());
-            EstudianteJuegoRespuestasEntity estudianteJuegoRespuestasEntity= estudianteJuegoRespuestasCrud.findFirstByIdEstudianteJuegoRespuestas(estudianteJuego.getIdEstudianteJuego());
+            EstudianteEntity estudianteEntity = estudianteCrud.findFirstByIdEstudiantes(estudianteJuego.getIdEstudiantes());
+            RetoEntity retoEntity = retoCrud.findByIdReto(estudianteJuego.getIdReto());
+            EstudianteJuegoRespuestasEntity estudianteJuegoRespuestasEntity = estudianteJuegoRespuestasCrud.findFirstByIdEstudianteJuegoRespuestas(estudianteJuego.getIdEstudianteJuego());
 
             /*EstudianteJuegoEntity estudianteJuegoEntity = new EstudianteJuegoEntity(estudianteJuego.getIdEstudianteJuego(),
                     estudianteJuego.getCalificacion(),estudianteJuego.getIdReto(),
@@ -86,36 +87,38 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
                     estudianteJuegoRespuestasEntity,estudianteEntity);*/
 
 
-
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
         return false;
     }
+
     @Override
-    public Boolean actualizar(int id,EstudianteJuego estudianteJuego) {
-        try{
+    public Boolean actualizar(int id, EstudianteJuego estudianteJuego) {
+        try {
             EstudianteJuegoEntity estudianteJuegoEntity = new EstudianteJuegoEntity();
 
-            estudianteJuegoEntity.setIdEstudianteJuego(estudianteJuego.getIdEstudianteJuego());
+            estudianteJuegoEntity.getId().setIdEstudianteJuego(estudianteJuego.getIdEstudianteJuego());
             estudianteJuegoEntity.setCalificacion(estudianteJuego.getCalificacion());
             estudianteJuegoEntity.getReto().setIdReto(estudianteJuego.getIdReto());
             estudianteJuegoEntity.getId().setIdEstudiantes(estudianteJuego.getIdEstudiantes());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
         return false;
     }
+
     @Override
     public Boolean delete(int idEstudianteJuego) {
-        if(estudianteJuegoCrud.findByIdEstudianteJuego(idEstudianteJuego)!=null){
-            EstudianteJuegoEntity estudianteJuegoEntity = ( EstudianteJuegoEntity) estudianteJuegoCrud.findByIdEstudianteJuego(idEstudianteJuego);
+        if (estudianteJuegoCrud.findFirstById_IdEstudianteJuego(idEstudianteJuego) != null) {
+            EstudianteJuegoEntity estudianteJuegoEntity = (EstudianteJuegoEntity)
+                    estudianteJuegoCrud.findFirstById_IdEstudianteJuego(idEstudianteJuego);
             estudianteJuegoCrud.save(estudianteJuegoEntity);
             return true;
-        }else{
+        } else {
             return false;
         }
     }

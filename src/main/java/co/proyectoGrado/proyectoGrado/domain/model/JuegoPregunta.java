@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 public class JuegoPregunta {
     @JsonProperty
-    private int idJuegoPreguntas;
+    private Integer idJuegoPreguntas;
     @JsonProperty
     private int idPreguntas;
     @JsonProperty

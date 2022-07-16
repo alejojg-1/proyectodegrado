@@ -13,9 +13,9 @@ import java.util.List;
 public class PreguntaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="native")
     @Column(name = "idpreguntas")
-    private int idPregunta;
+    private Integer idPregunta;
     @Column(name = "texto")
     private String texto;
     @Column(name = "imagen")

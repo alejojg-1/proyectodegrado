@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Curso {
     @JsonProperty
-    private int idCursos;
+    private Integer idCursos;
     @JsonProperty
     private String grado;
     @JsonProperty

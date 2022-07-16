@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import javax.persistence.*;
 
 @Data
@@ -12,10 +13,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CursoContenidoEntity {
-
-    //@Id Revisar esta parte en la tabla
-    @Column(name = "idcurso_contenido")
-    private int idCursoContenido;
 
     @EmbeddedId
     private CursoContenidoPK id;

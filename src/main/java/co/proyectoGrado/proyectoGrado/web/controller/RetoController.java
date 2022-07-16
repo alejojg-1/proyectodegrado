@@ -46,9 +46,9 @@ public class RetoController {
     public ResponseEntity<Boolean> guardar(@RequestBody Reto reto) {
 
         if(retoService.save(reto)){
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.BAD_REQUEST);
         }
 
     }

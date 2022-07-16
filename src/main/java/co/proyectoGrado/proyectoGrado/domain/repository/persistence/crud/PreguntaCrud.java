@@ -4,6 +4,7 @@ import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.Pregu
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PreguntaCrud extends CrudRepository<PreguntaEntity, Integer> {
   List<PreguntaEntity> findByIdPregunta(int idPregunta);

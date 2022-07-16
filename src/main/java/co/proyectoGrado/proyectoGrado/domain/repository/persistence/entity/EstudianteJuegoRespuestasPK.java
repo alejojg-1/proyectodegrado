@@ -13,6 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EstudianteJuegoRespuestasPK implements Serializable {
+    //¿En desuso?
     @Column(name = "idcategoria_contenido")
     private int idCategoriaContenido;
     @Column(name = "idcursos")

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class Estudiante {
 
     @JsonProperty
-    private int idEstudiante;
+    private Integer idEstudiante;
     @JsonProperty
     private String nombre;
     @JsonProperty
@@ -25,6 +25,4 @@ public class Estudiante {
     @JsonProperty
     private boolean estado;
 
-    public Estudiante(int idEstudiantes, String nombre, String apellido, String contraseña, String correo, int identificacion, boolean equals) {
-    }
 }

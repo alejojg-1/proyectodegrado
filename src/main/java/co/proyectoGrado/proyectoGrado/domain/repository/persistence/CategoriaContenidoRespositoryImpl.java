@@ -6,6 +6,7 @@ import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.Categor
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoContenidoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.PreguntaCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CategoriaContenidoEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.PreguntaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -82,10 +83,16 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
     @Override
     public boolean save(CategoriaContenido categoriaContenido) {
         try {
-           // PreguntaEntity preguntaEntity = preguntaCrud.findFirstByIdPregunta(categoriaContenido.getIdPregunta());
+            PreguntaEntity preguntaEntity = new PreguntaEntity();
+            if(categoriaContenido.getIdPregunta() != null){
+                preguntaEntity = preguntaCrud.findFirstByIdPregunta(categoriaContenido.getIdPregunta());
+            }else{
+                preguntaEntity = null;
+            }
             // CursoContenidoEntity cursoContenidoEntity= cursoContenidoCrud.findFirstByIdCursoContenido(categoriaContenido.getIdCategoriaContenido());
             CategoriaContenidoEntity categoriaContenidoEntity = new CategoriaContenidoEntity(categoriaContenido.getIdCategoriaContenido(),
-                    categoriaContenido.getIdPregunta(),categoriaContenido.getNombre(),null,null);
+                    categoriaContenido.getIdPregunta(),categoriaContenido.getNombre(),preguntaEntity,null);
+
 
             categoriaContenidoCrud.save(categoriaContenidoEntity);
             return true;
