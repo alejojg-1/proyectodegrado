@@ -18,7 +18,7 @@ public class RetoEntity {
     @Column(name = "idreto")
     private Integer idReto;
     @Column(name = "idcursos")
-    private int idCursos;
+    private Integer idCursos;
     @Column(name = "tipo")
     private String tipo;
     @Column(name = "titulo")

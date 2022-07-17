@@ -102,12 +102,14 @@ public class RetoRepositoryImpl implements RetoRepository {
             CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(reto.getIdCurso());
             RetoEntity retoEntity = new RetoEntity();
             retoEntity.setIdReto(reto.getIdReto());
-            retoEntity.setCurso(cursoEntity);
+            retoEntity.setIdCursos(reto.getIdCurso());
             retoEntity.setTipo(reto.getTipo());
             retoEntity.setTitulo(reto.getTitulo());
             retoEntity.setDescripcion(reto.getDescripcion());
             retoEntity.setComentario(reto.getComentario());
-            retoEntity.setEstado(reto.isEstado()? String.valueOf('t') : String.valueOf('f'));
+            retoEntity.setEstado(reto.isEstado()? String.valueOf('S') : String.valueOf('f'));
+            retoEntity.setCurso(cursoEntity);
+
             retoCrud.save(retoEntity);
             return true;
         }catch (Exception e){
