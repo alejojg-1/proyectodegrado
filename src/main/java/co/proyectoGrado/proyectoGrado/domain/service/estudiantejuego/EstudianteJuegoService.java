@@ -1,9 +1,8 @@
-package co.proyectoGrado.proyectoGrado.domain.service;
+package co.proyectoGrado.proyectoGrado.domain.service.estudiantejuego;
 
 import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuego;
 import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteJuegoRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteJuegoCrud;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteJuegoEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,22 +18,20 @@ public class EstudianteJuegoService {
     public EstudianteJuegoService(EstudianteJuegoRepository estudianteJuegoRepository) {
         this.estudianteJuegoRepository = estudianteJuegoRepository;
     }
-    private final ModelMapper mapper = new ModelMapper();
 
-    public List<EstudianteJuego> getAll(){ return estudianteJuegoRepository.getAll();}
+    public List<EstudianteJuego> getAll(){
+        return estudianteJuegoRepository.getAll();
+    }
 
     public EstudianteJuego get(int idReto) {
         return estudianteJuegoRepository.getByIdReto(idReto);
     }
 
-    public boolean save(EstudianteJuego estudianteJuego) {
-
+    public EstudianteJuego save(EstudianteJuego estudianteJuego) {
         try {
-            estudianteJuegoRepository.save(estudianteJuego);
-            return Boolean.TRUE;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Boolean.FALSE;
+            return estudianteJuegoRepository.save(estudianteJuego);
+        } catch (RuntimeException e) {
+           throw  new RuntimeException(e);
         }
     }
 

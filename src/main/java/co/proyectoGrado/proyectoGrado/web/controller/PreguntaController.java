@@ -37,14 +37,8 @@ public class PreguntaController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Boolean> save(@RequestBody Pregunta pregunta) {
-
-        if(preguntaService.save(pregunta)){
-            return new ResponseEntity<>( HttpStatus.OK);
-
-        }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<List<Pregunta>> save(@RequestBody List<Pregunta> preguntas) {
+       return new ResponseEntity<>(preguntaService.save(preguntas),HttpStatus.OK);
     }
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody Pregunta pregunta){

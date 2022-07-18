@@ -1,12 +1,8 @@
 package co.proyectoGrado.proyectoGrado.domain.service;
 
-import co.proyectoGrado.proyectoGrado.domain.model.Docente;
 import co.proyectoGrado.proyectoGrado.domain.model.Estudiante;
-import co.proyectoGrado.proyectoGrado.domain.repository.DocenteRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteRepository;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.DocenteCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteCrud;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.DocenteEntity;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +15,8 @@ import java.util.List;
 public class EstudianteService {
 
     private final EstudianteRepository estudianteRepository;
+    private final ModelMapper mapper = new ModelMapper();
+
     @Autowired
     private EstudianteCrud estudianteCrud;
 
@@ -26,11 +24,11 @@ public class EstudianteService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public EstudianteService(EstudianteRepository estudianteRepository, BCryptPasswordEncoder passwordEncoder) {
+    public EstudianteService(EstudianteRepository estudianteRepository,
+                             BCryptPasswordEncoder passwordEncoder) {
         this.estudianteRepository = estudianteRepository;
         this.passwordEncoder =passwordEncoder;
     }
-    private final ModelMapper mapper = new ModelMapper();
 
     public List<Estudiante> getAll(){
         return estudianteRepository.getAll();
@@ -61,6 +59,11 @@ public class EstudianteService {
     }
 
     private String encodeContrasena(String contrasena){
+        return passwordEncoder.encode(contrasena);
+    }
+
+    private String decoderContrasena(String contrasena){
+        //¿Cómo decodificar?
         return passwordEncoder.encode(contrasena);
     }
 

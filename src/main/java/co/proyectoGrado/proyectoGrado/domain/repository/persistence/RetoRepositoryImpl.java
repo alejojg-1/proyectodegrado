@@ -85,19 +85,25 @@ public class RetoRepositoryImpl implements RetoRepository {
     }
 
     @Override
+    public Reto getById(Integer idReto) {
+        RetoEntity retoEntity =  retoCrud.findFirstByIdReto(idReto);
+        return new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),
+                retoEntity.getTitulo(),retoEntity.getDescripcion(),
+                retoEntity.getComentario(),ACTIVO.equals(retoEntity.getEstado()));
+    }
+
+    @Override
     public Reto getTitulo(String titulo) {
         RetoEntity retoEntity = retoCrud.findFirstByTitulo(titulo);
         if(retoEntity!=null){
-            return new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),
-                    retoEntity.getTitulo(),retoEntity.getDescripcion(),
-                    retoEntity.getComentario(),"t".equals(retoEntity.getEstado()));
+            return entityToDomain(retoEntity);
         }else{
             return null;
         }
     }
 
     @Override
-    public Boolean save(Reto reto) {
+    public Reto save(Reto reto) {
         try{
             CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(reto.getIdCurso());
             RetoEntity retoEntity = new RetoEntity();
@@ -110,14 +116,17 @@ public class RetoRepositoryImpl implements RetoRepository {
             retoEntity.setEstado(reto.isEstado()? String.valueOf('S') : String.valueOf('f'));
             retoEntity.setCurso(cursoEntity);
 
-            retoCrud.save(retoEntity);
-            return true;
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
+            return entityToDomain(retoCrud.save(retoEntity));
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
+    private Reto entityToDomain(RetoEntity retoEntity){
+        return new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),
+                retoEntity.getTitulo(),retoEntity.getDescripcion(),
+                retoEntity.getComentario(),"t".equals(retoEntity.getEstado()));
+    }
 
 
     @Override
@@ -143,8 +152,8 @@ public class RetoRepositoryImpl implements RetoRepository {
 
     @Override
     public Boolean delete(int idReto) {
-        if(retoCrud.findByIdReto(idReto)!=null){
-            RetoEntity retoEntity =  retoCrud.findByIdReto(idReto);
+        if(retoCrud.findFirstByIdReto(idReto)!=null){
+            RetoEntity retoEntity =  retoCrud.findFirstByIdReto(idReto);
            retoEntity.setEstado("f");
             retoCrud.save(retoEntity);
             return true;

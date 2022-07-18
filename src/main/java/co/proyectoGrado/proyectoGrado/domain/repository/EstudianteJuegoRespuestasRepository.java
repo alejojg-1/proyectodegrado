@@ -8,7 +8,7 @@ public interface EstudianteJuegoRespuestasRepository {
     List<EstudianteJuegoRespuesta> getAll();
     EstudianteJuegoRespuesta getByIdJuegoPregunta(int idJuegoPregunta);
     EstudianteJuegoRespuesta getIdPreguntas(int idPreguntas);
-    boolean save(EstudianteJuegoRespuesta estudianteJuegoRespuesta);
+    boolean save(List<EstudianteJuegoRespuesta> listaEstudianteJuegoRespuesta);
     boolean actualizar(int id, EstudianteJuegoRespuesta estudianteJuegoRespuesta);
     boolean delete(int id);
 

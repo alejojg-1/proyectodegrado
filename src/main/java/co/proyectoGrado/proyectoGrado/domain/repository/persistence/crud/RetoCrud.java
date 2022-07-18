@@ -8,7 +8,7 @@ import java.util.List;
 public interface RetoCrud extends CrudRepository<RetoEntity, Integer> {
     RetoEntity findFirstByTipo(String tipo);
     RetoEntity findFirstByTitulo(String titulo);
-    RetoEntity findByIdReto(int idReto);
+    RetoEntity findFirstByIdReto(int idReto);
     List<RetoEntity> findByIdCursos(int idCursos);
     List<RetoEntity> findByIdCursosAndTipo(int idCursos, String tipo);
 

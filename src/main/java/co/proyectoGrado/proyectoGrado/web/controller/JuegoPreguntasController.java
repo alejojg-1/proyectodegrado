@@ -29,8 +29,8 @@ public class JuegoPreguntasController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Boolean> save(@RequestBody JuegoPregunta juegoPregunta) {
-        if(juegoPreguntasService.save(juegoPregunta)){
+    public ResponseEntity<Boolean> save(@RequestBody List<JuegoPregunta> listaJuegoPregunta) {
+        if(juegoPreguntasService.save(listaJuegoPregunta)){
             return new ResponseEntity<>(HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

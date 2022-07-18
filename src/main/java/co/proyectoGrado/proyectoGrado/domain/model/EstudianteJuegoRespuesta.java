@@ -14,11 +14,13 @@ public class EstudianteJuegoRespuesta {
     @JsonProperty
     private Integer idEstudianteJuegoRespuestas;
     @JsonProperty
+    private Integer idEstudianteJuego;
+    @JsonProperty
     private int idjuegoPreguntas;
     @JsonProperty
     private int idPreguntas;
     @JsonProperty
-    private int idReto;
+    private Integer idReto;
     @JsonProperty
     private String respuesta;
     @JsonProperty

@@ -1,4 +1,4 @@
-package co.proyectoGrado.proyectoGrado.domain.service.estudiantejuegorespuesta;
+package co.proyectoGrado.proyectoGrado.domain.service.estudiantejuego;
 
 import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuego;
 import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuegoRespuesta;
@@ -32,12 +32,12 @@ public class CalcularPuntajeRetoEstudianteService {
         this.preguntaRepository = preguntaRepository;
     }
 
-    public EstudianteJuego ejecutar(List<EstudianteJuegoRespuesta> listaRespuestasEstudiante, int idReto) {
+    public EstudianteJuego ejecutar(List<EstudianteJuegoRespuesta> listaRespuestasEstudiante, int idReto, int idEstudiante) {
         //¿Se bebe de tener en cuenta el estado activo?
         List<Pregunta> listaPreguntas = preguntaService.obtenerPreguntasPorIdReto(idReto);
         List<Pregunta> preguntasContestadasCorrectamente = obtenerRespuestasCorrectas(listaPreguntas, listaRespuestasEstudiante);
         Double puntuacion = cacularPuntuacion(listaPreguntas, preguntasContestadasCorrectamente);
-        return new EstudianteJuego();
+        return new EstudianteJuego(puntuacion,idReto,idEstudiante);
     }
 
     private List<Pregunta> obtenerRespuestasCorrectas(List<Pregunta> listaPreguntas, List<EstudianteJuegoRespuesta> listaRespuestas) {

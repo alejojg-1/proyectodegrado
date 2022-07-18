@@ -29,15 +29,20 @@ public class JuegoPreguntasService {
         return juegoPreguntasRepository.getAll();
     }
 
+    public JuegoPregunta obtenerPorIdRetoYIdPregunta(int idReto, int idPregunta)
+    {
+        return juegoPreguntasRepository.obtenerPorIdRetoYIdPregunta(idReto,idPregunta);
+    }
+
     public  JuegoPregunta get(int idpreguntas) {
 
         return juegoPreguntasRepository.get(idpreguntas);
     }
 
-    public boolean save(JuegoPregunta juegoPreguntas) {
+    public boolean save( List<JuegoPregunta> listaJuegoPreguntas) {
 
         try {
-            juegoPreguntasRepository.save(juegoPreguntas);
+            juegoPreguntasRepository.save(listaJuegoPreguntas);
             return Boolean.TRUE;
         } catch (Exception e) {
             e.printStackTrace();

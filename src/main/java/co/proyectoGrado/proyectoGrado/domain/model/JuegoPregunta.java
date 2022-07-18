@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class JuegoPregunta {
     @JsonProperty
     private Integer idJuegoPreguntas;

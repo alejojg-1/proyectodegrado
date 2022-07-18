@@ -6,6 +6,8 @@ import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.Estudia
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EstudianteJuegoRespuestasService {
 
@@ -23,8 +25,8 @@ public class EstudianteJuegoRespuestasService {
         return estudianteJuegoRespuestasRepository.getByIdJuegoPregunta(idjuego_preguntas);
     }
 
-    public boolean save(EstudianteJuegoRespuesta estudianteJuegoRespuestas) {
-        return estudianteJuegoRespuestasRepository.save(estudianteJuegoRespuestas);
+    public boolean save(List<EstudianteJuegoRespuesta> listaEstudianteJuegoRespuestas) {
+        return estudianteJuegoRespuestasRepository.save(listaEstudianteJuegoRespuestas);
     }
 
     public boolean actualizar(int id, EstudianteJuegoRespuesta estudianteJuegoRespuesta) {

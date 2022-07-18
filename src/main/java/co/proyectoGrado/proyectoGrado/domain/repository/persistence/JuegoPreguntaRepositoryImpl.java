@@ -6,6 +6,7 @@ import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.JuegoPr
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.PreguntaCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.RetoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.JuegoPreguntasEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.JuegoPreguntasPK;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.PreguntaEntity;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.RetoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,19 +79,37 @@ public class JuegoPreguntaRepositoryImpl implements JuegoPreguntasRepository {
     }
 
     @Override
-    public boolean save(JuegoPregunta juegoPregunta) {
+    public JuegoPregunta obtenerPorIdRetoYIdPregunta(int idReto, int idPregunta) {
+
+        JuegoPreguntasEntity juegoPreguntasEntity = juegoPreguntasCrud.
+                findFirstById_IdRetoAndId_IdPreguntas(idReto,idPregunta);
+
+        if(juegoPreguntasEntity != null){
+
+            return new JuegoPregunta(juegoPreguntasEntity.getId().getIdJuegoPreguntas(),
+                    juegoPreguntasEntity.getPregunta().getIdPregunta(),juegoPreguntasEntity.getReto().getIdReto(),
+                    ACTIVO.equals(juegoPreguntasEntity.getEstado()));
+        }else{
+           throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public boolean save(List<JuegoPregunta> listaJuegoPregunta) {
 
         try{
-
-            PreguntaEntity preguntaEntity= preguntaCrud.findFirstByIdPregunta(juegoPregunta.getIdJuegoPreguntas());
-            RetoEntity retoEntity= retoCrud.findByIdReto(juegoPregunta.getIdReto());
-
-            //JuegoPreguntasEntity juegoPreguntasEntity = new JuegoPreguntasEntity(juegoPregunta.getIdJuegoPreguntas(),preguntaEntity,retoEntity);
-            JuegoPreguntasEntity juegoPreguntasEntity = new JuegoPreguntasEntity();
-
-
-            juegoPreguntasEntity.setEstado(juegoPregunta.isEstado() ? 'S' : 'N');
-            juegoPreguntasCrud.save(juegoPreguntasEntity);
+            listaJuegoPregunta.forEach(juegoPregunta ->{
+                PreguntaEntity preguntaEntity= preguntaCrud.findFirstByIdPregunta(juegoPregunta.getIdPreguntas());
+                RetoEntity retoEntity= retoCrud.findFirstByIdReto(juegoPregunta.getIdReto());
+                JuegoPreguntasEntity juegoPreguntasEntity = new JuegoPreguntasEntity();
+                juegoPreguntasEntity.setId(new JuegoPreguntasPK());
+                juegoPreguntasEntity.getId().setIdPreguntas(juegoPregunta.getIdPreguntas());
+                juegoPreguntasEntity.getId().setIdReto(juegoPregunta.getIdReto());
+                juegoPreguntasEntity.setEstado(juegoPregunta.isEstado() ? 'S' : 'N');
+                juegoPreguntasEntity.setPregunta(preguntaEntity);
+                juegoPreguntasEntity.setReto(retoEntity);
+                juegoPreguntasCrud.save(juegoPreguntasEntity);
+            });
             return  true;
 
         }catch (Exception e){

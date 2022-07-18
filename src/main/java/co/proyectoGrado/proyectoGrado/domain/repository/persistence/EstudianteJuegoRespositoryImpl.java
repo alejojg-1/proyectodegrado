@@ -5,11 +5,8 @@ import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteJuegoRepositor
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteJuegoRespuestasCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.RetoCrud;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteEntity;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteJuegoEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.*;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteJuegoCrud;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteJuegoRespuestasEntity;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.RetoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -73,25 +70,30 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
     }
 
     @Override
-    public boolean save(EstudianteJuego estudianteJuego) {
+    public EstudianteJuego save(EstudianteJuego estudianteJuego) {
         try {
 
             EstudianteEntity estudianteEntity = estudianteCrud.findFirstByIdEstudiantes(estudianteJuego.getIdEstudiantes());
-            RetoEntity retoEntity = retoCrud.findByIdReto(estudianteJuego.getIdReto());
-            EstudianteJuegoRespuestasEntity estudianteJuegoRespuestasEntity = estudianteJuegoRespuestasCrud.findFirstByIdEstudianteJuegoRespuestas(estudianteJuego.getIdEstudianteJuego());
+            RetoEntity retoEntity = retoCrud.findFirstByIdReto(estudianteJuego.getIdReto());
 
-            /*EstudianteJuegoEntity estudianteJuegoEntity = new EstudianteJuegoEntity(estudianteJuego.getIdEstudianteJuego(),
-                    estudianteJuego.getCalificacion(),estudianteJuego.getIdReto(),
-                    estudianteJuego.getIdEstudianteJuego(),
-                    estudianteJuego.getIdEstudiantes(),retoEntity,
-                    estudianteJuegoRespuestasEntity,estudianteEntity);*/
+            EstudianteJuegoPK estudianteJuegoPK = new EstudianteJuegoPK(estudianteJuego.getIdEstudianteJuego(),
+                    estudianteJuego.getIdReto(),estudianteJuego.getIdEstudiantes());
+            EstudianteJuegoEntity estudianteJuegoEntity = new EstudianteJuegoEntity(estudianteJuegoPK,
+                    estudianteJuego.getCalificacion(),
+                    retoEntity,
+                    estudianteEntity);
 
+            return  entityToDomain(estudianteJuegoCrud.save(estudianteJuegoEntity));
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        } catch (RuntimeException e) {
+           throw new RuntimeException(e);
         }
-        return false;
+    }
+
+    private EstudianteJuego entityToDomain(EstudianteJuegoEntity estudianteJuegoEntity){
+        return new EstudianteJuego(estudianteJuegoEntity.getId().getIdEstudianteJuego(),
+                estudianteJuegoEntity.getCalificacion(), estudianteJuegoEntity.getId().getIdReto(),
+                estudianteJuegoEntity.getId().getIdEstudiantes());
     }
 
     @Override

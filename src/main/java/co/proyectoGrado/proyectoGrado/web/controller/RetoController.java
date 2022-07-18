@@ -1,8 +1,10 @@
 package co.proyectoGrado.proyectoGrado.web.controller;
 
 
+import co.proyectoGrado.proyectoGrado.domain.dto.DtoCreacionReto;
 import co.proyectoGrado.proyectoGrado.domain.model.Reto;
-import co.proyectoGrado.proyectoGrado.domain.service.RetoService;
+import co.proyectoGrado.proyectoGrado.domain.service.reto.CreacionRetoService;
+import co.proyectoGrado.proyectoGrado.domain.service.reto.RetoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +16,12 @@ import java.util.List;
 @RequestMapping("/api/reto")
 public class RetoController {
     private final RetoService retoService;
+    private final CreacionRetoService creacionRetoService;
 
     @Autowired
-    public RetoController(RetoService retoService) {
+    public RetoController(RetoService retoService, CreacionRetoService creacionRetoService) {
         this.retoService = retoService;
+        this.creacionRetoService = creacionRetoService;
     }
 
     @GetMapping()
@@ -43,9 +47,18 @@ public class RetoController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Boolean> guardar(@RequestBody Reto reto) {
+    public ResponseEntity<Reto> guardar(@RequestBody Reto reto) {
+        try {
+            return new ResponseEntity<>(retoService.save(reto),HttpStatus.OK);
+        }catch (RuntimeException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
-        if(retoService.save(reto)){
+    @PostMapping("/save/creacion-reto")
+    public ResponseEntity<Boolean> creacionReto(@RequestBody DtoCreacionReto creacionReto) {
+
+        if(creacionRetoService.ejecutar(creacionReto)){
             return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         }else{
             return new ResponseEntity<>(Boolean.TRUE,HttpStatus.BAD_REQUEST);

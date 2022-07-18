@@ -20,9 +20,9 @@ public class EstudianteJuegoRespuestasEntity {
     @Column(name= "idpreguntas")
     private int idpreguntas;
     @Column(name= "idreto")
-    private int idReto;
+    private Integer idReto;
     @Column(name = "idestudiante_juego")
-    private int idEstudianteJuego;
+    private Integer idEstudianteJuego;
     @Column(name= "idjuego_preguntas")
     private int idJuegoPregunta;
 

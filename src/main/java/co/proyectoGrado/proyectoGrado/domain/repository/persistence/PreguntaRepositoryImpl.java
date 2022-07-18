@@ -68,26 +68,45 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
     }
 
     @Override
-    public boolean save(Pregunta pregunta) {
+    public List<Pregunta> save(List<Pregunta> preguntas) {
+
         try {
-            PreguntaEntity preguntaEntity = new PreguntaEntity();
-            preguntaEntity.setIdPregunta(pregunta.getIdPregunta());
-            preguntaEntity.setTexto(pregunta.getTexto());
-            preguntaEntity.setImagen(pregunta.getImagen());
-            preguntaEntity.setRespuesta(pregunta.getRespuesta());
-            preguntaEntity.setOpcion1(pregunta.getOpcion1());
-            preguntaEntity.setOpcion2(pregunta.getOpcion2());
-            preguntaEntity.setOpcion3(pregunta.getOpcion3());
-            preguntaEntity.setOpcion4(pregunta.getOpcion4());
-            preguntaEntity.setEstado(pregunta.isEstado() ? String.valueOf('t') : String.valueOf('f'));
-            preguntaCrud.save(preguntaEntity);
-            return true;
+            List<PreguntaEntity> listaPreguntasEntity = new ArrayList<>();
+            List<PreguntaEntity> preguntasCreadas = new ArrayList<>();
+            preguntas.forEach(pregunta ->{
+                PreguntaEntity preguntaEntity = new PreguntaEntity();
+                preguntaEntity.setIdPregunta(pregunta.getIdPregunta());
+                preguntaEntity.setTexto(pregunta.getTexto());
+                preguntaEntity.setImagen(pregunta.getImagen());
+                preguntaEntity.setRespuesta(pregunta.getRespuesta());
+                preguntaEntity.setOpcion1(pregunta.getOpcion1());
+                preguntaEntity.setOpcion2(pregunta.getOpcion2());
+                preguntaEntity.setOpcion3(pregunta.getOpcion3());
+                preguntaEntity.setOpcion4(pregunta.getOpcion4());
+                preguntaEntity.setEstado(pregunta.isEstado() ? String.valueOf('t') : String.valueOf('f'));
+                listaPreguntasEntity.add(preguntaEntity);
+                preguntasCreadas.add(preguntaCrud.save(preguntaEntity));
+            });
+            return entityToDomain(preguntasCreadas);
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return new ArrayList<>();
         }
     }
 
+    private List<Pregunta> entityToDomain (List<PreguntaEntity> listaPreguntasEntity){
+        List<Pregunta> litaPreguntas = new ArrayList<>();
+
+        listaPreguntasEntity.forEach(preguntaEntity ->{
+            Pregunta pregunta = new Pregunta(preguntaEntity.getIdPregunta(), preguntaEntity.getTexto(),
+                    preguntaEntity.getImagen(), preguntaEntity.getRespuesta(), preguntaEntity.getOpcion1(),
+                    preguntaEntity.getOpcion2(), preguntaEntity.getOpcion3(), preguntaEntity.getOpcion4(),
+                    ACTIVO.equals(preguntaEntity.getEstado()));
+            litaPreguntas.add(pregunta);
+        });
+
+        return litaPreguntas;
+    }
 
     @Override
     public boolean actualizar(int id, Pregunta pregunta) {

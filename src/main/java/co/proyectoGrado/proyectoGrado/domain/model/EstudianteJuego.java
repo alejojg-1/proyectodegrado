@@ -13,7 +13,7 @@ public class EstudianteJuego {
     @JsonProperty
     private Integer idEstudianteJuego;
     @JsonProperty
-    private double calificacion;
+    private Double calificacion;
     @JsonProperty
     private int idReto;
     @JsonProperty

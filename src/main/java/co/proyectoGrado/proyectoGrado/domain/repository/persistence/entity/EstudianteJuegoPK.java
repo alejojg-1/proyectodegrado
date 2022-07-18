@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
@@ -17,10 +14,10 @@ import java.io.Serializable;
 public class EstudianteJuegoPK implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="native")
-    @Column(name = "idestudiantes_juego")
+    @Column(name = "idestudiante_juego")
     private Integer idEstudianteJuego;
     @Column(name = "idreto")
     private int idReto;
-    @Column(name = "idEstudiantes")
+    @Column(name = "idestudiantes")
     private int idEstudiantes;
 }

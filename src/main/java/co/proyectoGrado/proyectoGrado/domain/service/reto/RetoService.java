@@ -1,4 +1,4 @@
-package co.proyectoGrado.proyectoGrado.domain.service;
+package co.proyectoGrado.proyectoGrado.domain.service.reto;
 
 import co.proyectoGrado.proyectoGrado.domain.model.Reto;
 import co.proyectoGrado.proyectoGrado.domain.repository.RetoRepository;
@@ -34,14 +34,15 @@ public class RetoService {
         return retoRepository.get(titulo);
     }
 
-    public boolean save(Reto reto) {
+    public Reto getById(Integer idReto) {
+        return retoRepository.getById(idReto);
+    }
 
+    public Reto save(Reto reto) {
         try {
-            retoRepository.save(reto);
-            return Boolean.TRUE;
+           return retoRepository.save(reto);
         } catch (Exception e) {
-            e.printStackTrace();
-            return Boolean.FALSE;
+            throw new RuntimeException(e) ;
         }
     }
 
