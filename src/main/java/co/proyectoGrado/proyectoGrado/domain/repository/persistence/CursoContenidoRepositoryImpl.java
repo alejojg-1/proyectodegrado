@@ -155,7 +155,6 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
         }
     }
 
-
     @Override
     public boolean delete(int idCursoContenido) {
         if (cursoContenidoCrud.findFirstById_IdCursoContenido(idCursoContenido) != null) {
