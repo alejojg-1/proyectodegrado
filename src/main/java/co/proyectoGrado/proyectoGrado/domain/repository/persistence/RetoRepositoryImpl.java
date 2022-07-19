@@ -15,8 +15,8 @@ import java.util.List;
 public class RetoRepositoryImpl implements RetoRepository {
     private final RetoCrud retoCrud;
     private final CursoCrud cursoCrud;
-    private final String ACTIVO = "S"; //Validar cuál usar
-
+    private final String ACTIVO = "t"; //Validar cuál usar
+    private final String INACTIVO = "f";
     @Autowired
     public RetoRepositoryImpl(RetoCrud retoCrud, CursoCrud cursoCrud) {
         this.retoCrud = retoCrud;
@@ -72,10 +72,10 @@ public class RetoRepositoryImpl implements RetoRepository {
     public Reto get(String tipo) {
         RetoEntity retoEntity = retoCrud.findFirstByTipo(tipo);
         if(retoEntity!=null){
-            if(retoEntity.getEstado() == "t"){
+            if(retoEntity.getEstado() == ACTIVO){
             return new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),
                     retoEntity.getTitulo(),retoEntity.getDescripcion(),
-                    retoEntity.getComentario(),"t".equals(retoEntity.getEstado()));
+                    retoEntity.getComentario(), ACTIVO.equals(retoEntity.getEstado()));
             }else {
                 return  null;
             }
@@ -113,7 +113,7 @@ public class RetoRepositoryImpl implements RetoRepository {
             retoEntity.setTitulo(reto.getTitulo());
             retoEntity.setDescripcion(reto.getDescripcion());
             retoEntity.setComentario(reto.getComentario());
-            retoEntity.setEstado(reto.isEstado()? String.valueOf('S') : String.valueOf('f'));
+            retoEntity.setEstado(reto.isEstado()? ACTIVO : INACTIVO);
             retoEntity.setCurso(cursoEntity);
 
             return entityToDomain(retoCrud.save(retoEntity));
@@ -125,7 +125,7 @@ public class RetoRepositoryImpl implements RetoRepository {
     private Reto entityToDomain(RetoEntity retoEntity){
         return new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),
                 retoEntity.getTitulo(),retoEntity.getDescripcion(),
-                retoEntity.getComentario(),"t".equals(retoEntity.getEstado()));
+                retoEntity.getComentario(),ACTIVO.equals(retoEntity.getEstado()));
     }
 
 
@@ -138,7 +138,7 @@ public class RetoRepositoryImpl implements RetoRepository {
             retoEntity.setTitulo(reto.getTitulo());
             retoEntity.setDescripcion(reto.getDescripcion());
             retoEntity.setComentario(reto.getComentario());
-            retoEntity.setEstado(reto.isEstado()? String.valueOf('t') : String.valueOf('f'));
+            retoEntity.setEstado(reto.isEstado()? ACTIVO: INACTIVO);
             retoCrud.save(retoEntity);
             return true;
         }catch (Exception e){
@@ -154,7 +154,7 @@ public class RetoRepositoryImpl implements RetoRepository {
     public Boolean delete(int idReto) {
         if(retoCrud.findFirstByIdReto(idReto)!=null){
             RetoEntity retoEntity =  retoCrud.findFirstByIdReto(idReto);
-           retoEntity.setEstado("f");
+           retoEntity.setEstado(INACTIVO);
             retoCrud.save(retoEntity);
             return true;
         }else{

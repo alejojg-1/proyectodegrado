@@ -3,10 +3,13 @@ package co.proyectoGrado.proyectoGrado.domain.repository.persistence;
 import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuego;
 import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteJuegoRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteCrud;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteJuegoCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteJuegoRespuestasCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.RetoCrud;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.*;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteJuegoCrud;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteJuegoEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteJuegoPK;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.RetoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +25,9 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
     private final EstudianteJuegoRespuestasCrud estudianteJuegoRespuestasCrud;
 
     @Autowired
-    public EstudianteJuegoRespositoryImpl(EstudianteJuegoCrud estudianteJuegoCrud, EstudianteCrud estudianteCrud, RetoCrud retoCrud, EstudianteJuegoRespuestasCrud estudianteJuegoRespuestasCrud) {
+    public EstudianteJuegoRespositoryImpl(EstudianteJuegoCrud estudianteJuegoCrud,
+                                          EstudianteCrud estudianteCrud, RetoCrud retoCrud,
+                                          EstudianteJuegoRespuestasCrud estudianteJuegoRespuestasCrud) {
         this.estudianteJuegoCrud = estudianteJuegoCrud;
         this.estudianteCrud = estudianteCrud;
         this.retoCrud = retoCrud;
@@ -33,11 +38,7 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
     public List<EstudianteJuego> getAll() {
         List<EstudianteJuego> estudianteJuegos = new ArrayList<>();
         estudianteJuegoCrud.findAll().forEach(estudianteJuegoEntity -> {
-            EstudianteJuego estudianteJuego = new EstudianteJuego(estudianteJuegoEntity.getId().getIdEstudianteJuego(),
-                    estudianteJuegoEntity.getCalificacion(), estudianteJuegoEntity.getReto().getIdReto(),
-                    estudianteJuegoEntity.getId().getIdEstudiantes());
-
-            estudianteJuegos.add(estudianteJuego);
+            estudianteJuegos.add(entityToDomain(estudianteJuegoEntity));
         });
         return estudianteJuegos;
     }
@@ -54,6 +55,15 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
             return null;
         }
 
+    }
+
+    @Override
+    public List<EstudianteJuego> obtenerListaPorIdReto(int idReto) {
+        List<EstudianteJuego> estudianteJuegos = new ArrayList<>();
+        estudianteJuegoCrud.findById_IdReto(idReto).forEach(estudianteJuegoEntity -> {
+            estudianteJuegos.add(entityToDomain(estudianteJuegoEntity));
+        });
+        return estudianteJuegos;
     }
 
     @Override
@@ -90,12 +100,6 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
         }
     }
 
-    private EstudianteJuego entityToDomain(EstudianteJuegoEntity estudianteJuegoEntity){
-        return new EstudianteJuego(estudianteJuegoEntity.getId().getIdEstudianteJuego(),
-                estudianteJuegoEntity.getCalificacion(), estudianteJuegoEntity.getId().getIdReto(),
-                estudianteJuegoEntity.getId().getIdEstudiantes());
-    }
-
     @Override
     public Boolean actualizar(int id, EstudianteJuego estudianteJuego) {
         try {
@@ -123,6 +127,12 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
         } else {
             return false;
         }
+    }
+
+    private EstudianteJuego entityToDomain(EstudianteJuegoEntity estudianteJuegoEntity){
+        return new EstudianteJuego(estudianteJuegoEntity.getId().getIdEstudianteJuego(),
+                estudianteJuegoEntity.getCalificacion(), estudianteJuegoEntity.getId().getIdReto(),
+                estudianteJuegoEntity.getId().getIdEstudiantes());
     }
 
 }

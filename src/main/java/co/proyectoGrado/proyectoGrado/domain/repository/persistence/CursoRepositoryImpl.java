@@ -120,7 +120,6 @@ public class CursoRepositoryImpl implements CursoRepository {
 
     @Override
     public Boolean delete(int idCurso) {
-
         if (cursoCrud.findByIdCursos(idCurso) != null) {
         CursoEntity cursoEntity =  cursoCrud.findFirstByIdCursos(idCurso);
         cursoCrud.delete(cursoEntity);

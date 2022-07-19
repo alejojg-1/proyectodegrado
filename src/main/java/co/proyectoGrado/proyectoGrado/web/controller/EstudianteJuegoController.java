@@ -1,8 +1,10 @@
 package co.proyectoGrado.proyectoGrado.web.controller;
 
 
+import co.proyectoGrado.proyectoGrado.domain.dto.DtoReporteEstudiante;
 import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuego;
 import co.proyectoGrado.proyectoGrado.domain.service.estudiantejuego.EstudianteJuegoService;
+import co.proyectoGrado.proyectoGrado.domain.service.estudiantejuego.ReporteEstudianteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +16,12 @@ import java.util.List;
 
 public class EstudianteJuegoController {
     private final EstudianteJuegoService estudianteJuegoService;
+    private final ReporteEstudianteService reporteEstudianteService;
 
     @Autowired
-    public EstudianteJuegoController(EstudianteJuegoService estudianteJuegoService) {
+    public EstudianteJuegoController(EstudianteJuegoService estudianteJuegoService, ReporteEstudianteService reporteEstudianteService) {
         this.estudianteJuegoService = estudianteJuegoService;
+        this.reporteEstudianteService = reporteEstudianteService;
     }
 
     @GetMapping()
@@ -25,10 +29,9 @@ public class EstudianteJuegoController {
         return new ResponseEntity<>(estudianteJuegoService.getAll(),HttpStatus.OK);
     }
 
-    @GetMapping("/otro")
-    public ResponseEntity<List<EstudianteJuego>> obtenerReporteCalificacionesPorReto(){
-        //Reporte notas
-        return new ResponseEntity<>(estudianteJuegoService.getAll(),HttpStatus.OK);
+    @GetMapping("/reporte/reto/{idReto}")
+    public ResponseEntity<List<DtoReporteEstudiante>> obtenerReporteCalificacionesPorReto(@PathVariable("idReto") int idReto){
+        return new ResponseEntity<>(reporteEstudianteService.ejecutar(idReto),HttpStatus.OK);
     }
 
     @GetMapping("/idestudianteJuego/{idestudianteJuego}")

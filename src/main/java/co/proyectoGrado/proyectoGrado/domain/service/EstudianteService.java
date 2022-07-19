@@ -1,8 +1,8 @@
 package co.proyectoGrado.proyectoGrado.domain.service;
 
+import co.proyectoGrado.proyectoGrado.domain.model.CursoEstudiante;
 import co.proyectoGrado.proyectoGrado.domain.model.Estudiante;
 import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteRepository;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,24 +10,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EstudianteService {
 
+    private final CursosEstudiantesService cursosEstudiantesService;
     private final EstudianteRepository estudianteRepository;
     private final ModelMapper mapper = new ModelMapper();
-
-    @Autowired
-    private EstudianteCrud estudianteCrud;
 
     @Autowired
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public EstudianteService(EstudianteRepository estudianteRepository,
+                             CursosEstudiantesService cursosEstudiantesService,
                              BCryptPasswordEncoder passwordEncoder) {
         this.estudianteRepository = estudianteRepository;
         this.passwordEncoder =passwordEncoder;
+        this.cursosEstudiantesService = cursosEstudiantesService;
     }
 
     public List<Estudiante> getAll(){
@@ -37,6 +38,15 @@ public class EstudianteService {
         return estudianteRepository.get(email);
     }
 
+    public List<Estudiante> getByIdCurso(int idCurso) {
+        List<Integer> idsEstudiantes = cursosEstudiantesService.getByIdCurso(idCurso).stream()
+                .map(CursoEstudiante::getIdEstudiantes).collect(Collectors.toList());
+        return estudianteRepository.getByIds(idsEstudiantes);
+    }
+
+    public Estudiante getById(Integer idEstudiante) {
+        return estudianteRepository.getById(idEstudiante);
+    }
     public boolean save(Estudiante estudiante) {
         estudiante.setContrasena(encodeContrasena(estudiante.getContrasena()));
         EstudianteEntity contenido = mapper.map(estudiante, EstudianteEntity.class);
@@ -49,8 +59,8 @@ public class EstudianteService {
         }
     }
 
-    public Boolean actualizar(int id, Estudiante estudiante) {
-        return  estudianteRepository.actualizar(id, estudiante);
+    public Boolean actualizar(Estudiante estudiante) {
+        return  estudianteRepository.actualizar(estudiante);
     }
 
     public boolean eliminar(int id){

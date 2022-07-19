@@ -57,7 +57,7 @@ public class CursoContenidoService {
     }
 
     public ResponseEntity<Object> eliminar(int id) {
-        cursoContenidoCrud.deleteById(id);
+        cursoContenidoRepository.delete(id);
         return ResponseEntity.ok().body("Eliminacion exitosa");
     }
 

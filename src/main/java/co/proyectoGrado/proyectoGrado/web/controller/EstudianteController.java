@@ -24,6 +24,12 @@ public class EstudianteController {
     public ResponseEntity<List<Estudiante>> getAll(){
         return new ResponseEntity<>(estudianteService.getAll(),HttpStatus.OK);
     }
+
+    @GetMapping("/curso/{idCurso}")
+    public ResponseEntity<List<Estudiante>> obtenerEstudiantesPorIdCurso(@PathVariable("idCurso") int idCurso){
+        return new ResponseEntity<>(estudianteService.getByIdCurso(idCurso),HttpStatus.OK);
+    }
+
     @GetMapping("/email/{email}")
     public ResponseEntity<Estudiante> getByEmail(@PathVariable("email") String email) {
         return new ResponseEntity<>(estudianteService.get(email), HttpStatus.OK);
@@ -38,13 +44,12 @@ public class EstudianteController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody Estudiante estudiante){
-
-        if(estudianteService.actualizar(id,estudiante)){
-            return new ResponseEntity<>(HttpStatus.OK);
+    @PutMapping("/actualizar")
+    public ResponseEntity<Boolean> actualizar(@RequestBody Estudiante estudiante){
+        if(estudianteService.actualizar(estudiante)){
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Boolean.FALSE,HttpStatus.BAD_REQUEST);
         }
     }
 

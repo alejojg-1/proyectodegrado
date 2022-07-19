@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class CursoContenido {
 
     @JsonProperty
-    private Long idCursoContenido;
+    private Integer idCursoContenido;
     @JsonProperty
     private int idCategoriaContenido;
     @JsonProperty

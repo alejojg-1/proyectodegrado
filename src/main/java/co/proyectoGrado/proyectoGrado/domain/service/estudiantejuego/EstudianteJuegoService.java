@@ -2,17 +2,14 @@ package co.proyectoGrado.proyectoGrado.domain.service.estudiantejuego;
 
 import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuego;
 import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteJuegoRepository;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteJuegoCrud;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class EstudianteJuegoService {
+
     private final EstudianteJuegoRepository estudianteJuegoRepository;
-    @Autowired
-    private EstudianteJuegoCrud estudianteJuegoCrud;
 
     @Autowired
     public EstudianteJuegoService(EstudianteJuegoRepository estudianteJuegoRepository) {
@@ -25,6 +22,10 @@ public class EstudianteJuegoService {
 
     public EstudianteJuego get(int idReto) {
         return estudianteJuegoRepository.getByIdReto(idReto);
+    }
+
+    public List<EstudianteJuego> obtenerPorIdReto( Integer idReto){
+        return  estudianteJuegoRepository.obtenerListaPorIdReto(idReto);
     }
 
     public EstudianteJuego save(EstudianteJuego estudianteJuego) {

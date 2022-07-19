@@ -8,6 +8,6 @@ import java.util.List;
 public interface CursoEstudianteCrud extends CrudRepository<CursosEstudiantesEntity, Integer> {
     CursosEstudiantesEntity findById_IdCursoEstudiante(int idCursoEstudiantes);
     CursosEstudiantesEntity findFirstByEstudiante_IdEstudiantes(int idEstudiantes);
-    CursosEstudiantesEntity findFirstByCurso_IdCursos(int idCursos);
+    List<CursosEstudiantesEntity> findById_IdCursos(int idCursos);
     List<CursosEstudiantesEntity> findById_IdEstudiantes(int idEstudiante);
 }

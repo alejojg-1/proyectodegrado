@@ -15,7 +15,7 @@ public class CursoContenidoPK implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="native")
     @Column(name = "idcurso_contenido")
-    private Long idCursoContenido;
+    private Integer idCursoContenido;
     @Column(name = "idcategoria_contenido")
     private int idCategoriaContenido;
     @Column(name = "idcursos")

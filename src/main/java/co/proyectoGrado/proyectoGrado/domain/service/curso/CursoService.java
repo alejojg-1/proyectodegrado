@@ -41,7 +41,6 @@ public class CursoService {
     }
 
     public Boolean eliminar(int id) {
-
         return cursoRepository.delete(id);
     }
 }

@@ -66,14 +66,17 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
     }
 
     @Override
-    public CursoEstudiante getIdCursos(int idCursos) {
-        CursosEstudiantesEntity cursosEstudiantesEntity = cursoEstudianteCrud.findFirstByCurso_IdCursos(idCursos);
-
-        if (cursosEstudiantesEntity != null) {
-            return new CursoEstudiante(cursosEstudiantesEntity.getId().getIdCursoEstudiante(),
-                    cursosEstudiantesEntity.getEstudiante().getIdEstudiantes(),cursosEstudiantesEntity.getCurso().getIdCursos());
+    public List<CursoEstudiante> getIdCursos(int idCursos) {
+        List<CursoEstudiante> listaCursoEstudiantes = new ArrayList<>();
+        List<CursosEstudiantesEntity> listaCursosEstudiantesEntity = cursoEstudianteCrud.findById_IdCursos(idCursos);
+        if (!listaCursosEstudiantesEntity.isEmpty()) {
+            listaCursosEstudiantesEntity.forEach(cursosEstudiantesEntity -> {
+                listaCursoEstudiantes.add(new CursoEstudiante(cursosEstudiantesEntity.getId().getIdCursoEstudiante(),
+                        cursosEstudiantesEntity.getEstudiante().getIdEstudiantes(),cursosEstudiantesEntity.getCurso().getIdCursos()));
+            });
+            return listaCursoEstudiantes;
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 

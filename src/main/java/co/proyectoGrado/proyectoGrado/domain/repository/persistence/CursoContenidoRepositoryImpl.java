@@ -36,7 +36,7 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
         List<CursoContenido> cursoContenidos = new ArrayList<>();
 
         cursoContenidoCrud.findAll().forEach(cursoContenidoEntity -> {
-            CursoContenido cursoContenido = new CursoContenido( cursoContenidoEntity.getId().getIdCursoContenido().longValue(),
+            CursoContenido cursoContenido = new CursoContenido( cursoContenidoEntity.getId().getIdCursoContenido(),
                     cursoContenidoEntity.getCategoriaContenido().getIdCategoriaContenido(), cursoContenidoEntity.getCurso().getIdCursos()
                     , cursoContenidoEntity.getComentario(), cursoContenidoEntity.getImagen(), cursoContenidoEntity.getComentario()
                     , cursoContenidoEntity.getDescripcion());
@@ -160,7 +160,7 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
     public boolean delete(int idCursoContenido) {
         if (cursoContenidoCrud.findFirstById_IdCursoContenido(idCursoContenido) != null) {
             CursoContenidoEntity cursoContenidoEntity = cursoContenidoCrud.findFirstById_IdCursoContenido(idCursoContenido);
-            cursoContenidoCrud.save(cursoContenidoEntity);
+            cursoContenidoCrud.delete(cursoContenidoEntity);
             return true;
         } else {
             return false;

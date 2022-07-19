@@ -78,9 +78,9 @@ public class RetoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
        if(retoService.eliminar(id)){
-           return new ResponseEntity<>(HttpStatus.OK);
+           return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         }else{
-           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+           return new ResponseEntity<>(Boolean.FALSE,HttpStatus.BAD_REQUEST);
        }
     }
 
