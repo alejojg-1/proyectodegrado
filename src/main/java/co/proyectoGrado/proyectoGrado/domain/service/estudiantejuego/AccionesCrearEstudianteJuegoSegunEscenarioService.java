@@ -59,7 +59,7 @@ public class AccionesCrearEstudianteJuegoSegunEscenarioService {
                         estudianteJuegorespuestaACrear.getIdPreguntas()).getIdJuegoPreguntas());
                 estudianteJuegorespuestaACrear.setIdEstudianteJuego(estudianteJuegoCreado.getIdEstudianteJuego());
             });
-            estudianteJuegoRespuestasService.save(listaRespuestasEstudiante);
+            //estudianteJuegoRespuestasService.save(listaRespuestasEstudiante);
             return estudianteJuegoCalculado.getCalificacion();
         }
         else{

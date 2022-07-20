@@ -19,7 +19,8 @@ public class EstudianteJuegoRepuestasController {
     private final EstudianteJuegoRespuestasService estudianteJuegoRespuestasService;
     private final AccionesCrearEstudianteJuegoSegunEscenarioService accionesCrearEstudianteJuegoSegunEscenarioService;
     @Autowired
-    public EstudianteJuegoRepuestasController(EstudianteJuegoRespuestasService estudianteJuegoRespuestasService, AccionesCrearEstudianteJuegoSegunEscenarioService accionesCrearEstudianteJuegoSegunEscenarioService) {
+    public EstudianteJuegoRepuestasController(EstudianteJuegoRespuestasService estudianteJuegoRespuestasService,
+                                              AccionesCrearEstudianteJuegoSegunEscenarioService accionesCrearEstudianteJuegoSegunEscenarioService) {
         this.estudianteJuegoRespuestasService = estudianteJuegoRespuestasService;
         this.accionesCrearEstudianteJuegoSegunEscenarioService = accionesCrearEstudianteJuegoSegunEscenarioService;
     }
