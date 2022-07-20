@@ -9,6 +9,7 @@ public interface CursoRepository {
 
     List<Curso> getAll();
     List<Curso> getByIdsCursos(List<Integer> listaIdsCursos);
+    Curso getByCodigo(String codigo);
     Curso getByGrado(String grado);
     Curso getByNombre(String nombre);
     Curso save(Curso curso);

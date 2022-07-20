@@ -6,6 +6,7 @@ import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoCr
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoEstudianteCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.EstudianteCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoEstudiantePK;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursosEstudiantesEntity;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +88,10 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
             CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(cursoEstudiante.getIdCursos());
 
             CursosEstudiantesEntity cursosEstudiantesEntity = new CursosEstudiantesEntity();
+            cursosEstudiantesEntity.setId(new CursoEstudiantePK());
             cursosEstudiantesEntity.getId().setIdCursoEstudiante(cursoEstudiante.getIdCursoEstudiante());
+            cursosEstudiantesEntity.getId().setIdEstudiantes(cursoEstudiante.getIdEstudiantes());
+            cursosEstudiantesEntity.getId().setIdCursos(cursoEstudiante.getIdCursos());
             cursosEstudiantesEntity.setEstudiante(estudianteEntity);
             cursosEstudiantesEntity.setCurso(cursoEntity);
             cursoEstudianteCrud.save(cursosEstudiantesEntity);

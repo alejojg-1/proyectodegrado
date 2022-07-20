@@ -53,6 +53,22 @@ public class CursoRepositoryImpl implements CursoRepository {
     }
 
     @Override
+    public Curso getByCodigo(String codigo) {
+        CursoEntity cursoEntity = cursoCrud.findFirstByCodigo(codigo);
+        if(cursoEntity != null){
+            Curso curso = new Curso(cursoEntity.getIdCursos(),
+                    cursoEntity.getGrado(),
+                    cursoEntity.getNombre(),
+                    cursoEntity.getCodigo(),
+                    mapperReto(cursoEntity.getReto()));
+            return curso;
+        }else{
+            throw new RuntimeException(
+                    String.format( "No existe el curso con el código: %s ",codigo));
+        }
+    }
+
+    @Override
     public Curso getByGrado(String grado) {
         CursoEntity cursoEntity = cursoCrud.findFirstByGrado(grado);
         if (cursoEntity != null) {
@@ -62,8 +78,8 @@ public class CursoRepositoryImpl implements CursoRepository {
                     cursoEntity.getCodigo(),
                     mapperReto(cursoEntity.getReto()));
         } else {
-            return null;
-        }
+            throw new RuntimeException(
+                    String.format( "No existe el curso con el grado: %s ",grado));        }
     }
 
     @Override
@@ -76,7 +92,8 @@ public class CursoRepositoryImpl implements CursoRepository {
                     cursoEntity.getCodigo(),
                     mapperReto(cursoEntity.getReto()));
         } else {
-            return null;
+            throw new RuntimeException(
+                    String.format( "No existe el curso con el nombre: %s ",nombre));
         }
     }
 

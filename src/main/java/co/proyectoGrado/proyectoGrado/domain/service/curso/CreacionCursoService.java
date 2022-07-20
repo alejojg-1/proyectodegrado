@@ -9,7 +9,6 @@ import co.proyectoGrado.proyectoGrado.domain.service.DocenteService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 @Service
 public class CreacionCursoService {

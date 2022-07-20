@@ -10,5 +10,6 @@ public interface CursoCrud extends CrudRepository<CursoEntity, Integer> {
     List<CursoEntity> findByIdCursosIn(List<Integer> idsCursos);
     CursoEntity findFirstByIdCursos(int idCurso);
     CursoEntity findFirstByGrado(String grado);
+    CursoEntity findFirstByCodigo(String codigo);
     CursoEntity findFirstByNombre(String nombre);
 }

@@ -4,6 +4,7 @@ import co.proyectoGrado.proyectoGrado.domain.model.CursoEstudiante;
 import co.proyectoGrado.proyectoGrado.domain.model.Estudiante;
 import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteEntity;
+import co.proyectoGrado.proyectoGrado.domain.service.cursoestudiantes.CursosEstudiantesService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

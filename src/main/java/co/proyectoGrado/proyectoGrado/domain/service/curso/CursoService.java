@@ -21,6 +21,10 @@ public class CursoService {
         return cursoRepository.getByGrado(nombre);
     }
 
+    public Curso getByCodigo(String codigo) {
+        return cursoRepository.getByCodigo(codigo);
+    }
+
     public List<Curso> getAll(){
         return cursoRepository.getAll();
     }
