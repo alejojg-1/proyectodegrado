@@ -23,6 +23,8 @@ public class CursoEntity {
     private String grado;
     @Column(name = "nombre")
     private String nombre;
+    @Column(name = "codigo")
+    private String codigo;
 
     @OneToMany(mappedBy = "curso", cascade = {CascadeType.ALL})
     private List<CursosEstudiantesEntity> cursoEstudiantes;

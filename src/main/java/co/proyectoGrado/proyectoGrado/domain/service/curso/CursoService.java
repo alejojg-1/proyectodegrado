@@ -26,13 +26,12 @@ public class CursoService {
     }
 
 
-    public boolean save(Curso curso) {
+    public Curso save(Curso curso) {
         try {
-            cursoRepository.save(curso);
-            return Boolean.TRUE;
+            return cursoRepository.save(curso);
         } catch (Exception e) {
             e.printStackTrace();
-            return Boolean.FALSE;
+            throw new RuntimeException(e);
         }
     }
 

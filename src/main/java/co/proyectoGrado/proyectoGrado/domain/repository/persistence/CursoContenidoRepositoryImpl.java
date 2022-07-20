@@ -138,16 +138,22 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
     }
 
     @Override
-    public boolean actualizar(int id, CursoContenido cursoContenido) {
+    public boolean actualizar( CursoContenido cursoContenido) {
         try {
-            CursoContenidoEntity cursoContenidoEntity = new CursoContenidoEntity();
+            if(cursoContenidoCrud.findFirstById_IdCursoContenido(cursoContenido.getIdCursoContenido()) != null){
+                CategoriaContenidoEntity categoriaContenidoEntity = categoriaContenidoCrud.
+                        findFirstByIdCategoriaContenido(cursoContenido.getIdCategoriaContenido());
+                CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(cursoContenido.getIdCurso());
 
-            cursoContenidoEntity.getId().setIdCursoContenido(cursoContenido.getIdCursoContenido());
-            cursoContenidoEntity.getCategoriaContenido().setIdCategoriaContenido(cursoContenido.getIdCategoriaContenido());
-            cursoContenidoEntity.getCurso().setIdCursos(cursoContenido.getIdCurso());
-            cursoContenidoEntity.setComentario(cursoContenido.getComentario());
-            cursoContenidoEntity.setImagen(cursoContenido.getImagen());
-            cursoContenidoEntity.setDescripcion(cursoContenido.getDescripcion());
+                CursoContenidoPK cursoContenidoPK = new CursoContenidoPK(cursoContenido.getIdCursoContenido()
+                        ,cursoContenido.getIdCategoriaContenido(),
+                        cursoContenido.getIdCurso());
+
+                CursoContenidoEntity cursoContenidoEntity = new CursoContenidoEntity(
+                        cursoContenidoPK, cursoContenido.getComentario(), cursoContenido.getDescripcion(),
+                        cursoContenido.getImagen(), cursoContenido.getVideo(),categoriaContenidoEntity,cursoEntity);
+                cursoContenidoCrud.save(cursoContenidoEntity);
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();

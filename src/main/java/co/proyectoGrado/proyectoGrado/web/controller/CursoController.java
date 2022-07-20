@@ -1,5 +1,7 @@
 package co.proyectoGrado.proyectoGrado.web.controller;
+import co.proyectoGrado.proyectoGrado.domain.dto.DtoCreacionCurso;
 import co.proyectoGrado.proyectoGrado.domain.model.Curso;
+import co.proyectoGrado.proyectoGrado.domain.service.curso.CreacionCursoService;
 import co.proyectoGrado.proyectoGrado.domain.service.curso.CursoService;
 import co.proyectoGrado.proyectoGrado.domain.service.curso.ObtenerCursosPorUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,15 @@ public class CursoController {
 
     private final CursoService cursoService;
     private final ObtenerCursosPorUsuarioService obtenerCursosPorUsuarioService;
+    private final CreacionCursoService cracionCursoService;
 
     @Autowired
-    public CursoController(CursoService cursoService, ObtenerCursosPorUsuarioService obtenerCursosPorUsuarioService) {
+    public CursoController(CursoService cursoService,
+                           ObtenerCursosPorUsuarioService obtenerCursosPorUsuarioService,
+                           CreacionCursoService cracionCursoService) {
         this.cursoService = cursoService;
         this.obtenerCursosPorUsuarioService = obtenerCursosPorUsuarioService;
+        this.cracionCursoService = cracionCursoService;
     }
 
     @GetMapping()
@@ -39,8 +45,8 @@ public class CursoController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Boolean> save(@RequestBody Curso curso) {
-        if(cursoService.save(curso)){
+    public ResponseEntity<Boolean> save(@RequestBody DtoCreacionCurso dtoCreacionCurso) {
+        if(cracionCursoService.ejecutar(dtoCreacionCurso)){
             return new ResponseEntity<>(true,HttpStatus.OK);
         }else{
             return new ResponseEntity<>(false,HttpStatus.BAD_REQUEST);

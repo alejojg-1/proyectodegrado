@@ -6,6 +6,7 @@ import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoCr
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoDocenteCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.DocenteCrud;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoDocenteEntity;
+import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoDocentePK;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoEntity;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.DocenteEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,15 @@ import java.util.List;
 @Repository
 public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
 
+    private static final String ACTIVO ="t";
+    private static final String INACTIVO ="f";
     private final CursoDocenteCrud cursoDocenteCrud;
     private final CursoCrud cursoCrud;
     private final DocenteCrud docenteCrud;
 
     @Autowired
     public CursoDocenteRespositoryImpl(CursoDocenteCrud cursoDocenteCrud,
-                                       CursoCrud cursoCrud,DocenteCrud docenteCrud) {
+                                       CursoCrud cursoCrud, DocenteCrud docenteCrud) {
         this.cursoDocenteCrud = cursoDocenteCrud;
         this.cursoCrud = cursoCrud;
         this.docenteCrud = docenteCrud;
@@ -38,7 +41,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
                     cursoDocenteEntity.getDocente().getIdDocentes(), cursoDocenteEntity.getCurso().getIdCursos(),
                     "S".equals(cursoDocenteEntity.getEstado()));
 
-            if(cursoDocente.isEstado()==true){
+            if (cursoDocente.isEstado() == true) {
                 cursoDocentes.add(cursoDocente);
             }
 
@@ -79,8 +82,8 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
         List<CursoDocenteEntity> listaCursoDocenteEntity = cursoDocenteCrud.findById_IdDocentes(idDocente);
         listaCursoDocenteEntity.forEach(cursoDocenteEntity -> {
             CursoDocente cursoDocente = new CursoDocente(cursoDocenteEntity.getId().getIdCursoDocente()
-                    ,cursoDocenteEntity.getId().getIdDocentes()
-            ,cursoDocenteEntity.getId().getIdCursos(),"S".equals(cursoDocenteEntity.getEstado()));
+                    , cursoDocenteEntity.getId().getIdDocentes()
+                    , cursoDocenteEntity.getId().getIdCursos(), "S".equals(cursoDocenteEntity.getEstado()));
             listaCursoDocente.add(cursoDocente);
         });
         return listaCursoDocente;
@@ -102,29 +105,30 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
     public Boolean save(CursoDocente cursoDocente) {
 
         try {
-            CursoEntity cursoEntity = cursoCrud.findById(cursoDocente.getIdCurso()).orElse(null);
-            DocenteEntity docenteEntity = docenteCrud.findById(cursoDocente.getIdDocente()).orElse(null);
+            CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(cursoDocente.getIdCurso());
+            DocenteEntity docenteEntity = docenteCrud.findFirstByIdDocentes(cursoDocente.getIdDocente());
 
-            //TO DO
-           /* if (cursoEntity  ==null|| docenteEntity==null){
+            if (cursoEntity == null || docenteEntity == null) {
                 throw new Exception("error obteniendo las entidades para Curso Docente");
 
-            }*/
+            }
             CursoDocenteEntity cursoDocenteEntity = new CursoDocenteEntity();
-            cursoDocenteEntity.getId().setIdCursoDocente(cursoDocente.getIdCursoDocente());
-            cursoDocenteEntity.setEstado(cursoDocente.isEstado() ? String.valueOf('t') : String.valueOf('f'));
+            cursoDocenteEntity.setId(new CursoDocentePK());
+            cursoDocenteEntity.getId().setIdDocentes(cursoDocente.getIdDocente());
+            cursoDocenteEntity.getId().setIdCursos(cursoDocente.getIdCurso());
+            cursoDocenteEntity.setEstado(cursoDocente.isEstado() ? ACTIVO : INACTIVO);
             cursoDocenteEntity.setDocente(docenteEntity);
             cursoDocenteEntity.setCurso(cursoEntity);
             cursoDocenteCrud.save(cursoDocenteEntity);
-
             return true;
 
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            throw new RuntimeException("Error creando Curso Docente");
         }
     }
-@Override
+
+    @Override
     public Boolean actualizar(int id, CursoDocente cursodocente) {
 
         try {
@@ -139,16 +143,16 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
             e.printStackTrace();
             return false;
         }
-}
+    }
 
     @Override
     public Boolean delete(int idCursoDocente) {
-        if(cursoDocenteCrud.findById_IdCursoDocente(idCursoDocente)!=null){
-            CursoDocenteEntity cursoDocenteEntity =  cursoDocenteCrud.findFirstById_IdCursoDocente(idCursoDocente);
+        if (cursoDocenteCrud.findById_IdCursoDocente(idCursoDocente) != null) {
+            CursoDocenteEntity cursoDocenteEntity = cursoDocenteCrud.findFirstById_IdCursoDocente(idCursoDocente);
             cursoDocenteEntity.setEstado("f");
             cursoDocenteCrud.save(cursoDocenteEntity);
             return true;
-        }else{
+        } else {
             return false;
         }
     }

@@ -30,6 +30,7 @@ public class CursoRepositoryImpl implements CursoRepository {
             Curso curso = new Curso(cursoEntity.getIdCursos(),
                     cursoEntity.getGrado(),
                     cursoEntity.getNombre(),
+                    cursoEntity.getCodigo(),
                     mapperReto(cursoEntity.getReto()));
 
             cursos.add(curso);
@@ -43,17 +44,12 @@ public class CursoRepositoryImpl implements CursoRepository {
         cursoCrud.findByIdCursosIn(listaIdsCursos).forEach(cursoEntity -> {
             Curso curso = new Curso(cursoEntity.getIdCursos(),
                     cursoEntity.getGrado(),
-                    cursoEntity.getNombre(),mapperReto(cursoEntity.getReto()));
+                    cursoEntity.getNombre(),
+                    cursoEntity.getCodigo(),
+                    mapperReto(cursoEntity.getReto()));
             cursos.add(curso);
         });
         return cursos;
-    }
-
-    private List<Reto> mapperReto(List<RetoEntity> listaRetoEntity){
-        return listaRetoEntity.stream().map(retoEntity ->
-                new Reto(retoEntity.getIdReto(),retoEntity.getIdCursos(),retoEntity.getTipo(),retoEntity.getTitulo(),
-                        retoEntity.getDescripcion(),retoEntity.getComentario(),
-                        "S".equals(retoEntity.getEstado()))).collect(Collectors.toList());
     }
 
     @Override
@@ -63,6 +59,7 @@ public class CursoRepositoryImpl implements CursoRepository {
             return new Curso(cursoEntity.getIdCursos(),
                     cursoEntity.getGrado(),
                     cursoEntity.getNombre(),
+                    cursoEntity.getCodigo(),
                     mapperReto(cursoEntity.getReto()));
         } else {
             return null;
@@ -76,6 +73,7 @@ public class CursoRepositoryImpl implements CursoRepository {
             return new Curso(cursoEntity.getIdCursos(),
                     cursoEntity.getGrado(),
                     cursoEntity.getNombre(),
+                    cursoEntity.getCodigo(),
                     mapperReto(cursoEntity.getReto()));
         } else {
             return null;
@@ -83,17 +81,16 @@ public class CursoRepositoryImpl implements CursoRepository {
     }
 
     @Override
-    public Boolean save(Curso curso) {
+    public Curso save(Curso curso) {
         try {
             CursoEntity cursoEntity = new CursoEntity();
-            //cursoEntity.setIdCursos(curso.getIdCursos());
             cursoEntity.setGrado(curso.getGrado());
             cursoEntity.setNombre(curso.getNombre());
-            cursoCrud.save(cursoEntity);
-            return  true;
+            cursoEntity.setCodigo(curso.getCodigo());
+            return entityToDomain(cursoCrud.save(cursoEntity));
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -121,11 +118,25 @@ public class CursoRepositoryImpl implements CursoRepository {
     @Override
     public Boolean delete(int idCurso) {
         if (cursoCrud.findByIdCursos(idCurso) != null) {
-        CursoEntity cursoEntity =  cursoCrud.findFirstByIdCursos(idCurso);
-        cursoCrud.delete(cursoEntity);
+            CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(idCurso);
+            cursoCrud.delete(cursoEntity);
             return true;
         } else {
             return false;
         }
+    }
+
+    private List<Reto> mapperReto(List<RetoEntity> listaRetoEntity) {
+        return listaRetoEntity.stream().map(retoEntity ->
+                new Reto(retoEntity.getIdReto(), retoEntity.getIdCursos(), retoEntity.getTipo(), retoEntity.getTitulo(),
+                        retoEntity.getDescripcion(), retoEntity.getComentario(),
+                        "S".equals(retoEntity.getEstado()))).collect(Collectors.toList());
+    }
+
+    private Curso entityToDomain(CursoEntity cursoEntity) {
+        return new Curso(cursoEntity.getIdCursos(),
+                cursoEntity.getGrado(), cursoEntity.getNombre(), null,
+                cursoEntity.getReto() != null ? mapperReto(cursoEntity.getReto()) :
+                        new ArrayList<>());
     }
 }

@@ -40,9 +40,6 @@ public class CursoDocenteService {
         return cursoDocenteRepository.getIdDocente(idcursos);}
 
     public boolean save(CursoDocente cursoDocente) {
-       // CursoEntity cursoEntity = cursoCrud.findById(cursoDocente.getIdCursos()).orElse(null);
-       // DocenteEntity docenteEntity = docenteCrud.findById(cursoDocente.getIdDocente()).orElse(null);
-       // CursoDocenteEntity contenido = new CursoDocenteEntity(cursoDocente.getIdCursoDocente(),docenteEntity,cursoEntity);
         try {
             cursoDocenteRepository.save(cursoDocente);
             return Boolean.TRUE;

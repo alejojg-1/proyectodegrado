@@ -39,12 +39,12 @@ public class CursoContenidoController {
             return new ResponseEntity<>(false,HttpStatus.BAD_REQUEST);
         }
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody CursoContenido cursoContenido){
-        if(cursoContenidoService.actualizar(id, cursoContenido)){
-            return new ResponseEntity<>(HttpStatus.OK);
+    @PutMapping("/actualizar")
+    public ResponseEntity<Boolean> actualizar(@RequestBody CursoContenido cursoContenido){
+        if(cursoContenidoService.actualizar(cursoContenido)){
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Boolean.FALSE,HttpStatus.BAD_REQUEST);
         }
     }
 

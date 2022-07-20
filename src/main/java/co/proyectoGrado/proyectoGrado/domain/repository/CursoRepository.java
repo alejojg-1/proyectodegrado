@@ -11,7 +11,7 @@ public interface CursoRepository {
     List<Curso> getByIdsCursos(List<Integer> listaIdsCursos);
     Curso getByGrado(String grado);
     Curso getByNombre(String nombre);
-    Boolean save(Curso curso);
+    Curso save(Curso curso);
     Boolean actualizar(int id, Curso curso);
     Boolean delete(int idCurso);
 }

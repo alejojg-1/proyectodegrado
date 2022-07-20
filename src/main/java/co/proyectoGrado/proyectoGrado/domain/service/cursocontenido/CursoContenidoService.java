@@ -18,9 +18,6 @@ public class CursoContenidoService {
     private final CursoContenidoRepository cursoContenidoRepository;
 
     @Autowired
-    private CursoContenidoCrud cursoContenidoCrud;
-
-    @Autowired
     public CursoContenidoService(CursoContenidoRepository cursoContenidoRepository) {
         this.cursoContenidoRepository = cursoContenidoRepository;
     }
@@ -46,14 +43,9 @@ public class CursoContenidoService {
         }
     }
 
-    public Boolean actualizar(int id, CursoContenido cursoContenido) {
-        CursoContenidoEntity contenido = cursoContenidoCrud.findFirstById_IdCursoContenido(id);
-        if ("".equals(contenido.getId().getIdCursoContenido())) {
-            CursoContenidoEntity contenidoMapper = mapper.map(cursoContenido, CursoContenidoEntity.class);
-            contenidoMapper.getId().setIdCursoContenido(contenido.getId().getIdCursoContenido());
-            cursoContenidoCrud.save(contenidoMapper);
-        }
-        return cursoContenidoRepository.actualizar(id, cursoContenido);
+    public Boolean actualizar(CursoContenido cursoContenido) {
+
+        return cursoContenidoRepository.actualizar(cursoContenido);
     }
 
     public ResponseEntity<Object> eliminar(int id) {
