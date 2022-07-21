@@ -1,10 +1,9 @@
 package co.proyectoGrado.proyectoGrado.domain.service.cursocontenido;
 
 
+import co.proyectoGrado.proyectoGrado.domain.dto.DtoRespuesta;
 import co.proyectoGrado.proyectoGrado.domain.model.CursoContenido;
 import co.proyectoGrado.proyectoGrado.domain.repository.CursoContenidoRepository;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.crud.CursoContenidoCrud;
-import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.CursoContenidoEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,13 +43,11 @@ public class CursoContenidoService {
     }
 
     public Boolean actualizar(CursoContenido cursoContenido) {
-
         return cursoContenidoRepository.actualizar(cursoContenido);
     }
 
-    public ResponseEntity<Object> eliminar(int id) {
+    public DtoRespuesta eliminar(int id) {
         cursoContenidoRepository.delete(id);
-        return ResponseEntity.ok().body("Eliminacion exitosa");
+        return new DtoRespuesta("Eliminacion exitosa");
     }
-
 }

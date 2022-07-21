@@ -4,8 +4,8 @@ import co.proyectoGrado.proyectoGrado.domain.dto.DtoCreacionCurso;
 import co.proyectoGrado.proyectoGrado.domain.model.Curso;
 import co.proyectoGrado.proyectoGrado.domain.model.CursoDocente;
 import co.proyectoGrado.proyectoGrado.domain.model.Docente;
-import co.proyectoGrado.proyectoGrado.domain.service.CursoDocenteService;
-import co.proyectoGrado.proyectoGrado.domain.service.DocenteService;
+import co.proyectoGrado.proyectoGrado.domain.service.cursodocente.CursoDocenteService;
+import co.proyectoGrado.proyectoGrado.domain.service.docente.DocenteService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import co.proyectoGrado.proyectoGrado.domain.dto.DtoRelacionEstudianteCurso;
 import co.proyectoGrado.proyectoGrado.domain.model.Curso;
 import co.proyectoGrado.proyectoGrado.domain.model.CursoEstudiante;
 import co.proyectoGrado.proyectoGrado.domain.model.Estudiante;
-import co.proyectoGrado.proyectoGrado.domain.service.EstudianteService;
+import co.proyectoGrado.proyectoGrado.domain.service.estudiante.EstudianteService;
 import co.proyectoGrado.proyectoGrado.domain.service.curso.CursoService;
 import org.springframework.stereotype.Service;
 

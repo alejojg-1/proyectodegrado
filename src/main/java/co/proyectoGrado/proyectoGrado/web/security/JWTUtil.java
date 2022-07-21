@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class JWTUtil {
-    private static final String KEY = "pl4tz1";
+    private static final String KEY = "pr0y8ct0";
 
     public String generateToken(UserDetails userDetails) {
         final String authorities = userDetails.getAuthorities().stream()

@@ -1,10 +1,7 @@
 package co.proyectoGrado.proyectoGrado.web.controller;
 
 import co.proyectoGrado.proyectoGrado.domain.model.CursoDocente;
-import co.proyectoGrado.proyectoGrado.domain.model.Docente;
-import co.proyectoGrado.proyectoGrado.domain.model.Reto;
-import co.proyectoGrado.proyectoGrado.domain.service.CursoDocenteService;
-import co.proyectoGrado.proyectoGrado.domain.service.DocenteService;
+import co.proyectoGrado.proyectoGrado.domain.service.cursodocente.CursoDocenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

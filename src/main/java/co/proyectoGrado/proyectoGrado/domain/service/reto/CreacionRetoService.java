@@ -4,8 +4,8 @@ import co.proyectoGrado.proyectoGrado.domain.dto.DtoCreacionReto;
 import co.proyectoGrado.proyectoGrado.domain.model.JuegoPregunta;
 import co.proyectoGrado.proyectoGrado.domain.model.Pregunta;
 import co.proyectoGrado.proyectoGrado.domain.model.Reto;
-import co.proyectoGrado.proyectoGrado.domain.service.JuegoPreguntasService;
-import co.proyectoGrado.proyectoGrado.domain.service.PreguntaService;
+import co.proyectoGrado.proyectoGrado.domain.service.juegopregunta.JuegoPreguntasService;
+import co.proyectoGrado.proyectoGrado.domain.service.pregunta.PreguntaService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

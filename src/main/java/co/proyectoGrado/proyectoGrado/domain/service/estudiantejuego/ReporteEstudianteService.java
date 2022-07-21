@@ -2,9 +2,8 @@ package co.proyectoGrado.proyectoGrado.domain.service.estudiantejuego;
 
 import co.proyectoGrado.proyectoGrado.domain.dto.DtoReporteEstudiante;
 import co.proyectoGrado.proyectoGrado.domain.model.Estudiante;
-import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuego;
 import co.proyectoGrado.proyectoGrado.domain.model.Reto;
-import co.proyectoGrado.proyectoGrado.domain.service.EstudianteService;
+import co.proyectoGrado.proyectoGrado.domain.service.estudiante.EstudianteService;
 import co.proyectoGrado.proyectoGrado.domain.service.reto.RetoService;
 import org.springframework.stereotype.Service;
 

@@ -6,7 +6,7 @@ import co.proyectoGrado.proyectoGrado.domain.model.Pregunta;
 import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteJuegoRespuestasRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.JuegoPreguntasRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.PreguntaRepository;
-import co.proyectoGrado.proyectoGrado.domain.service.PreguntaService;
+import co.proyectoGrado.proyectoGrado.domain.service.pregunta.PreguntaService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
