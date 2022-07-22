@@ -1,5 +1,6 @@
 package co.proyectoGrado.proyectoGrado.web.controller;
 
+import co.proyectoGrado.proyectoGrado.domain.dto.DtoEstudianteRelacionado;
 import co.proyectoGrado.proyectoGrado.domain.model.Estudiante;
 import co.proyectoGrado.proyectoGrado.domain.service.estudiante.EstudianteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class EstudianteController {
     }
 
     @GetMapping("/curso/{idCurso}")
-    public ResponseEntity<List<Estudiante>> obtenerEstudiantesPorIdCurso(@PathVariable("idCurso") int idCurso){
+    public ResponseEntity<List<DtoEstudianteRelacionado>> obtenerEstudiantesPorIdCurso(@PathVariable("idCurso") int idCurso){
         return new ResponseEntity<>(estudianteService.getByIdCurso(idCurso),HttpStatus.OK);
     }
 
