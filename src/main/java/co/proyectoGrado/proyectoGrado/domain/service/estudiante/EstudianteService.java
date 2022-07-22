@@ -5,8 +5,10 @@ import co.proyectoGrado.proyectoGrado.domain.model.Estudiante;
 import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteRepository;
 import co.proyectoGrado.proyectoGrado.domain.repository.persistence.entity.EstudianteEntity;
 import co.proyectoGrado.proyectoGrado.domain.service.cursoestudiantes.CursosEstudiantesService;
+import co.proyectoGrado.proyectoGrado.domain.service.docente.DocenteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ public class EstudianteService {
 
     private final CursosEstudiantesService cursosEstudiantesService;
     private final EstudianteRepository estudianteRepository;
+    @Autowired
+    private final DocenteService docenteService;
     private final ModelMapper mapper = new ModelMapper();
 
     @Autowired
@@ -25,9 +29,11 @@ public class EstudianteService {
 
     @Autowired
     public EstudianteService(EstudianteRepository estudianteRepository,
-                             CursosEstudiantesService cursosEstudiantesService,
+                             @Lazy CursosEstudiantesService cursosEstudiantesService,
+                             @Lazy DocenteService docenteService,
                              BCryptPasswordEncoder passwordEncoder) {
         this.estudianteRepository = estudianteRepository;
+        this.docenteService = docenteService;
         this.passwordEncoder =passwordEncoder;
         this.cursosEstudiantesService = cursosEstudiantesService;
     }
@@ -48,7 +54,13 @@ public class EstudianteService {
     public Estudiante getById(Integer idEstudiante) {
         return estudianteRepository.getById(idEstudiante);
     }
+
     public boolean save(Estudiante estudiante) {
+        if(docenteService.get(estudiante.getCorreo()) != null
+                && docenteService.get(estudiante.getCorreo()).getCorreo()
+                .equals(estudiante.getCorreo())){
+            return Boolean.FALSE;
+        }
         estudiante.setContrasena(encodeContrasena(estudiante.getContrasena()));
         EstudianteEntity contenido = mapper.map(estudiante, EstudianteEntity.class);
         try {
