@@ -1,5 +1,6 @@
 package co.proyectoGrado.proyectoGrado.domain.service.estudiante;
 
+import co.proyectoGrado.proyectoGrado.domain.dto.DtoEstudianteRelacionado;
 import co.proyectoGrado.proyectoGrado.domain.model.CursoEstudiante;
 import co.proyectoGrado.proyectoGrado.domain.model.Estudiante;
 import co.proyectoGrado.proyectoGrado.domain.repository.EstudianteRepository;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,14 +43,30 @@ public class EstudianteService {
     public List<Estudiante> getAll(){
         return estudianteRepository.getAll();
     }
+
     public Estudiante get(String email) {
         return estudianteRepository.get(email);
     }
 
-    public List<Estudiante> getByIdCurso(int idCurso) {
-        List<Integer> idsEstudiantes = cursosEstudiantesService.getByIdCurso(idCurso).stream()
+    public List<DtoEstudianteRelacionado> getByIdCurso(int idCurso) {
+        List<DtoEstudianteRelacionado> dtoEstudianteRelacionados = new ArrayList<>();
+        List<CursoEstudiante> listaCursoEstudiante = cursosEstudiantesService.getByIdCurso(idCurso);
+        List<Integer> idsEstudiantes = listaCursoEstudiante.stream()
                 .map(CursoEstudiante::getIdEstudiantes).collect(Collectors.toList());
-        return estudianteRepository.getByIds(idsEstudiantes);
+        List<Estudiante> estudiante = estudianteRepository.getByIds(idsEstudiantes);
+
+        estudiante.forEach(estudianteObtenido ->{
+            CursoEstudiante cursoEstudiante = listaCursoEstudiante.stream().filter(relacion ->
+                            relacion.getIdEstudiantes() == estudianteObtenido.getIdEstudiante())
+                    .findFirst().orElse(null);
+            if(cursoEstudiante != null){
+                dtoEstudianteRelacionados.add(new DtoEstudianteRelacionado(cursoEstudiante.getIdCursoEstudiante(),
+                        estudianteObtenido.getIdEstudiante(),estudianteObtenido.getNombre(),estudianteObtenido.getApellido(),
+                        estudianteObtenido.getIdentificacion(),estudianteObtenido.getCorreo()));
+            }
+        });
+
+        return dtoEstudianteRelacionados;
     }
 
     public Estudiante getById(Integer idEstudiante) {
