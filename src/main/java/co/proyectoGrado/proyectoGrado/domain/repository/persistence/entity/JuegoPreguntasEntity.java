@@ -18,7 +18,7 @@ public class JuegoPreguntasEntity {
     private JuegoPreguntasPK id;
 
     @Column(name="estado")
-    private char estado;
+    private String estado;
 
     @ManyToOne
     @MapsId("idPreguntas")

@@ -15,7 +15,7 @@ import java.util.List;
 public class EstudianteRepositoryImpl implements EstudianteRepository {
     private final EstudianteCrud estudianteCrud;
     private final String ACTIVO = "t";
-    private final String INACTIVO = "t";
+    private final String INACTIVO = "f";
     private static final String EL_ESTUDIANTE_NO_EXISTE_EN_EL_SISTEMA = "El estudiante con ese id no existe en el sistema";
 
 
@@ -64,7 +64,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
         EstudianteEntity estudianteEntity = estudianteCrud.findFirstByIdentificacion(identificacion);
 
 
-        if (!(estudianteEntity != null && estudianteEntity.getEstado()=="t")) {
+        if (!(estudianteEntity != null && estudianteEntity.getEstado().equals(ACTIVO))) {
             throw new ExcepcionValorInvalido(EL_ESTUDIANTE_NO_EXISTE_EN_EL_SISTEMA);
         }
         return new Estudiante(estudianteEntity.getIdEstudiantes(), estudianteEntity.getNombre(),

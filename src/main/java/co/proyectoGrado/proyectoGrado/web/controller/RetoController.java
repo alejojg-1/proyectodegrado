@@ -8,6 +8,7 @@ import co.proyectoGrado.proyectoGrado.domain.service.reto.RetoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,28 +25,33 @@ public class RetoController {
         this.creacionRetoService = creacionRetoService;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping()
     public ResponseEntity<List<Reto>> obtenerAll(){
 
         return new ResponseEntity<>(retoService.getAll(),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping("/curso/{idcurso}")
     public ResponseEntity<List<Reto>> obtenerRetosPorCursoId(@PathVariable("idcurso") int idCurso){
         return new ResponseEntity<>(retoService.getByCursoId(idCurso),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity<Reto> obtenerPorTipo(@PathVariable("tipo") String tipo) {
         return new ResponseEntity<>(retoService.get(tipo), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping("/curso/{idcurso}/tipo/{tipo}")
     public ResponseEntity<List<Reto>> obtenerPorCursoIdYTipo(@PathVariable("idcurso") int idCurso,
                                                        @PathVariable("tipo") String tipo) {
         return new ResponseEntity<>(retoService.getPorCursoIdYTipo(idCurso,tipo), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @PostMapping("/save")
     public ResponseEntity<Reto> guardar(@RequestBody Reto reto) {
         try {
@@ -55,6 +61,7 @@ public class RetoController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @PostMapping("/save/creacion-reto")
     public ResponseEntity<Boolean> creacionReto(@RequestBody DtoCreacionReto creacionReto) {
 
@@ -65,6 +72,8 @@ public class RetoController {
         }
 
     }
+
+    @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody Reto reto){
 
@@ -75,6 +84,7 @@ public class RetoController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
        if(retoService.eliminar(id)){

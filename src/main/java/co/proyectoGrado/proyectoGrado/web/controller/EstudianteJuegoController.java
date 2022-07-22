@@ -8,6 +8,7 @@ import co.proyectoGrado.proyectoGrado.domain.service.estudiantejuego.ReporteEstu
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,21 +25,26 @@ public class EstudianteJuegoController {
         this.reporteEstudianteService = reporteEstudianteService;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping()
     public ResponseEntity<List<EstudianteJuego>> getAll(){
         return new ResponseEntity<>(estudianteJuegoService.getAll(),HttpStatus.OK);
     }
 
+    //No está funcionando
+    @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @GetMapping("/reporte/reto/{idReto}")
     public ResponseEntity<List<DtoReporteEstudiante>> obtenerReporteCalificacionesPorReto(@PathVariable("idReto") int idReto){
         return new ResponseEntity<>(reporteEstudianteService.ejecutar(idReto),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping("/idestudianteJuego/{idestudianteJuego}")
     public ResponseEntity<EstudianteJuego> getById(@PathVariable("idestudianteJuego") int idestudianteJuego) {
         return new ResponseEntity<>(estudianteJuegoService.get(idestudianteJuego), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @PostMapping("/save")
     public ResponseEntity<EstudianteJuego> save(@RequestBody EstudianteJuego estudianteJuego) {
         try {
@@ -49,6 +55,7 @@ public class EstudianteJuegoController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody EstudianteJuego estudianteJuego){
         if(estudianteJuegoService.actualizar(id, estudianteJuego)){
@@ -58,6 +65,7 @@ public class EstudianteJuegoController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
         if(estudianteJuegoService.eliminar(id)){

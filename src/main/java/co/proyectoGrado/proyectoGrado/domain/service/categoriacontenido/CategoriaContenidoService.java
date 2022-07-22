@@ -44,14 +44,12 @@ public class CategoriaContenidoService {
         return categoriaContenidoRepository.getByIds(IdsCursoContenido);
     }
 
-    public boolean save(CategoriaContenido categoriaContenido) {
+    public CategoriaContenido save(CategoriaContenido categoriaContenido) {
 
         try {
-            categoriaContenidoRepository.save(categoriaContenido);
-            return Boolean.TRUE;
+            return categoriaContenidoRepository.save(categoriaContenido);
         } catch (Exception e) {
-            e.printStackTrace();
-            return Boolean.FALSE;
+             throw new RuntimeException("Error");
         }
     }
 

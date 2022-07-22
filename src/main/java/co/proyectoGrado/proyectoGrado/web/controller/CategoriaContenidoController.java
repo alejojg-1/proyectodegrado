@@ -35,13 +35,8 @@ public class CategoriaContenidoController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Boolean> save(@RequestBody CategoriaContenido categoriaContenido) {
-
-        if(categoriaContenidoService.save(categoriaContenido)){
-            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<CategoriaContenido> save(@RequestBody CategoriaContenido categoriaContenido) {
+         return new ResponseEntity<>(categoriaContenidoService.save(categoriaContenido), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

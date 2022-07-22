@@ -1,6 +1,5 @@
 package co.proyectoGrado.proyectoGrado.web.controller;
 
-import co.proyectoGrado.proyectoGrado.domain.dto.DtoCreacionReto;
 import co.proyectoGrado.proyectoGrado.domain.dto.DtoRespuestasReto;
 import co.proyectoGrado.proyectoGrado.domain.model.EstudianteJuegoRespuesta;
 import co.proyectoGrado.proyectoGrado.domain.service.estudiantejuego.AccionesCrearEstudianteJuegoSegunEscenarioService;
@@ -8,6 +7,7 @@ import co.proyectoGrado.proyectoGrado.domain.service.estudiantejuegorespuesta.Es
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,11 +25,13 @@ public class EstudianteJuegoRepuestasController {
         this.accionesCrearEstudianteJuegoSegunEscenarioService = accionesCrearEstudianteJuegoSegunEscenarioService;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping("/idestudianteJuego/{idestudianteJuego}")
     public ResponseEntity<EstudianteJuegoRespuesta> getById(@PathVariable("idestudianteJuego") int idestudianteJuego) {
         return new ResponseEntity<>(estudianteJuegoRespuestasService.get(idestudianteJuego), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ESTUDIANTE')")
     @PostMapping("/resultado-reto")
     public ResponseEntity<Double> puntuacionSegunEscenario(@RequestBody DtoRespuestasReto creacionRespuestasReto) {
         try {
@@ -42,6 +44,7 @@ public class EstudianteJuegoRepuestasController {
 
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody List <EstudianteJuegoRespuesta> listaEstudianteJuegoRespuesta) {
 

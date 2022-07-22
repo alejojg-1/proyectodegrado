@@ -61,7 +61,7 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
             return new Pregunta(preguntaEntity.getIdPregunta(), preguntaEntity.getTexto(),
                     preguntaEntity.getImagen(), preguntaEntity.getRespuesta(), preguntaEntity.getOpcion1(),
                     preguntaEntity.getOpcion2(), preguntaEntity.getOpcion3(), preguntaEntity.getOpcion4(),
-                    "S".equals(preguntaEntity.getEstado()));
+                    "t".equals(preguntaEntity.getEstado()));
         } else {
             return null;
         }
