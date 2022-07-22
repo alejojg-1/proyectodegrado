@@ -81,7 +81,7 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
     }
 
     @Override
-    public boolean save(CategoriaContenido categoriaContenido) {
+    public CategoriaContenido save(CategoriaContenido categoriaContenido) {
         try {
             PreguntaEntity preguntaEntity = new PreguntaEntity();
             if(categoriaContenido.getIdPregunta() != null){
@@ -89,19 +89,20 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
             }else{
                 preguntaEntity = null;
             }
-            // CursoContenidoEntity cursoContenidoEntity= cursoContenidoCrud.findFirstByIdCursoContenido(categoriaContenido.getIdCategoriaContenido());
             CategoriaContenidoEntity categoriaContenidoEntity = new CategoriaContenidoEntity(categoriaContenido.getIdCategoriaContenido(),
                     categoriaContenido.getIdPregunta(),categoriaContenido.getNombre(),preguntaEntity,null);
 
-
-            categoriaContenidoCrud.save(categoriaContenidoEntity);
-            return true;
+            return  entityToDomain (categoriaContenidoCrud.save(categoriaContenidoEntity));
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            throw new RuntimeException("Erro creando categoría") ;
         }
     }
 
+    private CategoriaContenido entityToDomain(CategoriaContenidoEntity categoriaContenidoEntity){
+        return new CategoriaContenido(categoriaContenidoEntity.getIdCategoriaContenido(),
+                categoriaContenidoEntity.getIdpreguntas(), categoriaContenidoEntity.getNombre());
+    }
     @Override
     public Boolean actualizar(int id, CategoriaContenido categoriaContenido) {
         try {

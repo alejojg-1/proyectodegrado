@@ -22,7 +22,9 @@ public class EstudianteJuegoRespuestaRepositoryImpl implements EstudianteJuegoRe
     private final EstudianteJuegoRespuestasCrud estudianteJuegoRespuestasCrud;
 
     @Autowired
-    public EstudianteJuegoRespuestaRepositoryImpl(JuegoPreguntasCrud juegoPreguntasCrud, EstudianteJuegoCrud estudianteJuegoCrud, EstudianteJuegoRespuestasCrud estudianteJuegoRespuestasCrud) {
+    public EstudianteJuegoRespuestaRepositoryImpl(JuegoPreguntasCrud juegoPreguntasCrud,
+                                                  EstudianteJuegoCrud estudianteJuegoCrud,
+                                                  EstudianteJuegoRespuestasCrud estudianteJuegoRespuestasCrud) {
         this.juegoPreguntasCrud = juegoPreguntasCrud;
         this.estudianteJuegoCrud = estudianteJuegoCrud;
         this.estudianteJuegoRespuestasCrud = estudianteJuegoRespuestasCrud;
