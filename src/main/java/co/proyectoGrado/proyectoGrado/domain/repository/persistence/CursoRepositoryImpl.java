@@ -53,6 +53,22 @@ public class CursoRepositoryImpl implements CursoRepository {
     }
 
     @Override
+    public Curso getById(int idCurso) {
+        CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(idCurso);
+        if(cursoEntity != null){
+            Curso curso = new Curso(cursoEntity.getIdCursos(),
+                    cursoEntity.getGrado(),
+                    cursoEntity.getNombre(),
+                    cursoEntity.getCodigo(),
+                    mapperReto(cursoEntity.getReto()));
+            return curso;
+        }else{
+            throw new RuntimeException(
+                    String.format( "No existe el curso con el id: %s ",idCurso));
+        }
+    }
+
+    @Override
     public Curso getByCodigo(String codigo) {
         CursoEntity cursoEntity = cursoCrud.findFirstByCodigo(codigo);
         if(cursoEntity != null){
@@ -134,7 +150,7 @@ public class CursoRepositoryImpl implements CursoRepository {
 
     @Override
     public Boolean delete(int idCurso) {
-        if (cursoCrud.findByIdCursos(idCurso) != null) {
+        if (cursoCrud.findFirstByIdCursos(idCurso) != null) {
             CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(idCurso);
             cursoCrud.delete(cursoEntity);
             return true;
@@ -147,7 +163,7 @@ public class CursoRepositoryImpl implements CursoRepository {
         return listaRetoEntity.stream().map(retoEntity ->
                 new Reto(retoEntity.getIdReto(), retoEntity.getIdCursos(), retoEntity.getTipo(), retoEntity.getTitulo(),
                         retoEntity.getDescripcion(), retoEntity.getComentario(),
-                        "S".equals(retoEntity.getEstado()))).collect(Collectors.toList());
+                        "t".equals(retoEntity.getEstado()))).collect(Collectors.toList());
     }
 
     private Curso entityToDomain(CursoEntity cursoEntity) {
