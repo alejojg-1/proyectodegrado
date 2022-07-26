@@ -33,6 +33,11 @@ public class CursoController {
         return new ResponseEntity<>(cursoService.getAll(),HttpStatus.OK);
     }
 
+    @GetMapping("/{idCurso}")
+    public ResponseEntity<Curso> getById(@PathVariable("idCurso") int idCurso){
+        return new ResponseEntity<>(cursoService.getById(idCurso),HttpStatus.OK);
+    }
+
     @GetMapping("/grado/{grado}")
     public ResponseEntity<Curso> getByGrado(@PathVariable("grado") String grado) {
         return new ResponseEntity<>(cursoService.get(grado), HttpStatus.OK);

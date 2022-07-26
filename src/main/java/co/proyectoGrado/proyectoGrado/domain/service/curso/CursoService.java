@@ -29,6 +29,9 @@ public class CursoService {
         return cursoRepository.getAll();
     }
 
+    public Curso getById(int idCurso) {
+        return cursoRepository.getById(idCurso);
+    }
 
     public Curso save(Curso curso) {
         try {
