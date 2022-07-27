@@ -55,6 +55,8 @@ public class EstudianteJuegoRepuestasController {
         }
 
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody EstudianteJuegoRespuesta estudianteJuegoRespuesta){
 
@@ -63,9 +65,9 @@ public class EstudianteJuegoRepuestasController {
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
         if(estudianteJuegoRespuestasService.eliminar(id)){
@@ -73,7 +75,6 @@ public class EstudianteJuegoRepuestasController {
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
 
 }

@@ -42,15 +42,13 @@ public class DocenteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody Docente docente){
-        if(docenteService.actualizar(id, docente)){
+    public ResponseEntity<Boolean> actualizar(@RequestBody Docente docente){
+        if(docenteService.actualizar(docente)){
             return new ResponseEntity<>(HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){

@@ -16,7 +16,6 @@ public class EstudianteJuegoRespuestasEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="native")
     @Column(name= "idestudiante_juego_respuestas")
     private Integer idEstudianteJuegoRespuestas;
- //¿ @Embeddable PK?
     @Column(name= "idpreguntas")
     private int idpreguntas;
     @Column(name= "idreto")

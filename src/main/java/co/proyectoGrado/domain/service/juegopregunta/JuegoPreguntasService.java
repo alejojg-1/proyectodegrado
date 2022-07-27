@@ -4,8 +4,6 @@ package co.proyectoGrado.domain.service.juegopregunta;
 import co.proyectoGrado.domain.model.JuegoPregunta;
 
 import co.proyectoGrado.repository.JuegoPreguntasRepository;
-import co.proyectoGrado.repository.persistence.crud.JuegoPreguntasCrud;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,21 +13,17 @@ import java.util.List;
 public class JuegoPreguntasService {
 
     private final JuegoPreguntasRepository juegoPreguntasRepository;
-    @Autowired
-    private JuegoPreguntasCrud juegoPreguntasCrud;
-
 
     @Autowired
     public JuegoPreguntasService(JuegoPreguntasRepository juegoPreguntasRepository) {
         this.juegoPreguntasRepository = juegoPreguntasRepository;
     }
-    private final ModelMapper mapper = new ModelMapper();
+
     public List<JuegoPregunta> getAll(){
         return juegoPreguntasRepository.getAll();
     }
 
-    public JuegoPregunta obtenerPorIdRetoYIdPregunta(int idReto, int idPregunta)
-    {
+    public JuegoPregunta obtenerPorIdRetoYIdPregunta(int idReto, int idPregunta) {
         return juegoPreguntasRepository.obtenerPorIdRetoYIdPregunta(idReto,idPregunta);
     }
 

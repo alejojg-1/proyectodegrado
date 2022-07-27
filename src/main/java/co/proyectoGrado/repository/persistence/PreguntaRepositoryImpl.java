@@ -1,5 +1,6 @@
 package co.proyectoGrado.repository.persistence;
 
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDeProceso;
 import co.proyectoGrado.domain.model.Pregunta;
 import co.proyectoGrado.repository.PreguntaRepository;
 import co.proyectoGrado.repository.persistence.crud.PreguntaCrud;
@@ -9,11 +10,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Repository
 public class PreguntaRepositoryImpl implements PreguntaRepository {
 
     private final PreguntaCrud preguntaCrud;
-    private final String ACTIVO = "t";
+    private static final String ACTIVO = "t";
+    private static final String INACTIVO = "f";
+    private static final String NO_EXISTE_PREGUNTA_CON_ID = "No existe pregunta con id: %s";
 
     @Autowired
     public PreguntaRepositoryImpl(PreguntaCrud preguntaCrud) {
@@ -29,7 +33,7 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
                     preguntaEntity.getImagen(), preguntaEntity.getRespuesta(), preguntaEntity.getOpcion1(),
                     preguntaEntity.getOpcion2(), preguntaEntity.getOpcion3(), preguntaEntity.getOpcion4(),
                     ACTIVO.equals(preguntaEntity.getEstado()));
-            if(pregunta.isEstado()==true) {
+            if (pregunta.isEstado() == true) {
                 preguntas.add(pregunta);
             }
         });
@@ -46,7 +50,7 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
                     preguntaEntity.getImagen(), preguntaEntity.getRespuesta(), preguntaEntity.getOpcion1(),
                     preguntaEntity.getOpcion2(), preguntaEntity.getOpcion3(), preguntaEntity.getOpcion4(),
                     ACTIVO.equals(preguntaEntity.getEstado()));
-            if(pregunta.isEstado()==true) {
+            if (pregunta.isEstado() == true) {
                 preguntas.add(pregunta);
             }
         });
@@ -61,9 +65,9 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
             return new Pregunta(preguntaEntity.getIdPregunta(), preguntaEntity.getTexto(),
                     preguntaEntity.getImagen(), preguntaEntity.getRespuesta(), preguntaEntity.getOpcion1(),
                     preguntaEntity.getOpcion2(), preguntaEntity.getOpcion3(), preguntaEntity.getOpcion4(),
-                    "t".equals(preguntaEntity.getEstado()));
+                    ACTIVO.equals(preguntaEntity.getEstado()));
         } else {
-            return null;
+            return new Pregunta();
         }
     }
 
@@ -73,7 +77,7 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
         try {
             List<PreguntaEntity> listaPreguntasEntity = new ArrayList<>();
             List<PreguntaEntity> preguntasCreadas = new ArrayList<>();
-            preguntas.forEach(pregunta ->{
+            preguntas.forEach(pregunta -> {
                 PreguntaEntity preguntaEntity = new PreguntaEntity();
                 preguntaEntity.setIdPregunta(pregunta.getIdPregunta());
                 preguntaEntity.setTexto(pregunta.getTexto());
@@ -83,7 +87,7 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
                 preguntaEntity.setOpcion2(pregunta.getOpcion2());
                 preguntaEntity.setOpcion3(pregunta.getOpcion3());
                 preguntaEntity.setOpcion4(pregunta.getOpcion4());
-                preguntaEntity.setEstado(pregunta.isEstado() ? String.valueOf('t') : String.valueOf('f'));
+                preguntaEntity.setEstado(pregunta.isEstado() ? ACTIVO : INACTIVO);
                 listaPreguntasEntity.add(preguntaEntity);
                 preguntasCreadas.add(preguntaCrud.save(preguntaEntity));
             });
@@ -92,20 +96,6 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
             e.printStackTrace();
             return new ArrayList<>();
         }
-    }
-
-    private List<Pregunta> entityToDomain (List<PreguntaEntity> listaPreguntasEntity){
-        List<Pregunta> litaPreguntas = new ArrayList<>();
-
-        listaPreguntasEntity.forEach(preguntaEntity ->{
-            Pregunta pregunta = new Pregunta(preguntaEntity.getIdPregunta(), preguntaEntity.getTexto(),
-                    preguntaEntity.getImagen(), preguntaEntity.getRespuesta(), preguntaEntity.getOpcion1(),
-                    preguntaEntity.getOpcion2(), preguntaEntity.getOpcion3(), preguntaEntity.getOpcion4(),
-                    ACTIVO.equals(preguntaEntity.getEstado()));
-            litaPreguntas.add(pregunta);
-        });
-
-        return litaPreguntas;
     }
 
     @Override
@@ -121,32 +111,46 @@ public class PreguntaRepositoryImpl implements PreguntaRepository {
                 preguntaEntity.setOpcion2(pregunta.getOpcion2());
                 preguntaEntity.setOpcion3(pregunta.getOpcion3());
                 preguntaEntity.setOpcion4(pregunta.getOpcion4());
-                preguntaEntity.setEstado(pregunta.isEstado() ? String.valueOf('t') : String.valueOf('f'));
+                preguntaEntity.setEstado(pregunta.isEstado() ? ACTIVO : INACTIVO);
 
                 preguntaCrud.save(preguntaEntity);
-                return true;
+                return Boolean.TRUE;
             } catch (Exception e) {
                 e.printStackTrace();
-                return false;
+                return Boolean.FALSE;
             }
         } else {
-            return false;
+            return Boolean.FALSE;
         }
     }
 
-        @Override
-        public Boolean delete ( int idPregunta){
-            if (preguntaCrud.findByIdPregunta(idPregunta) != null) {
-                PreguntaEntity preguntaEntity =  preguntaCrud.findFirstByIdPregunta(idPregunta);
-                preguntaEntity.setEstado("f");
-                preguntaCrud.save(preguntaEntity);
-                return true;
-            } else {
-                return false;
-            }
-
+    @Override
+    public Boolean delete(int idPregunta) {
+        if (preguntaCrud.findByIdPregunta(idPregunta) != null) {
+            PreguntaEntity preguntaEntity = preguntaCrud.findFirstByIdPregunta(idPregunta);
+            preguntaEntity.setEstado(INACTIVO);
+            preguntaCrud.save(preguntaEntity);
+            return Boolean.TRUE;
+        } else {
+            throw new ExcepcionDeProceso(String.format(NO_EXISTE_PREGUNTA_CON_ID, idPregunta));
         }
+
     }
+
+    private List<Pregunta> entityToDomain(List<PreguntaEntity> listaPreguntasEntity) {
+        List<Pregunta> litaPreguntas = new ArrayList<>();
+
+        listaPreguntasEntity.forEach(preguntaEntity -> {
+            Pregunta pregunta = new Pregunta(preguntaEntity.getIdPregunta(), preguntaEntity.getTexto(),
+                    preguntaEntity.getImagen(), preguntaEntity.getRespuesta(), preguntaEntity.getOpcion1(),
+                    preguntaEntity.getOpcion2(), preguntaEntity.getOpcion3(), preguntaEntity.getOpcion4(),
+                    ACTIVO.equals(preguntaEntity.getEstado()));
+            litaPreguntas.add(pregunta);
+        });
+
+        return litaPreguntas;
+    }
+}
 
 
 

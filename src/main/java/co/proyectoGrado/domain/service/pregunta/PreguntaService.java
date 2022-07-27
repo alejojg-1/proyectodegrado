@@ -4,7 +4,6 @@ import co.proyectoGrado.domain.model.JuegoPregunta;
 import co.proyectoGrado.domain.model.Pregunta;
 import co.proyectoGrado.repository.JuegoPreguntasRepository;
 import co.proyectoGrado.repository.PreguntaRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,6 @@ public class PreguntaService {
         this.preguntaRepository = preguntaRepository;
         this.juegoPreguntasRepository = juegoPreguntasRepository;
     }
-    private final ModelMapper mapper = new ModelMapper();
 
     public List<Pregunta> getAll(){
         return preguntaRepository.getAll();
@@ -34,12 +32,13 @@ public class PreguntaService {
                 .stream().map(JuegoPregunta::getIdPreguntas).collect(Collectors.toList());
         return preguntaRepository.getByIds(IdsPreguntas);
     }
-    public Pregunta get(int idPreguntas) {return preguntaRepository.get(idPreguntas);}
+
+    public Pregunta get(int idPreguntas) {
+        return preguntaRepository.get(idPreguntas);
+    }
 
     public  List<Pregunta> save(List<Pregunta> preguntas) {
-
         return preguntaRepository.save(preguntas);
-
     }
 
     public Boolean actualizar(int id, Pregunta pregunta) {

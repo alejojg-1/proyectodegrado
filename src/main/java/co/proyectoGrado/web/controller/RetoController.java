@@ -28,7 +28,6 @@ public class RetoController {
     @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping()
     public ResponseEntity<List<Reto>> obtenerAll(){
-
         return new ResponseEntity<>(retoService.getAll(),HttpStatus.OK);
     }
 
@@ -76,11 +75,10 @@ public class RetoController {
     @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody Reto reto){
-
         if(retoService.actualizar(id, reto)){
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Boolean.FALSE,HttpStatus.BAD_REQUEST);
         }
     }
 

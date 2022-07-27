@@ -80,7 +80,6 @@ public class EstudianteService {
             return Boolean.FALSE;
         }
         estudiante.setContrasena(encodeContrasena(estudiante.getContrasena()));
-        EstudianteEntity contenido = mapper.map(estudiante, EstudianteEntity.class);
         try {
             estudianteRepository.save(estudiante);
             return Boolean.TRUE;
@@ -102,11 +101,5 @@ public class EstudianteService {
     private String encodeContrasena(String contrasena){
         return passwordEncoder.encode(contrasena);
     }
-
-    private String decoderContrasena(String contrasena){
-        //¿Cómo decodificar?
-        return passwordEncoder.encode(contrasena);
-    }
-
 
 }

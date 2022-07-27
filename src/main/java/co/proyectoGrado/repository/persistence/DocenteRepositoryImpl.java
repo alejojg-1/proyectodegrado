@@ -15,6 +15,7 @@ import java.util.List;
 public class DocenteRepositoryImpl implements DocenteRepository {
     private final DocenteCrud docenteCrud;
     private final String ACTIVO = "t";
+    private final String INACTIVO = "f";
     private static final String EL_DOCENTE_NO_EXISTE_EN_EL_SISTEMA = "El docente con ese id no existe en el sistema";
 
     @Autowired
@@ -43,7 +44,7 @@ public class DocenteRepositoryImpl implements DocenteRepository {
     public Docente get(int identificacion) {
         DocenteEntity docenteEntity = docenteCrud.findFirstByIdentificacion(identificacion);
 
-        if (!(docenteEntity != null && docenteEntity.getEstado()=="t")) {
+        if (!(docenteEntity != null && docenteEntity.getEstado().equals(ACTIVO))) {
             throw new ExcepcionValorInvalido(EL_DOCENTE_NO_EXISTE_EN_EL_SISTEMA);
         }
         return new Docente(docenteEntity.getIdDocentes(), docenteEntity.getNombre(),
@@ -76,7 +77,7 @@ public class DocenteRepositoryImpl implements DocenteRepository {
             docenteEntity.setIdentificacion(docente.getIdentificacion());
             docenteEntity.setCorreo(docente.getCorreo());
             docenteEntity.setContrasena(docente.getContrasena());
-            docenteEntity.setEstado(docente.isEstado() ? String.valueOf('t') : String.valueOf('f'));
+            docenteEntity.setEstado(docente.isEstado() ? ACTIVO : INACTIVO);
 
             docenteCrud.save(docenteEntity);
 
@@ -88,8 +89,8 @@ public class DocenteRepositoryImpl implements DocenteRepository {
     }
 
     @Override
-    public Boolean actualizar(int id, Docente docente) {
-        if(docenteCrud.findById(id)!=null){
+    public Boolean actualizar(Docente docente) {
+        if(docenteCrud.findById(docente.getIdDocente())!=null){
 
             try {
 
@@ -101,7 +102,7 @@ public class DocenteRepositoryImpl implements DocenteRepository {
                 docenteEntity.setIdentificacion(docente.getIdentificacion());
                 docenteEntity.setCorreo(docente.getCorreo());
                 docenteEntity.setContrasena(docente.getContrasena());
-                docenteEntity.setEstado(docente.isEstado() ? "t" : "f");
+                docenteEntity.setEstado(docente.isEstado() ? ACTIVO: INACTIVO);
 
                 docenteCrud.save(docenteEntity);
 
@@ -119,7 +120,7 @@ public class DocenteRepositoryImpl implements DocenteRepository {
     public boolean delete(int idDocente) {
         if(docenteCrud.findByIdDocentes(idDocente)!=null){
             DocenteEntity docenteEntity =  docenteCrud.findFirstByIdDocentes(idDocente);
-            docenteEntity.setEstado("f");
+            docenteEntity.setEstado(INACTIVO);
             docenteCrud.save(docenteEntity);
             return true;
         }else{

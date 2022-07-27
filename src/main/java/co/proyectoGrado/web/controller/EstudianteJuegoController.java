@@ -31,7 +31,6 @@ public class EstudianteJuegoController {
         return new ResponseEntity<>(estudianteJuegoService.getAll(),HttpStatus.OK);
     }
 
-    //No está funcionando
     @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @GetMapping("/reporte/reto/{idReto}")
     public ResponseEntity<List<DtoReporteEstudiante>> obtenerReporteCalificacionesPorReto(@PathVariable("idReto") int idReto){

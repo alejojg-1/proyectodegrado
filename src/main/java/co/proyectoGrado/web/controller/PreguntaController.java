@@ -37,7 +37,9 @@ public class PreguntaController {
     @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping("/idPreguntas/{idPreguntas}")
     public ResponseEntity<Pregunta> getById(@PathVariable("idPreguntas") int idPreguntas) {
-        return new ResponseEntity<>(preguntaService.get(idPreguntas), HttpStatus.OK);
+        return preguntaService.get(idPreguntas)!=null ?
+                new ResponseEntity<>(preguntaService.get(idPreguntas), HttpStatus.OK)
+                :new ResponseEntity<>( HttpStatus.BAD_REQUEST);
     }
 
     @PreAuthorize("hasRole('ROLE_DOCENTE')")
@@ -57,6 +59,7 @@ public class PreguntaController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
         if(preguntaService.eliminar(id)){

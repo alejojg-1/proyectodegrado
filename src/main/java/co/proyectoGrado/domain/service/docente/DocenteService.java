@@ -56,8 +56,8 @@ public class DocenteService {
         }
     }
 
-    public Boolean actualizar(int id, Docente docente) {
-    return  docenteRepository.actualizar(id, docente);
+    public Boolean actualizar(Docente docente) {
+    return  docenteRepository.actualizar(docente);
     }
 
     public boolean eliminar(int id){

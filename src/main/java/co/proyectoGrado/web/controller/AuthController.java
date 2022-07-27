@@ -2,6 +2,9 @@ package co.proyectoGrado.web.controller;
 
 import co.proyectoGrado.domain.dto.AuthenticationRequest;
 import co.proyectoGrado.domain.dto.AuthenticationResponse;
+import co.proyectoGrado.domain.dto.DtoRestablecerPassword;
+import co.proyectoGrado.domain.model.Docente;
+import co.proyectoGrado.domain.service.correo.RecuperarPasswordService;
 import co.proyectoGrado.web.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +32,12 @@ public class AuthController {
     @Autowired
     private JWTUtil jwtUtil;
 
+    private final RecuperarPasswordService recuperarPasswordService;
+
+    public AuthController(RecuperarPasswordService recuperarPasswordService) {
+        this.recuperarPasswordService = recuperarPasswordService;
+    }
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> createToken(@RequestBody AuthenticationRequest request){
         try {
@@ -39,6 +48,15 @@ public class AuthController {
             return new ResponseEntity<>(new AuthenticationResponse(jwt,request.getUsername(),rol),HttpStatus.OK);
         }catch (BadCredentialsException e){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @PostMapping("/recuperar-password")
+    public ResponseEntity<Boolean> restablecerPassword(@RequestBody DtoRestablecerPassword restablecerPassword) {
+        if(recuperarPasswordService.ejecutar(restablecerPassword.getCorreo(),restablecerPassword.getIdentificacion())){
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(Boolean.FALSE,HttpStatus.BAD_REQUEST);
         }
     }
 }
