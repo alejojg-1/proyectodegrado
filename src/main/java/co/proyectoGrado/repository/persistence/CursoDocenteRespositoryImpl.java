@@ -1,5 +1,7 @@
 package co.proyectoGrado.repository.persistence;
 
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDeProceso;
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionValorInvalido;
 import co.proyectoGrado.domain.model.CursoDocente;
 import co.proyectoGrado.repository.CursoDocenteRepository;
 import co.proyectoGrado.repository.persistence.crud.CursoCrud;
@@ -9,6 +11,8 @@ import co.proyectoGrado.repository.persistence.entity.CursoDocenteEntity;
 import co.proyectoGrado.repository.persistence.entity.CursoDocentePK;
 import co.proyectoGrado.repository.persistence.entity.CursoEntity;
 import co.proyectoGrado.repository.persistence.entity.DocenteEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,9 +21,14 @@ import java.util.List;
 
 @Repository
 public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EstudianteRepositoryImpl.class);
 
     private static final String ACTIVO ="t";
     private static final String INACTIVO ="f";
+    private static final String ERROR_ACTUALIZAR_EL_CURSO_DOCENTE = "Error actualizando curso docente";
+    private static final String ERROR_CREANDO_EL_CURSO_DOCENTE = "Error creando curso docente";
+
+
     private final CursoDocenteCrud cursoDocenteCrud;
     private final CursoCrud cursoCrud;
     private final DocenteCrud docenteCrud;
@@ -39,7 +48,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
         cursoDocenteCrud.findAll().forEach(cursoDocenteEntity -> {
             CursoDocente cursoDocente = new CursoDocente(cursoDocenteEntity.getId().getIdCursoDocente(),
                     cursoDocenteEntity.getDocente().getIdDocentes(), cursoDocenteEntity.getCurso().getIdCursos(),
-                    "S".equals(cursoDocenteEntity.getEstado()));
+                    ACTIVO.equals(cursoDocenteEntity.getEstado()));
 
             if (cursoDocente.isEstado() == true) {
                 cursoDocentes.add(cursoDocente);
@@ -57,7 +66,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
         if (cursoDocenteEntity != null) {
             return new CursoDocente(cursoDocenteEntity.getId().getIdCursoDocente(),
                     cursoDocenteEntity.getDocente().getIdDocentes(), cursoDocenteEntity.getCurso().getIdCursos(),
-                    "S".equals(cursoDocenteEntity.getEstado()));
+                    ACTIVO.equals(cursoDocenteEntity.getEstado()));
         } else {
             return null;
         }
@@ -70,7 +79,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
         if (cursoDocenteEntity != null) {
             return new CursoDocente(cursoDocenteEntity.getId().getIdCursoDocente(),
                     cursoDocenteEntity.getDocente().getIdDocentes(), cursoDocenteEntity.getCurso().getIdCursos(),
-                    "S".equals(cursoDocenteEntity.getEstado()));
+                    ACTIVO.equals(cursoDocenteEntity.getEstado()));
         } else {
             return null;
         }
@@ -83,7 +92,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
         listaCursoDocenteEntity.forEach(cursoDocenteEntity -> {
             CursoDocente cursoDocente = new CursoDocente(cursoDocenteEntity.getId().getIdCursoDocente()
                     , cursoDocenteEntity.getId().getIdDocentes()
-                    , cursoDocenteEntity.getId().getIdCursos(), "S".equals(cursoDocenteEntity.getEstado()));
+                    , cursoDocenteEntity.getId().getIdCursos(), ACTIVO.equals(cursoDocenteEntity.getEstado()));
             listaCursoDocente.add(cursoDocente);
         });
         return listaCursoDocente;
@@ -95,7 +104,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
         if (cursoDocenteEntity != null) {
             return new CursoDocente(cursoDocenteEntity.getId().getIdCursoDocente(),
                     cursoDocenteEntity.getDocente().getIdDocentes(), cursoDocenteEntity.getCurso().getIdCursos(),
-                    "S".equals(cursoDocenteEntity.getEstado()));
+                    ACTIVO.equals(cursoDocenteEntity.getEstado()));
         } else {
             return null;
         }
@@ -109,7 +118,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
             DocenteEntity docenteEntity = docenteCrud.findFirstByIdDocentes(cursoDocente.getIdDocente());
 
             if (cursoEntity == null || docenteEntity == null) {
-                throw new Exception("error obteniendo las entidades para Curso Docente");
+                throw new ExcepcionValorInvalido("error obteniendo las entidades para Curso Docente");
 
             }
             CursoDocenteEntity cursoDocenteEntity = new CursoDocenteEntity();
@@ -123,25 +132,34 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
             return true;
 
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error creando Curso Docente");
+            LOGGER.error(ERROR_CREANDO_EL_CURSO_DOCENTE,e);
+            throw new ExcepcionDeProceso(ERROR_CREANDO_EL_CURSO_DOCENTE);
         }
     }
 
     @Override
-    public Boolean actualizar(int id, CursoDocente cursodocente) {
+    public Boolean actualizar(int id, CursoDocente cursoDocente) {
 
         try {
+            CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(cursoDocente.getIdCurso());
+            DocenteEntity docenteEntity = docenteCrud.findFirstByIdDocentes(cursoDocente.getIdDocente());
+
+            if (cursoEntity == null || docenteEntity == null) {
+                throw new ExcepcionValorInvalido("error obteniendo las entidades para Curso Docente");
+
+            }
             CursoDocenteEntity cursoDocenteEntity = new CursoDocenteEntity();
-            cursoDocenteEntity.getId().setIdCursoDocente(cursodocente.getIdCursoDocente());
-            cursoDocenteEntity.getCurso().setIdCursos(cursodocente.getIdCurso());
-            cursoDocenteEntity.getDocente().setIdDocentes(cursodocente.getIdCursoDocente());
-            cursoDocenteEntity.setEstado(cursodocente.isEstado() ? String.valueOf('t') : String.valueOf('f'));
+            cursoDocenteEntity.setId(new CursoDocentePK());
+            cursoDocenteEntity.getId().setIdDocentes(cursoDocente.getIdDocente());
+            cursoDocenteEntity.getId().setIdCursos(cursoDocente.getIdCurso());
+            cursoDocenteEntity.setEstado(cursoDocente.isEstado() ? ACTIVO : INACTIVO);
+            cursoDocenteEntity.setDocente(docenteEntity);
+            cursoDocenteEntity.setCurso(cursoEntity);
             cursoDocenteCrud.save(cursoDocenteEntity);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            LOGGER.error(ERROR_ACTUALIZAR_EL_CURSO_DOCENTE,e);
+            throw new ExcepcionDeProceso(ERROR_ACTUALIZAR_EL_CURSO_DOCENTE);
         }
     }
 
@@ -149,7 +167,7 @@ public class CursoDocenteRespositoryImpl implements CursoDocenteRepository {
     public Boolean delete(int idCursoDocente) {
         if (cursoDocenteCrud.findById_IdCursoDocente(idCursoDocente) != null) {
             CursoDocenteEntity cursoDocenteEntity = cursoDocenteCrud.findFirstById_IdCursoDocente(idCursoDocente);
-            cursoDocenteEntity.setEstado("f");
+            cursoDocenteEntity.setEstado(INACTIVO);
             cursoDocenteCrud.save(cursoDocenteEntity);
             return true;
         } else {

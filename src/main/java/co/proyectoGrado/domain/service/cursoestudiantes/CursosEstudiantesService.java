@@ -1,5 +1,6 @@
 package co.proyectoGrado.domain.service.cursoestudiantes;
 
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDeProceso;
 import co.proyectoGrado.domain.model.CursoEstudiante;
 import co.proyectoGrado.repository.CursosEstudiantesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class CursosEstudiantesService {
         try {
             cursosEstudiantesRepository.save(cursoEstudiante);
             return Boolean.TRUE;
-        } catch (Exception e) {
+        } catch (ExcepcionDeProceso e) {
             e.printStackTrace();
             return Boolean.FALSE;
         }

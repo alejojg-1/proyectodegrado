@@ -1,10 +1,13 @@
 package co.proyectoGrado.repository.persistence;
 
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDeProceso;
 import co.proyectoGrado.domain.model.Estudiante;
 import co.proyectoGrado.repository.EstudianteRepository;
 import co.proyectoGrado.repository.persistence.crud.EstudianteCrud;
 import co.proyectoGrado.repository.persistence.entity.EstudianteEntity;
 import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionValorInvalido;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,10 +16,14 @@ import java.util.List;
 
 @Repository
 public class EstudianteRepositoryImpl implements EstudianteRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EstudianteRepositoryImpl.class);
+
     private final EstudianteCrud estudianteCrud;
     private final String ACTIVO = "t";
     private final String INACTIVO = "f";
     private static final String EL_ESTUDIANTE_NO_EXISTE_EN_EL_SISTEMA = "El estudiante con ese id no existe en el sistema";
+    private static final String ERROR_ACTUALIZAR_EL_ESTUDIANTE = "Error actualizando estudiante";
+    private static final String ERROR_CREANDO_EL_ESTUDIANTE = "Error creando estudiante";
 
 
     @Autowired
@@ -119,8 +126,8 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
 
             return true;
         } catch (RuntimeException e) {
-            e.printStackTrace();
-            return false;
+            LOGGER.error(ERROR_CREANDO_EL_ESTUDIANTE,e);
+            throw new ExcepcionDeProceso(ERROR_CREANDO_EL_ESTUDIANTE);
         }
     }
 
@@ -144,8 +151,8 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
 
                 return true;
             } catch (RuntimeException e) {
-                e.printStackTrace();
-                return false;
+                LOGGER.error(ERROR_ACTUALIZAR_EL_ESTUDIANTE,e);
+                throw new ExcepcionDeProceso(ERROR_ACTUALIZAR_EL_ESTUDIANTE);
             }
         }else{
             return false;

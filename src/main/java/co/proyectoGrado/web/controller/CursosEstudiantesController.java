@@ -7,6 +7,7 @@ import co.proyectoGrado.domain.service.cursoestudiantes.RelacionarCursoAEstudian
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,20 +25,22 @@ public class CursosEstudiantesController {
         this.relacionarCursoAEstudiantePorCodigoService = relacionarCursoAEstudiantePorCodigoService;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping()
     public ResponseEntity<List<CursoEstudiante>> getAll() {
 
         return new ResponseEntity<>(cursosEstudiantesService.getAll(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping("/id-curso-estudiante/{idcursoestudiantes}")
     public ResponseEntity<CursoEstudiante> getById(@PathVariable("idcursoestudiantes") int idCursoEstudiantes) {
         return new ResponseEntity<>(cursosEstudiantesService.get(idCursoEstudiantes), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody DtoRelacionEstudianteCurso dtoRelacionEstudianteCurso) {
-
         if (relacionarCursoAEstudiantePorCodigoService.ejecutar(dtoRelacionEstudianteCurso)) {
             return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         } else {
@@ -45,6 +48,7 @@ public class CursosEstudiantesController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody CursoEstudiante cursoestudiante) {
         if (cursosEstudiantesService.actualizar(id, cursoestudiante)) {
@@ -54,6 +58,7 @@ public class CursosEstudiantesController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id) {
         if (cursosEstudiantesService.eliminar(id)) {

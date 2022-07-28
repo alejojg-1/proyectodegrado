@@ -45,19 +45,14 @@ public class RetoController {
 
     @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @GetMapping("/curso/{idcurso}/tipo/{tipo}")
-    public ResponseEntity<List<Reto>> obtenerPorCursoIdYTipo(@PathVariable("idcurso") int idCurso,
-                                                       @PathVariable("tipo") String tipo) {
+    public ResponseEntity<List<Reto>> obtenerPorCursoIdYTipo(@PathVariable("idcurso") int idCurso, @PathVariable("tipo") String tipo) {
         return new ResponseEntity<>(retoService.getPorCursoIdYTipo(idCurso,tipo), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @PostMapping("/save")
     public ResponseEntity<Reto> guardar(@RequestBody Reto reto) {
-        try {
             return new ResponseEntity<>(retoService.save(reto),HttpStatus.OK);
-        }catch (RuntimeException e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
     }
 
     @PreAuthorize("hasRole('ROLE_DOCENTE')")

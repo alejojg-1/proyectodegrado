@@ -25,7 +25,8 @@ public class ObtenerCursosPorUsuarioService {
     @Autowired
     public ObtenerCursosPorUsuarioService(CursoDocenteRepository cursoDocenteRepository,
                                           CursosEstudiantesRepository cursosEstudiantesRepository,
-                                          CursoRepository cursoRepository, EstudianteRepository estudianteRepository, DocenteRepository docenteRepository) {
+                                          CursoRepository cursoRepository, EstudianteRepository estudianteRepository,
+                                          DocenteRepository docenteRepository) {
         this.cursoDocenteRepository = cursoDocenteRepository;
         this.cursosEstudiantesRepository = cursosEstudiantesRepository;
         this.cursoRepository = cursoRepository;

@@ -42,7 +42,6 @@ public class EstudianteController {
 
     @PostMapping("/save")
     public ResponseEntity<Boolean> save(@RequestBody Estudiante estudiante) {
-
         if(estudianteService.save(estudiante)){
             return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         }else{

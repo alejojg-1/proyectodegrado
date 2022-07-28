@@ -2,9 +2,9 @@ package co.proyectoGrado.domain.service.cursocontenido;
 
 
 import co.proyectoGrado.domain.dto.DtoRespuesta;
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDeProceso;
 import co.proyectoGrado.domain.model.CursoContenido;
 import co.proyectoGrado.repository.CursoContenidoRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +20,12 @@ public class CursoContenidoService {
         this.cursoContenidoRepository = cursoContenidoRepository;
     }
 
-    private final ModelMapper mapper = new ModelMapper();
-
     public List<CursoContenido> getAll() {
         return cursoContenidoRepository.getAll();
     }
 
-    public List <CursoContenido> obtenerContenidoPorIdCategoria(int idCategoriaContenido, int IdCurso) {
-        return cursoContenidoRepository.getByIdCategoriaYIdCurso(idCategoriaContenido,IdCurso);
+    public List<CursoContenido> obtenerContenidoPorIdCategoria(int idCategoriaContenido, int IdCurso) {
+        return cursoContenidoRepository.getByIdCategoriaYIdCurso(idCategoriaContenido, IdCurso);
     }
 
     public boolean save(CursoContenido cursoContenido) {
@@ -35,7 +33,7 @@ public class CursoContenidoService {
         try {
             cursoContenidoRepository.save(cursoContenido);
             return Boolean.TRUE;
-        } catch (Exception e) {
+        } catch (ExcepcionDeProceso e) {
             e.printStackTrace();
             return Boolean.FALSE;
         }

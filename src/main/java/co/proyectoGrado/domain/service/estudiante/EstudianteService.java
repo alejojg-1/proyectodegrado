@@ -85,6 +85,11 @@ public class EstudianteService {
     }
 
     public Boolean actualizar(Estudiante estudiante) {
+        if(docenteService.get(estudiante.getCorreo()) != null
+                && docenteService.get(estudiante.getCorreo()).getCorreo()
+                .equals(estudiante.getCorreo())){
+            return Boolean.FALSE;
+        }
         return  estudianteRepository.actualizar(estudiante);
     }
 
@@ -95,7 +100,5 @@ public class EstudianteService {
     private String encodeContrasena(String contrasena){
         return passwordEncoder.encode(contrasena);
     }
-
-
 
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class CursoService {
 
-    private  final CursoRepository cursoRepository;
+    private final CursoRepository cursoRepository;
 
     @Autowired
     public CursoService(CursoRepository cursoRepository) {
@@ -25,7 +25,7 @@ public class CursoService {
         return cursoRepository.getByCodigo(codigo);
     }
 
-    public List<Curso> getAll(){
+    public List<Curso> getAll() {
         return cursoRepository.getAll();
     }
 
@@ -34,16 +34,11 @@ public class CursoService {
     }
 
     public Curso save(Curso curso) {
-        try {
-            return cursoRepository.save(curso);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        return cursoRepository.save(curso);
     }
 
     public Boolean actualizar(int id, Curso curso) {
-        return  cursoRepository.actualizar(id, curso);
+        return cursoRepository.actualizar(id, curso);
     }
 
     public Boolean eliminar(int id) {

@@ -19,12 +19,11 @@ public class CategoriaContenidoEntity {
     @Column(name="idcategoria_contenido")
     private Integer idCategoriaContenido;
     @Column(name="idpreguntas")
-    private Integer idpreguntas;
+    private Integer idPreguntas;
     @Column(name="nombre")
     private String nombre;
 
     @ManyToOne
-    //@MapsId("idPregunta")
     @JoinColumn(name = "idpreguntas", insertable = false, updatable = false)
     private PreguntaEntity pregunta;
 
