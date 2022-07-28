@@ -118,7 +118,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
             estudianteCrud.save(estudianteEntity);
 
             return true;
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             e.printStackTrace();
             return false;
         }
@@ -143,7 +143,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
                 estudianteCrud.save(estudianteEntity);
 
                 return true;
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 e.printStackTrace();
                 return false;
             }

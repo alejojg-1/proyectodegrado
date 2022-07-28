@@ -33,7 +33,6 @@ public class CalcularPuntajeRetoEstudianteService {
     }
 
     public EstudianteJuego ejecutar(List<EstudianteJuegoRespuesta> listaRespuestasEstudiante, int idReto, int idEstudiante) {
-        //¿Se bebe de tener en cuenta el estado activo?
         List<Pregunta> listaPreguntas = preguntaService.obtenerPreguntasPorIdReto(idReto);
         List<Pregunta> preguntasContestadasCorrectamente = obtenerRespuestasCorrectas(listaPreguntas, listaRespuestasEstudiante);
         Double puntuacion = cacularPuntuacion(listaPreguntas, preguntasContestadasCorrectamente);

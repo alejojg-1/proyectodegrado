@@ -3,11 +3,9 @@ package co.proyectoGrado.domain.service.estudiante;
 import co.proyectoGrado.domain.dto.DtoEstudianteRelacionado;
 import co.proyectoGrado.domain.model.CursoEstudiante;
 import co.proyectoGrado.domain.model.Estudiante;
-import co.proyectoGrado.repository.EstudianteRepository;
-import co.proyectoGrado.repository.persistence.entity.EstudianteEntity;
 import co.proyectoGrado.domain.service.cursoestudiantes.CursosEstudiantesService;
 import co.proyectoGrado.domain.service.docente.DocenteService;
-import org.modelmapper.ModelMapper;
+import co.proyectoGrado.repository.EstudianteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,8 +22,6 @@ public class EstudianteService {
     private final EstudianteRepository estudianteRepository;
     @Autowired
     private final DocenteService docenteService;
-    private final ModelMapper mapper = new ModelMapper();
-
     @Autowired
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -65,7 +61,6 @@ public class EstudianteService {
                         estudianteObtenido.getIdentificacion(),estudianteObtenido.getCorreo()));
             }
         });
-
         return dtoEstudianteRelacionados;
     }
 
@@ -94,12 +89,13 @@ public class EstudianteService {
     }
 
     public boolean eliminar(int id){
-
         return estudianteRepository.delete(id);
     }
 
     private String encodeContrasena(String contrasena){
         return passwordEncoder.encode(contrasena);
     }
+
+
 
 }

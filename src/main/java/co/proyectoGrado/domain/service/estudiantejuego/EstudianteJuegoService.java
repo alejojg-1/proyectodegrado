@@ -41,7 +41,6 @@ public class EstudianteJuegoService {
     }
 
     public Boolean eliminar(int id) {
-
         return estudianteJuegoRepository.delete(id);
     }
 }

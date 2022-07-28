@@ -19,9 +19,6 @@ public class EstudianteJuegoEntity {
     @Column(name = "calificacion")
     private double calificacion;
 
-   /* @OneToMany(mappedBy = "estudianteJuego",cascade = {CascadeType.ALL})
-    private List<EstudianteJuegoRespuestasEntity> estudianteJuegoRespuestas;*/
-
     @ManyToOne
     @MapsId("idReto")
     @JoinColumn(name="idreto", insertable = false, updatable = false)
