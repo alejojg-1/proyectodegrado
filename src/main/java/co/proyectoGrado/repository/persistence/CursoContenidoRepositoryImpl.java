@@ -1,5 +1,6 @@
 package co.proyectoGrado.repository.persistence;
 
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDeProceso;
 import co.proyectoGrado.domain.model.CursoContenido;
 import co.proyectoGrado.repository.CursoContenidoRepository;
 import co.proyectoGrado.repository.persistence.crud.CategoriaContenidoCrud;
@@ -9,6 +10,8 @@ import co.proyectoGrado.repository.persistence.entity.CategoriaContenidoEntity;
 import co.proyectoGrado.repository.persistence.entity.CursoContenidoPK;
 import co.proyectoGrado.repository.persistence.entity.CursoContenidoEntity;
 import co.proyectoGrado.repository.persistence.entity.CursoEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +20,9 @@ import java.util.List;
 
 @Repository
 public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EstudianteRepositoryImpl.class);
+    private static final String ERROR_ACTUALIZAR_EL_CONTENIDO = "Error actualizando contenido";
+    private static final String ERROR_CREANDO_EL_CONTENIDO = "Error creando contenido";
 
     private final CursoContenidoCrud cursoContenidoCrud;
     private final CursoCrud cursoCrud;
@@ -96,16 +102,15 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
 
 
     @Override
-    public CursoContenido getCursosiId(int idCurso) {
+    public CursoContenido getCursosId(int idCurso) {
 
-        CursoContenidoEntity cursoContenidoEntity = cursoContenidoCrud.findByCurso_IdCursos(idCurso);
+        CursoContenidoEntity cursoContenidoEntity = cursoContenidoCrud.findFirstById_IdCursos(idCurso);
 
         if (cursoContenidoEntity != null) {
-            //Corregir con el de arriba
             return new CursoContenido(cursoContenidoEntity.getId().getIdCursoContenido(),
                     cursoContenidoEntity.getCategoriaContenido().getIdCategoriaContenido(), cursoContenidoEntity.getCurso().getIdCursos()
-                    , cursoContenidoEntity.getComentario(), cursoContenidoEntity.getImagen(), cursoContenidoEntity.getComentario()
-                    , cursoContenidoEntity.getDescripcion());
+                    , cursoContenidoEntity.getComentario(), cursoContenidoEntity.getDescripcion(), cursoContenidoEntity.getImagen()
+                    , cursoContenidoEntity.getVideo());
         } else {
             return null;
         }
@@ -131,8 +136,8 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
 
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            LOGGER.error(ERROR_CREANDO_EL_CONTENIDO,e);
+            throw new ExcepcionDeProceso(ERROR_CREANDO_EL_CONTENIDO);
         }
 
     }
@@ -156,8 +161,8 @@ public class CursoContenidoRepositoryImpl implements CursoContenidoRepository {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            LOGGER.error(ERROR_ACTUALIZAR_EL_CONTENIDO,e);
+            throw new ExcepcionDeProceso(ERROR_ACTUALIZAR_EL_CONTENIDO);
         }
     }
 

@@ -5,7 +5,6 @@ import co.proyectoGrado.domain.model.EstudianteJuegoRespuesta;
 import co.proyectoGrado.domain.model.Reto;
 import co.proyectoGrado.domain.service.estudiante.EstudianteService;
 import co.proyectoGrado.domain.service.juegopregunta.JuegoPreguntasService;
-import co.proyectoGrado.domain.service.estudiantejuegorespuesta.EstudianteJuegoRespuestasService;
 import co.proyectoGrado.domain.service.reto.RetoService;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +20,16 @@ public class AccionesCrearEstudianteJuegoSegunEscenarioService {
 
 
     private final CalcularPuntajeRetoEstudianteService calcularPuntajeRetoEstudianteService;
-    private final EstudianteJuegoRespuestasService estudianteJuegoRespuestasService;
     private final EstudianteJuegoService estudianteJuegoService;
     private final RetoService retoService;
     private final EstudianteService estudianteService;
     private final JuegoPreguntasService juegoPreguntasService;
 
     public AccionesCrearEstudianteJuegoSegunEscenarioService(CalcularPuntajeRetoEstudianteService calcularPuntajeRetoEstudianteService,
-                                                             EstudianteJuegoRespuestasService estudianteJuegoRespuestasService,
                                                              EstudianteJuegoService estudianteJuegoService, RetoService retoService,
                                                              EstudianteService estudianteService,
                                                              JuegoPreguntasService juegoPreguntasService) {
         this.calcularPuntajeRetoEstudianteService = calcularPuntajeRetoEstudianteService;
-        this.estudianteJuegoRespuestasService = estudianteJuegoRespuestasService;
         this.estudianteJuegoService = estudianteJuegoService;
         this.retoService = retoService;
         this.estudianteService = estudianteService;
@@ -59,7 +55,6 @@ public class AccionesCrearEstudianteJuegoSegunEscenarioService {
                         estudianteJuegorespuestaACrear.getIdPreguntas()).getIdJuegoPreguntas());
                 estudianteJuegorespuestaACrear.setIdEstudianteJuego(estudianteJuegoCreado.getIdEstudianteJuego());
             });
-            //estudianteJuegoRespuestasService.save(listaRespuestasEstudiante);
             return estudianteJuegoCalculado.getCalificacion();
         }
         else{

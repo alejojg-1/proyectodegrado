@@ -1,10 +1,9 @@
 package co.proyectoGrado.domain.service.docente;
 
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDeProceso;
 import co.proyectoGrado.domain.model.Docente;
-import co.proyectoGrado.repository.DocenteRepository;
-import co.proyectoGrado.repository.persistence.entity.DocenteEntity;
 import co.proyectoGrado.domain.service.estudiante.EstudianteService;
-import org.modelmapper.ModelMapper;
+import co.proyectoGrado.repository.DocenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,7 +27,6 @@ public class DocenteService {
         this.estudianteService = estudianteService;
         this.passwordEncoder =passwordEncoder;
     }
-    private final ModelMapper mapper = new ModelMapper();
 
     public List<Docente> getAll(){
         return docenteRepository.getAll();
@@ -44,20 +42,18 @@ public class DocenteService {
                 .equals(docente.getCorreo())){
             return Boolean.FALSE;
         }
-
         docente.setContrasena(encodeContrasena(docente.getContrasena()));
-        DocenteEntity contenido = mapper.map(docente, DocenteEntity.class);
         try {
             docenteRepository.save(docente);
             return Boolean.TRUE;
-        } catch (Exception e) {
+        } catch (ExcepcionDeProceso e) {
             e.printStackTrace();
             return Boolean.FALSE;
         }
     }
 
-    public Boolean actualizar(int id, Docente docente) {
-    return  docenteRepository.actualizar(id, docente);
+    public Boolean actualizar(Docente docente) {
+    return  docenteRepository.actualizar(docente);
     }
 
     public boolean eliminar(int id){

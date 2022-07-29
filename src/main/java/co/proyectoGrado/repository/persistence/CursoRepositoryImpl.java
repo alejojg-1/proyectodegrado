@@ -1,11 +1,14 @@
 package co.proyectoGrado.repository.persistence;
 
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDeProceso;
 import co.proyectoGrado.domain.model.Curso;
 import co.proyectoGrado.domain.model.Reto;
 import co.proyectoGrado.repository.CursoRepository;
 import co.proyectoGrado.repository.persistence.crud.CursoCrud;
 import co.proyectoGrado.repository.persistence.entity.CursoEntity;
 import co.proyectoGrado.repository.persistence.entity.RetoEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +19,17 @@ import java.util.stream.Collectors;
 @Repository
 public class CursoRepositoryImpl implements CursoRepository {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CursoRepositoryImpl.class);
+
     private final CursoCrud cursoCrud;
+    private static final String ACTIVO = "t";
+    private static final String NO_EXISTE_EL_CURSO_CON_ID = "No existe el curso con el id: %s ";
+    private static final String NO_EXISTE_EL_CURSO_CON_CODIGO = "No existe el curso con el codigo: %s ";
+    private static final String NO_EXISTE_EL_CURSO_CON_NOMBRE = "No existe el curso con el nombre: %s ";
+    private static final String NO_EXISTE_EL_CURSO_CON_GRADO = "No existe el curso con el grado: %s ";
+    private static final String ERROR_ACTUALIZAR_EL_CURSO = "Error actualizando curso";
+    private static final String ERROR_CREANDO_EL_CURSO = "Error creando curso";
+
 
     @Autowired
     public CursoRepositoryImpl(CursoCrud cursoCrud) {
@@ -64,7 +77,7 @@ public class CursoRepositoryImpl implements CursoRepository {
             return curso;
         }else{
             throw new RuntimeException(
-                    String.format( "No existe el curso con el id: %s ",idCurso));
+                    String.format( NO_EXISTE_EL_CURSO_CON_ID,idCurso));
         }
     }
 
@@ -79,8 +92,8 @@ public class CursoRepositoryImpl implements CursoRepository {
                     mapperReto(cursoEntity.getReto()));
             return curso;
         }else{
-            throw new RuntimeException(
-                    String.format( "No existe el curso con el código: %s ",codigo));
+            throw new ExcepcionDeProceso(
+                    String.format( NO_EXISTE_EL_CURSO_CON_CODIGO,codigo));
         }
     }
 
@@ -95,7 +108,8 @@ public class CursoRepositoryImpl implements CursoRepository {
                     mapperReto(cursoEntity.getReto()));
         } else {
             throw new RuntimeException(
-                    String.format( "No existe el curso con el grado: %s ",grado));        }
+                    String.format( NO_EXISTE_EL_CURSO_CON_GRADO,grado));
+        }
     }
 
     @Override
@@ -108,8 +122,8 @@ public class CursoRepositoryImpl implements CursoRepository {
                     cursoEntity.getCodigo(),
                     mapperReto(cursoEntity.getReto()));
         } else {
-            throw new RuntimeException(
-                    String.format( "No existe el curso con el nombre: %s ",nombre));
+            throw new ExcepcionDeProceso(
+                    String.format( NO_EXISTE_EL_CURSO_CON_NOMBRE,nombre));
         }
     }
 
@@ -122,8 +136,8 @@ public class CursoRepositoryImpl implements CursoRepository {
             cursoEntity.setCodigo(curso.getCodigo());
             return entityToDomain(cursoCrud.save(cursoEntity));
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            LOGGER.error(ERROR_CREANDO_EL_CURSO,e);
+            throw new ExcepcionDeProceso(ERROR_CREANDO_EL_CURSO);
         }
     }
 
@@ -139,8 +153,8 @@ public class CursoRepositoryImpl implements CursoRepository {
                 cursoCrud.save(cursoEntity);
 
             } catch (Exception e) {
-                e.printStackTrace();
-                return false;
+                LOGGER.error(ERROR_ACTUALIZAR_EL_CURSO,e);
+                throw new ExcepcionDeProceso(ERROR_ACTUALIZAR_EL_CURSO);
             }
         } else {
             return false;
@@ -161,9 +175,9 @@ public class CursoRepositoryImpl implements CursoRepository {
 
     private List<Reto> mapperReto(List<RetoEntity> listaRetoEntity) {
         return listaRetoEntity.stream().map(retoEntity ->
-                new Reto(retoEntity.getIdReto(), retoEntity.getIdCursos(), retoEntity.getTipo(), retoEntity.getTitulo(),
-                        retoEntity.getDescripcion(), retoEntity.getComentario(),
-                        "t".equals(retoEntity.getEstado()))).collect(Collectors.toList());
+                new Reto(retoEntity.getIdReto(), retoEntity.getIdCursos(), retoEntity.getTipo(),
+                        retoEntity.getTitulo(), retoEntity.getDescripcion(), retoEntity.getComentario(),
+                        ACTIVO.equals(retoEntity.getEstado()))).collect(Collectors.toList());
     }
 
     private Curso entityToDomain(CursoEntity cursoEntity) {

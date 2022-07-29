@@ -1,5 +1,6 @@
 package co.proyectoGrado.repository.persistence;
 
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDeProceso;
 import co.proyectoGrado.domain.model.CursoEstudiante;
 import co.proyectoGrado.repository.CursosEstudiantesRepository;
 import co.proyectoGrado.repository.persistence.crud.CursoCrud;
@@ -9,6 +10,8 @@ import co.proyectoGrado.repository.persistence.entity.CursoEntity;
 import co.proyectoGrado.repository.persistence.entity.CursoEstudiantePK;
 import co.proyectoGrado.repository.persistence.entity.CursosEstudiantesEntity;
 import co.proyectoGrado.repository.persistence.entity.EstudianteEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,9 +20,13 @@ import java.util.List;
 
 @Repository
 public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CursoEstudiantesRepositoryImpl.class);
     private final CursoEstudianteCrud cursoEstudianteCrud;
     private final EstudianteCrud estudianteCrud;
     private final CursoCrud cursoCrud;
+    private static final String ERROR_ACTUALIZAR_EL_CURSO_ESTUDIANTE = "Error actualizando estudiante";
+    private static final String ERROR_CREANDO_EL_CURSO_ESTUDIANTE = "Error creando estudiante";
+
 
     @Autowired
     public CursoEstudiantesRepositoryImpl(CursoEstudianteCrud cursoEstudianteCrud,EstudianteCrud estudianteCrud,CursoCrud cursoCrud) {
@@ -97,25 +104,30 @@ public class CursoEstudiantesRepositoryImpl implements CursosEstudiantesReposito
             cursoEstudianteCrud.save(cursosEstudiantesEntity);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            LOGGER.error(ERROR_CREANDO_EL_CURSO_ESTUDIANTE,e);
+            throw new ExcepcionDeProceso(ERROR_CREANDO_EL_CURSO_ESTUDIANTE);
         }
     }
 
     @Override
-
     public Boolean actualizar(int id,CursoEstudiante cursoEstudiante) {
         try {
+            EstudianteEntity estudianteEntity = estudianteCrud.findFirstByIdEstudiantes(cursoEstudiante.getIdEstudiantes());
+            CursoEntity cursoEntity = cursoCrud.findFirstByIdCursos(cursoEstudiante.getIdCursos());
+
             CursosEstudiantesEntity cursosEstudiantesEntity = new CursosEstudiantesEntity();
-            cursosEstudiantesEntity.getEstudiante().setIdentificacion(cursoEstudiante.getIdEstudiantes());
-            cursosEstudiantesEntity.getCurso().setIdCursos(cursoEstudiante.getIdCursos());
+            cursosEstudiantesEntity.setId(new CursoEstudiantePK());
+            cursosEstudiantesEntity.getId().setIdCursoEstudiante(cursoEstudiante.getIdCursoEstudiante());
+            cursosEstudiantesEntity.getId().setIdEstudiantes(cursoEstudiante.getIdEstudiantes());
+            cursosEstudiantesEntity.getId().setIdCursos(cursoEstudiante.getIdCursos());
+            cursosEstudiantesEntity.setEstudiante(estudianteEntity);
+            cursosEstudiantesEntity.setCurso(cursoEntity);
             cursoEstudianteCrud.save(cursosEstudiantesEntity);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            LOGGER.error(ERROR_ACTUALIZAR_EL_CURSO_ESTUDIANTE,e);
+            throw new ExcepcionDeProceso(ERROR_ACTUALIZAR_EL_CURSO_ESTUDIANTE);
         }
-
     }
 
     @Override

@@ -103,29 +103,32 @@ public class EstudianteJuegoRespositoryImpl implements EstudianteJuegoRepository
     @Override
     public Boolean actualizar(int id, EstudianteJuego estudianteJuego) {
         try {
-            EstudianteJuegoEntity estudianteJuegoEntity = new EstudianteJuegoEntity();
+            EstudianteEntity estudianteEntity = estudianteCrud.findFirstByIdEstudiantes(estudianteJuego.getIdEstudiantes());
+            RetoEntity retoEntity = retoCrud.findFirstByIdReto(estudianteJuego.getIdReto());
 
-            estudianteJuegoEntity.getId().setIdEstudianteJuego(estudianteJuego.getIdEstudianteJuego());
-            estudianteJuegoEntity.setCalificacion(estudianteJuego.getCalificacion());
-            estudianteJuegoEntity.getReto().setIdReto(estudianteJuego.getIdReto());
-            estudianteJuegoEntity.getId().setIdEstudiantes(estudianteJuego.getIdEstudiantes());
+            EstudianteJuegoPK estudianteJuegoPK = new EstudianteJuegoPK(estudianteJuego.getIdEstudianteJuego(),
+                    estudianteJuego.getIdReto(),estudianteJuego.getIdEstudiantes());
+            EstudianteJuegoEntity estudianteJuegoEntity = new EstudianteJuegoEntity(estudianteJuegoPK,
+                    estudianteJuego.getCalificacion(),
+                    retoEntity,
+                    estudianteEntity);
+             estudianteJuegoCrud.save(estudianteJuegoEntity);
 
+            return Boolean.TRUE;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return Boolean.FALSE;
         }
-        return false;
     }
 
     @Override
     public Boolean delete(int idEstudianteJuego) {
         if (estudianteJuegoCrud.findFirstById_IdEstudianteJuego(idEstudianteJuego) != null) {
-            EstudianteJuegoEntity estudianteJuegoEntity = (EstudianteJuegoEntity)
-                    estudianteJuegoCrud.findFirstById_IdEstudianteJuego(idEstudianteJuego);
-            estudianteJuegoCrud.save(estudianteJuegoEntity);
-            return true;
+            EstudianteJuegoEntity estudianteJuegoEntity = estudianteJuegoCrud.findFirstById_IdEstudianteJuego(idEstudianteJuego);
+            estudianteJuegoCrud.delete(estudianteJuegoEntity);
+            return Boolean.TRUE;
         } else {
-            return false;
+            return Boolean.FALSE;
         }
     }
 

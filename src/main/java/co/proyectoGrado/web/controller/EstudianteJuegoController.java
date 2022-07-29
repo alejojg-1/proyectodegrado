@@ -31,7 +31,6 @@ public class EstudianteJuegoController {
         return new ResponseEntity<>(estudianteJuegoService.getAll(),HttpStatus.OK);
     }
 
-    //No está funcionando
     @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @GetMapping("/reporte/reto/{idReto}")
     public ResponseEntity<List<DtoReporteEstudiante>> obtenerReporteCalificacionesPorReto(@PathVariable("idReto") int idReto){
@@ -44,7 +43,7 @@ public class EstudianteJuegoController {
         return new ResponseEntity<>(estudianteJuegoService.get(idestudianteJuego), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_DOCENTE')")
+    @PreAuthorize("hasAnyRole('ROLE_DOCENTE,ROLE_ESTUDIANTE')")
     @PostMapping("/save")
     public ResponseEntity<EstudianteJuego> save(@RequestBody EstudianteJuego estudianteJuego) {
         try {
@@ -59,19 +58,19 @@ public class EstudianteJuegoController {
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> actualizar(@PathVariable("id") int id, @RequestBody EstudianteJuego estudianteJuego){
         if(estudianteJuegoService.actualizar(id, estudianteJuego)){
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Boolean.FALSE,HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_DOCENTE')")
+    @PreAuthorize("hasRole('ROLE_DOCENTE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> eliminar(@PathVariable int id){
         if(estudianteJuegoService.eliminar(id)){
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Boolean.FALSE,HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -2,7 +2,6 @@ package co.proyectoGrado.domain.service.estudiantejuegorespuesta;
 
 import co.proyectoGrado.domain.model.EstudianteJuegoRespuesta;
 import co.proyectoGrado.repository.EstudianteJuegoRespuestasRepository;
-import co.proyectoGrado.repository.persistence.crud.EstudianteJuegoRespuestasCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +11,6 @@ import java.util.List;
 public class EstudianteJuegoRespuestasService {
 
     private final EstudianteJuegoRespuestasRepository estudianteJuegoRespuestasRepository;
-    @Autowired
-    private EstudianteJuegoRespuestasCrud estudianteJuegoRespuestasCrud;
 
     @Autowired
     public EstudianteJuegoRespuestasService(EstudianteJuegoRespuestasRepository estudianteJuegoRespuestasRepository) {

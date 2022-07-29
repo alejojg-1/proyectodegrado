@@ -121,10 +121,15 @@ public class JuegoPreguntaRepositoryImpl implements JuegoPreguntasRepository {
     public boolean actualizar(int id, JuegoPregunta juegoPregunta) {
 
         try{
+            PreguntaEntity preguntaEntity= preguntaCrud.findFirstByIdPregunta(juegoPregunta.getIdPreguntas());
+            RetoEntity retoEntity= retoCrud.findFirstByIdReto(juegoPregunta.getIdReto());
             JuegoPreguntasEntity juegoPreguntasEntity = new JuegoPreguntasEntity();
-            juegoPreguntasEntity.getPregunta().setIdPregunta(juegoPregunta.getIdPreguntas());
-            juegoPreguntasEntity.getReto().setIdReto(juegoPregunta.getIdReto());
+            juegoPreguntasEntity.setId(new JuegoPreguntasPK());
+            juegoPreguntasEntity.getId().setIdPreguntas(juegoPregunta.getIdPreguntas());
+            juegoPreguntasEntity.getId().setIdReto(juegoPregunta.getIdReto());
             juegoPreguntasEntity.setEstado(juegoPregunta.isEstado() ? ACTIVO : INACTIVO);
+            juegoPreguntasEntity.setPregunta(preguntaEntity);
+            juegoPreguntasEntity.setReto(retoEntity);
             juegoPreguntasCrud.save(juegoPreguntasEntity);
             return  true;
 

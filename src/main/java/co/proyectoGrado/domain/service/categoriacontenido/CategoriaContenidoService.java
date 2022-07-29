@@ -45,26 +45,18 @@ public class CategoriaContenidoService {
     }
 
     public CategoriaContenido save(CategoriaContenido categoriaContenido) {
-
-        try {
-            return categoriaContenidoRepository.save(categoriaContenido);
-        } catch (Exception e) {
-             throw new RuntimeException("Error");
-        }
+        return categoriaContenidoRepository.save(categoriaContenido);
     }
 
     public Boolean actualizar(int id, CategoriaContenido categoriaContenido) {
-        CategoriaContenidoEntity contenido = categoriaContenidoCrud.findByPregunta_IdPregunta(id);
-        if ("".equals(contenido.getIdCategoriaContenido())) {
-            CategoriaContenidoEntity contenidoMapper = mapper.map(categoriaContenido, CategoriaContenidoEntity.class);
-            contenidoMapper.setIdCategoriaContenido(contenido.getIdCategoriaContenido());
-            categoriaContenidoCrud.save(contenidoMapper);
+        CategoriaContenidoEntity categoria = categoriaContenidoCrud.findByIdCategoriaContenido(id);
+        if (categoria != null) {
+            return categoriaContenidoRepository.actualizar(id, categoriaContenido);
         }
-        return categoriaContenidoRepository.actualizar(id, categoriaContenido);
+        return Boolean.FALSE;
     }
 
     public Boolean eliminar(int id) {
-
         return categoriaContenidoRepository.delete(id);
     }
 
