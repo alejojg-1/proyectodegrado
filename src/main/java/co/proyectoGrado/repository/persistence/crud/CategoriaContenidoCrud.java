@@ -11,6 +11,7 @@ public interface CategoriaContenidoCrud extends CrudRepository<CategoriaContenid
 
     CategoriaContenidoEntity findByIdCategoriaContenido(int idCategoriaContenido);
     CategoriaContenidoEntity findFirstByIdCategoriaContenido(int idCategoriaContenido);
+    CategoriaContenidoEntity findFirstByNombre(String nombre);
     CategoriaContenidoEntity findFirstByIdPreguntas(int idPreguntas);
     List<CategoriaContenidoEntity> findByIdCategoriaContenidoIn(List<Integer> idsCategoriaContenido);
 

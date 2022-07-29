@@ -1,7 +1,8 @@
-package co.proyectoGrado.domain.service.correo;
+package co.proyectoGrado.domain.service.password;
 
 import co.proyectoGrado.domain.model.Docente;
 import co.proyectoGrado.domain.model.Estudiante;
+import co.proyectoGrado.domain.service.correo.EnviarCorreoService;
 import co.proyectoGrado.domain.service.docente.DocenteService;
 import co.proyectoGrado.domain.service.estudiante.EstudianteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 
 @Service
-public class RecuperarPasswordService {
+public class RecuperarPasswordUsuarioService {
 
     private final EstudianteService estudianteService;
     private final DocenteService docenteService;
@@ -19,10 +20,10 @@ public class RecuperarPasswordService {
     @Autowired
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public RecuperarPasswordService(EstudianteService estudianteService,
-                                    DocenteService docenteService,
-                                    EnviarCorreoService enviarCorreoService,
-                                    BCryptPasswordEncoder passwordEncoder) {
+    public RecuperarPasswordUsuarioService(EstudianteService estudianteService,
+                                           DocenteService docenteService,
+                                           EnviarCorreoService enviarCorreoService,
+                                           BCryptPasswordEncoder passwordEncoder) {
 
         this.estudianteService = estudianteService;
         this.docenteService = docenteService;

@@ -1,6 +1,7 @@
 package co.proyectoGrado.repository.persistence;
 
 import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDeProceso;
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDuplicidad;
 import co.proyectoGrado.domain.model.CategoriaContenido;
 import co.proyectoGrado.repository.CategoriaContenidoRepository;
 import co.proyectoGrado.repository.persistence.crud.CategoriaContenidoCrud;
@@ -19,6 +20,7 @@ import java.util.List;
 @Repository
 public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(EstudianteRepositoryImpl.class);
+    private static final String ERROR_YA_EXISTE_UNA_CATEGORIA_CON_ESE_NOMBRE = "Ya existe una categoría con el nombre: %s";
     private static final String ERROR_ACTUALIZAR_EL_CATEGORIA = "Error actualizando categoria";
     private static final String ERROR_CREANDO_EL_CATEGORIA = "Error creando categoria";
 
@@ -90,17 +92,23 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
     public CategoriaContenido save(CategoriaContenido categoriaContenido) {
         try {
             PreguntaEntity preguntaEntity = new PreguntaEntity();
-            if(categoriaContenido.getIdPregunta() != null){
+            if(categoriaContenidoCrud.findFirstByNombre(categoriaContenido.getNombre()) != null){
+                throw new ExcepcionDuplicidad("");
+            }
+            if (categoriaContenido.getIdPregunta() != null) {
                 preguntaEntity = preguntaCrud.findFirstByIdPregunta(categoriaContenido.getIdPregunta());
-            }else{
+            } else {
                 preguntaEntity = null;
             }
             CategoriaContenidoEntity categoriaContenidoEntity = new CategoriaContenidoEntity(categoriaContenido.getIdCategoriaContenido(),
-                    categoriaContenido.getIdPregunta(),categoriaContenido.getNombre(),preguntaEntity,null);
+                    categoriaContenido.getIdPregunta(), categoriaContenido.getNombre(), preguntaEntity, null);
 
-            return  entityToDomain (categoriaContenidoCrud.save(categoriaContenidoEntity));
-        } catch (ExcepcionDeProceso e) {
-            LOGGER.error(ERROR_CREANDO_EL_CATEGORIA,e);
+            return entityToDomain(categoriaContenidoCrud.save(categoriaContenidoEntity));
+        } catch (ExcepcionDuplicidad excepcionDuplicidad) {
+            LOGGER.error(String.format(ERROR_YA_EXISTE_UNA_CATEGORIA_CON_ESE_NOMBRE, categoriaContenido.getNombre()), excepcionDuplicidad);
+            throw new ExcepcionDuplicidad(String.format(ERROR_YA_EXISTE_UNA_CATEGORIA_CON_ESE_NOMBRE, categoriaContenido.getNombre()));
+        } catch (Exception e) {
+            LOGGER.error(ERROR_CREANDO_EL_CATEGORIA, e);
             throw new ExcepcionDeProceso(ERROR_CREANDO_EL_CATEGORIA);
         }
     }
@@ -109,17 +117,17 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
     public Boolean actualizar(int id, CategoriaContenido categoriaContenido) {
         try {
             PreguntaEntity preguntaEntity;
-            if(categoriaContenido.getIdPregunta() != null){
+            if (categoriaContenido.getIdPregunta() != null) {
                 preguntaEntity = preguntaCrud.findFirstByIdPregunta(categoriaContenido.getIdPregunta());
-            }else{
+            } else {
                 preguntaEntity = null;
             }
             CategoriaContenidoEntity categoriaContenidoEntity = new CategoriaContenidoEntity(categoriaContenido.getIdCategoriaContenido(),
-                    categoriaContenido.getIdPregunta(),categoriaContenido.getNombre(),preguntaEntity,null);
+                    categoriaContenido.getIdPregunta(), categoriaContenido.getNombre(), preguntaEntity, null);
             categoriaContenidoCrud.save(categoriaContenidoEntity);
             return true;
         } catch (Exception e) {
-            LOGGER.error(ERROR_ACTUALIZAR_EL_CATEGORIA,e);
+            LOGGER.error(ERROR_ACTUALIZAR_EL_CATEGORIA, e);
             throw new ExcepcionDeProceso(ERROR_ACTUALIZAR_EL_CATEGORIA);
         }
     }
@@ -135,7 +143,7 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
         }
     }
 
-    private CategoriaContenido entityToDomain(CategoriaContenidoEntity categoriaContenidoEntity){
+    private CategoriaContenido entityToDomain(CategoriaContenidoEntity categoriaContenidoEntity) {
         return new CategoriaContenido(categoriaContenidoEntity.getIdCategoriaContenido(),
                 categoriaContenidoEntity.getIdPreguntas(), categoriaContenidoEntity.getNombre());
     }

@@ -1,6 +1,7 @@
 package co.proyectoGrado.web.error;
 
 import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDeProceso;
+import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionDuplicidad;
 import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionValorInvalido;
 import co.proyectoGrado.domain.excepciones.excepcion.ExcepcionValorObligatorio;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ public class ManejadorError extends ResponseEntityExceptionHandler {
 		CODIGOS_ESTADO.put(CannotGetJdbcConnectionException.class.getSimpleName(),
 				HttpStatus.INTERNAL_SERVER_ERROR.value());
 		CODIGOS_ESTADO.put(BadSqlGrammarException.class.getSimpleName(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+		CODIGOS_ESTADO.put(ExcepcionDuplicidad.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
 	}
 
 	@ExceptionHandler(Exception.class)
