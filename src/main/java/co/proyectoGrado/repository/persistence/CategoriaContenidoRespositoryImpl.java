@@ -92,9 +92,7 @@ public class CategoriaContenidoRespositoryImpl implements CategoriaContenidoRepo
     public CategoriaContenido save(CategoriaContenido categoriaContenido) {
         try {
             PreguntaEntity preguntaEntity = new PreguntaEntity();
-            if(categoriaContenidoCrud.findFirstByNombre(categoriaContenido.getNombre()) != null){
-                throw new ExcepcionDuplicidad("");
-            }
+
             if (categoriaContenido.getIdPregunta() != null) {
                 preguntaEntity = preguntaCrud.findFirstByIdPregunta(categoriaContenido.getIdPregunta());
             } else {

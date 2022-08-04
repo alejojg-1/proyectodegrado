@@ -13,7 +13,14 @@ public class webConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200") //debería de ir otro? ¿Cómo colocarlo por variables de ambiente?
+                .allowedOrigins("https://cygnusft.herokuapp.com") //debería de ir otro? ¿Cómo colocarlo por variables de ambiente?
+                .allowedMethods("*")
+                .maxAge(3600L)
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization")
+                .allowCredentials(true);
+        corsRegistry.addMapping("/**")
+                .allowedOrigins("http://localhost:8080") //debería de ir otro? ¿Cómo colocarlo por variables de ambiente?
                 .allowedMethods("*")
                 .maxAge(3600L)
                 .allowedHeaders("*")
