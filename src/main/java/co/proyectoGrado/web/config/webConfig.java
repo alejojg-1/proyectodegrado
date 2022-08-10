@@ -13,7 +13,6 @@ public class webConfig implements WebMvcConfigurer {
     @Value("${allowed.origin}")
     private String origin;
 
-    //validar correcta configuraión para el CORS
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
